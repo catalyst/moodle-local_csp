@@ -66,9 +66,9 @@ script:
   - moodle-plugin-ci phpcpd
   - moodle-plugin-ci phpmd
   - moodle-plugin-ci codechecker
-# - moodle-plugin-ci csslint    # No CSS
+  - moodle-plugin-ci csslint    # No CSS
   - moodle-plugin-ci shifter
-# - moodle-plugin-ci jshint     # No JS
-# - moodle-plugin-ci phpunit    # No tests yet
-# - moodle-plugin-ci behat      # No tests yet
+  - moodle-plugin-ci jshint     # No JS
+  - moodle-plugin-ci phpunit    # No tests yet
+  - moodle-plugin-ci behat      # No tests yet
 
