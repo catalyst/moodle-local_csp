@@ -34,5 +34,6 @@ use stdClass;
  */
 class mixed_content_examples implements renderable, templatable {
     /** Export this data so it can be used as the context for a mustache template. */
-    public function export_for_template(renderer_base $output) {}
+    public function export_for_template(renderer_base $output) {
+    }
 }
