@@ -15,29 +15,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * moodle-tool_csp settings.
- *
  * @package   tool_csp
  * @author    Suan Kan <suankan@catalyst-au.net>
  * @copyright Catalyst IT
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
+namespace tool_csp\output;
 
-if ($hassiteconfig) {
-    $ADMIN->add('tools', new admin_category('tool_csp', get_string('pluginname', 'tool_csp')));
+use renderable;
+use renderer_base;
+use templatable;
+use stdClass;
 
-    $settings = new admin_settingpage('tool_csp_settings', get_string('pluginname', 'tool_csp'));
-    $ADMIN->add('tool_csp', $settings);
-    $ADMIN->add('tool_csp', new admin_externalpage('tool_csp_examples', get_string('mixedcontentexamples', 'tool_csp'),
-        new moodle_url('/admin/tool/csp/mixed_content_examples.php')));
-
-    $choices = array (
-        'none' => get_string('cspmonitoringmodenone', 'tool_csp'),
-        'enabled' => get_string('cspmonitoringenabled', 'tool_csp'),
-    );
-    $settings->add(new admin_setting_configselect('tool_csp/activation', get_string('cspenable', 'tool_csp'),
-        get_string('cspdescription', 'tool_csp'), 'none', $choices));
+/**
+ * Stub class mixed_content_examples. We need it in order to make use of renderer.
+ * @package tool_csp\output
+ */
+class mixed_content_examples implements renderable, templatable {
+    /** Export this data so it can be used as the context for a mustache template. */
+    public function export_for_template(renderer_base $output) {}
 }
-

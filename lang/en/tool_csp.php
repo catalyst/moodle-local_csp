@@ -15,8 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * moodle-tool_csp settings.
- *
  * @package   tool_csp
  * @author    Suan Kan <suankan@catalyst-au.net>
  * @copyright Catalyst IT
@@ -25,8 +23,19 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-$string['pluginname'] = 'Content security policy tool';
-$string['cspenable'] = 'Enable content security policy';
-$string['cspdescription'] = 'Enable monitoring of insecure content in Moodle';
+$string['pluginname'] = 'Content security policy';
+$string['cspenable'] = 'Content security policy';
+$string['cspdescription'] = 'Enables monitoring of insecure content in Moodle';
 $string['cspmonitoringmodenone'] = 'Do not monitor insecure content';
 $string['cspmonitoringenabled'] = 'Monitor insecure content';
+$string['mixedcontentexamples'] = 'Mixed content examples';
+$string['activemixedcontent'] = 'Active mixed content';
+$string['passivemixedcontent'] = 'Passive mixed content';
+$string['simplemixedcontent'] = 'Simple mixed content';
+$string['imagegallerymixedcontent'] = 'Image gallery mixed content';
+$string['xmlhttprequestmixedcontent'] = 'XML HTTP request mixed content';
+$string['loadinsecureelements'] = 'Load insecure elements to this page';
+$string['loadinsecurejavascript'] = 'Load insecure javascript';
+$string['loadinsecurecss'] = 'Load insecure css';
+$string['loadinsecureimage'] = 'Load insecute image';
+$string['loadinsecureiframe'] = 'Load insecure iframe';

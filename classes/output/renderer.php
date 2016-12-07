@@ -15,29 +15,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * moodle-tool_csp settings.
- *
  * @package   tool_csp
  * @author    Suan Kan <suankan@catalyst-au.net>
  * @copyright Catalyst IT
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace tool_csp\output;
+
 defined('MOODLE_INTERNAL') || die;
 
-if ($hassiteconfig) {
-    $ADMIN->add('tools', new admin_category('tool_csp', get_string('pluginname', 'tool_csp')));
+use plugin_renderer_base;
 
-    $settings = new admin_settingpage('tool_csp_settings', get_string('pluginname', 'tool_csp'));
-    $ADMIN->add('tool_csp', $settings);
-    $ADMIN->add('tool_csp', new admin_externalpage('tool_csp_examples', get_string('mixedcontentexamples', 'tool_csp'),
-        new moodle_url('/admin/tool/csp/mixed_content_examples.php')));
-
-    $choices = array (
-        'none' => get_string('cspmonitoringmodenone', 'tool_csp'),
-        'enabled' => get_string('cspmonitoringenabled', 'tool_csp'),
-    );
-    $settings->add(new admin_setting_configselect('tool_csp/activation', get_string('cspenable', 'tool_csp'),
-        get_string('cspdescription', 'tool_csp'), 'none', $choices));
+class renderer extends plugin_renderer_base {
+    /**
+     * @return string html for the page
+     */
+    public function render_mixed_content_examples() {
+        return parent::render_from_template('tool_csp/mixed_content_examples', null);
+    }
 }
 
