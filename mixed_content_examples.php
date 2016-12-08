@@ -24,9 +24,8 @@
 require_once(__DIR__ . '/../../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 
-require_login();
-$PAGE->set_context(context_system::instance());
-$PAGE->set_url('/admin/tool/csp/mixed_content_examples.php.php');
+admin_externalpage_setup('tool_csp_examples');
+
 $title = get_string('mixedcontentexamples', 'tool_csp');
 $PAGE->set_title($title);
 $PAGE->set_heading($title);
@@ -35,8 +34,42 @@ $PAGE->set_pagelayout('admin');
 $output = $PAGE->get_renderer('tool_csp');
 
 echo $output->header();
+echo $output->heading($title);
 
-$mixedcontentexamples = new \tool_csp\output\mixed_content_examples();
-echo $output->render($mixedcontentexamples);
+//$mixedcontentexamples = new \tool_csp\output\mixed_content_examples();
+//echo $output->render($mixedcontentexamples);
+
+$currenturlcomponenets = parse_url($CFG->wwwroot);
+$currenthost = $currenturlcomponenets['host'];
+
+echo html_writer::tag('h5', get_string('loadingmixedcontentdescription', 'tool_csp'));
+
+$insecurescript = 'http://' . $currenthost . '/admin/tool/csp/samples/sample.js';
+echo html_writer::tag('p', get_string('loadinsecurejavascript', 'tool_csp', $insecurescript));
+echo html_writer::start_tag('script', array(
+    'type' => 'text/javascript',
+    'src' => $insecurescript,
+));
+echo html_writer::end_tag('script');
+
+$insecurecss = 'http://' . $currenthost . '/admin/tool/csp/samples/sample.css';
+echo html_writer::tag('p', get_string('loadinsecurecss', 'tool_csp', $insecurecss));
+echo html_writer::start_tag('link', array(
+    'src' => $insecurecss,
+    'rel' => "stylesheet",
+));
+echo html_writer::end_tag('link');
+
+$insecureimage = 'http://' . $currenthost . '/admin/tool/csp/samples/sample.jpg';
+echo html_writer::tag('p', get_string('loadinsecureimage', 'tool_csp', $insecureimage));
+echo html_writer::tag('img', '', array(
+    'src' => $insecureimage,
+));
+
+$insecureiframe = 'http://' . $currenthost . '/admin/tool/csp/samples/sample.html';
+echo html_writer::tag('p', get_string('loadinsecureimage', 'tool_csp', $insecureiframe));
+echo html_writer::tag('iframe', '', array(
+    'src' => $insecureiframe,
+));
 
 echo $output->footer();

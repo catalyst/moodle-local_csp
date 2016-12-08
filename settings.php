@@ -30,8 +30,11 @@ if ($hassiteconfig) {
 
     $settings = new admin_settingpage('tool_csp_settings', get_string('pluginname', 'tool_csp'));
     $ADMIN->add('tool_csp', $settings);
-    $ADMIN->add('tool_csp', new admin_externalpage('tool_csp_examples', get_string('mixedcontentexamples', 'tool_csp'),
-        new moodle_url('/admin/tool/csp/mixed_content_examples.php')));
+    $ADMIN->add('tool_csp',
+        new admin_externalpage('tool_csp_examples',
+            get_string('mixedcontentexamples', 'tool_csp'),
+            new moodle_url('/admin/tool/csp/mixed_content_examples.php')
+        ));
 
     $choices = array (
         'none' => get_string('cspmonitoringmodenone', 'tool_csp'),
