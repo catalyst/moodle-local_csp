@@ -34,5 +34,20 @@ class renderer extends plugin_renderer_base {
     public function render_mixed_content_examples() {
         return parent::render_from_template('tool_csp/mixed_content_examples', null);
     }
+
+    /**
+     * We want to add a new custom HTTP response header.
+     * So far we will be sending this custom header only in plugin tool_csp.
+     * In order to enable whole Moodle website to respond with this HTTP response header, we will need to override method header() in theme.
+     *
+     * @return mixed
+     */
+    public function header() {
+        // If the admin setting for monitoring is on, then send the Content-Security-Policy-Report-Only header to collect stats
+        if (get_config('tool_csp', 'activation') == 'enabled'){
+            header('Content-Security-Policy-Report-Only: default-src https:; report-uri /admin/tool/csp/csp_reports_collector.php');
+        }
+        return parent::header();
+    }
 }
 
