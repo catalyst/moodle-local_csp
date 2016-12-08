@@ -36,15 +36,11 @@ $output = $PAGE->get_renderer('tool_csp');
 echo $output->header();
 echo $output->heading($title);
 
-//$mixedcontentexamples = new \tool_csp\output\mixed_content_examples();
-//echo $output->render($mixedcontentexamples);
-
-$currenturlcomponenets = parse_url($CFG->wwwroot);
-$currenthost = $currenturlcomponenets['host'];
+$nonsslwwwroot = str_replace('https', 'http', $CFG->wwwroot);
 
 echo html_writer::tag('h5', get_string('loadingmixedcontentdescription', 'tool_csp'));
 
-$insecurescript = 'http://' . $currenthost . '/admin/tool/csp/samples/sample.js';
+$insecurescript = $nonsslwwwroot . '/admin/tool/csp/samples/sample.js';
 echo html_writer::tag('p', get_string('loadinsecurejavascript', 'tool_csp', $insecurescript));
 echo html_writer::start_tag('script', array(
     'type' => 'text/javascript',
@@ -52,7 +48,7 @@ echo html_writer::start_tag('script', array(
 ));
 echo html_writer::end_tag('script');
 
-$insecurecss = 'http://' . $currenthost . '/admin/tool/csp/samples/sample.css';
+$insecurecss = $nonsslwwwroot . '/admin/tool/csp/samples/sample.css';
 echo html_writer::tag('p', get_string('loadinsecurecss', 'tool_csp', $insecurecss));
 echo html_writer::start_tag('link', array(
     'src' => $insecurecss,
@@ -60,13 +56,13 @@ echo html_writer::start_tag('link', array(
 ));
 echo html_writer::end_tag('link');
 
-$insecureimage = 'http://' . $currenthost . '/admin/tool/csp/samples/sample.jpg';
+$insecureimage = $nonsslwwwroot . '/admin/tool/csp/samples/sample.jpg';
 echo html_writer::tag('p', get_string('loadinsecureimage', 'tool_csp', $insecureimage));
 echo html_writer::tag('img', '', array(
     'src' => $insecureimage,
 ));
 
-$insecureiframe = 'http://' . $currenthost . '/admin/tool/csp/samples/sample.html';
+$insecureiframe = $nonsslwwwroot . '/admin/tool/csp/samples/sample.html';
 echo html_writer::tag('p', get_string('loadinsecureimage', 'tool_csp', $insecureiframe));
 echo html_writer::tag('iframe', '', array(
     'src' => $insecureiframe,
