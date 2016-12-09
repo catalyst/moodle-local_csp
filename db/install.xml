@@ -15,6 +15,7 @@
         <FIELD NAME="referrer" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="sourcefile" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="violateddirective" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="20" NOTNULL="false" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

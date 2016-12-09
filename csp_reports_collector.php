@@ -25,5 +25,26 @@
  */
 
 $inputjson = file_get_contents('php://input');
-$cspreport = json_decode($inputjson, true);
-echo 'Ok';
+$cspreport = json_decode($inputjson, true)['csp-report'];
+
+require_once(__DIR__ . '/../../../config.php');
+global $DB;
+
+$dataobject = new stdClass();
+$dataobject->blockeduri = $cspreport['blocked-uri'];
+$dataobject->documenturi = $cspreport['document-uri'];
+$dataobject->linenumber = $cspreport['line-number'];
+$dataobject->originalpolicy = $cspreport['original-policy'];
+$dataobject->scriptsample = $cspreport['script-sample'];
+$dataobject->referrer = $cspreport['referrer'];
+$dataobject->sourcefile = $cspreport['source-file'];
+$dataobject->violateddirective = $cspreport['violated-directive'];
+$dataobject->timecreated = time();
+
+if ($DB->insert_record('tool_csp', $dataobject)) {
+    echo 'CSP report recorded.';
+} else {
+    echo 'There was a problem with recording CSP report to Moodle database.';
+}
+
+
