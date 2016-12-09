@@ -24,6 +24,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$inputJSON = file_get_contents('php://input');
-$cspreport = json_decode($inputJSON, TRUE);
-print_r($cspreport);
+$inputjson = file_get_contents('php://input');
+$cspreport = json_decode($inputjson, true);
+echo 'Ok';
