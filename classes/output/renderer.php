@@ -45,7 +45,8 @@ class renderer extends plugin_renderer_base {
     public function header() {
         // If the admin setting for monitoring is on, then send the Content-Security-Policy-Report-Only header to collect stats
         if (get_config('tool_csp', 'activation') == 'enabled'){
-            header('Content-Security-Policy-Report-Only: default-src https:; report-uri /admin/tool/csp/csp_reports_collector.php');
+            $collectorurl = new \moodle_url('/admin/tool/csp/csp_reports_collector.php');
+            header('Content-Security-Policy-Report-Only: default-src https:; report-uri ' . $collectorurl->out());
         }
         return parent::header();
     }
