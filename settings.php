@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * moodle-tool_csp settings.
+ * moodle-local_csp settings.
  *
- * @package   tool_csp
+ * @package   local_csp
  * @author    Suan Kan <suankan@catalyst-au.net>
  * @copyright Catalyst IT
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -26,21 +26,21 @@
 defined('MOODLE_INTERNAL') || die;
 
 if ($hassiteconfig) {
-    $ADMIN->add('tools', new admin_category('tool_csp', get_string('pluginname', 'tool_csp')));
+    $ADMIN->add('localplugins', new admin_category('local_csp', get_string('pluginname', 'local_csp')));
 
-    $settings = new admin_settingpage('tool_csp_settings', get_string('pluginname', 'tool_csp'));
-    $ADMIN->add('tool_csp', $settings);
-    $ADMIN->add('tool_csp',
-        new admin_externalpage('tool_csp_examples',
-            get_string('mixedcontentexamples', 'tool_csp'),
-            new moodle_url('/admin/tool/csp/mixed_content_examples.php')
+    $settings = new admin_settingpage('local_csp_settings', get_string('pluginname', 'local_csp'));
+    $ADMIN->add('local_csp', $settings);
+    $ADMIN->add('local_csp',
+        new admin_externalpage('local_csp_examples',
+            get_string('mixedcontentexamples', 'local_csp'),
+            new moodle_url('/local/csp/mixed_content_examples.php')
         ));
 
     $choices = array (
-        'none' => get_string('cspmonitoringmodenone', 'tool_csp'),
-        'enabled' => get_string('cspmonitoringenabled', 'tool_csp'),
+        'none' => get_string('cspmonitoringmodenone', 'local_csp'),
+        'enabled' => get_string('cspmonitoringenabled', 'local_csp'),
     );
-    $settings->add(new admin_setting_configselect('tool_csp/activation', get_string('cspenable', 'tool_csp'),
-        get_string('cspdescription', 'tool_csp'), 'none', $choices));
+    $settings->add(new admin_setting_configselect('local_csp/activation', get_string('cspenable', 'local_csp'),
+        get_string('cspdescription', 'local_csp'), 'none', $choices));
 }
 

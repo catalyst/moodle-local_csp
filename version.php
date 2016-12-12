@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * moodle-tool_csp settings.
+ * moodle-local_csp settings.
  *
- * @package   tool_csp
+ * @package   local_csp
  * @author    Suan Kan <suankan@catalyst-au.net>
  * @copyright Catalyst IT
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -27,4 +27,4 @@ defined('MOODLE_INTERNAL') || die;
 
 $plugin->version   = 2016120700;
 // $plugin->requires  = 2016051900;
-$plugin->component = 'tool_csp'; // Full name of the plugin (used for diagnostics).
+$plugin->component = 'local_csp'; // Full name of the plugin (used for diagnostics).

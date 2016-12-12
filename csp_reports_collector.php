@@ -18,7 +18,7 @@
  * HTTP response header Content-Security-Policy-Report-Only has been configured to send JSON reports to this script.
  * Process JSON reports and store them in db.
  *
- * @package   tool_csp
+ * @package   local_csp
  * @author    Suan Kan <suankan@catalyst-au.net>
  * @copyright Catalyst IT
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -27,7 +27,7 @@
 $inputjson = file_get_contents('php://input');
 $cspreport = json_decode($inputjson, true)['csp-report'];
 
-require_once(__DIR__ . '/../../../config.php');
+require_once(__DIR__ . '/../../config.php');
 global $DB;
 
 $dataobject = new stdClass();
@@ -41,7 +41,7 @@ $dataobject->sourcefile = $cspreport['source-file'];
 $dataobject->violateddirective = $cspreport['violated-directive'];
 $dataobject->timecreated = time();
 
-if ($DB->insert_record('tool_csp', $dataobject)) {
+if ($DB->insert_record('local_csp', $dataobject)) {
     echo 'CSP report recorded.';
 } else {
     echo 'There was a problem with recording CSP report to Moodle database.';

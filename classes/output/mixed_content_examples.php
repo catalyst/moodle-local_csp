@@ -15,13 +15,13 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package   tool_csp
+ * @package   local_csp
  * @author    Suan Kan <suankan@catalyst-au.net>
  * @copyright Catalyst IT
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace tool_csp\output;
+namespace local_csp\output;
 
 use renderable;
 use renderer_base;
@@ -30,7 +30,7 @@ use stdClass;
 
 /**
  * Stub class mixed_content_examples. We need it in order to make use of renderer.
- * @package tool_csp\output
+ * @package local_csp\output
  */
 class mixed_content_examples implements renderable, templatable {
     /** Export this data so it can be used as the context for a mustache template. */

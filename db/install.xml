@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="admin/tool/csp/db" VERSION="20161209" COMMENT="XMLDB file for Moodle admin/tool/csp"
+<XMLDB PATH="local/csp/db" VERSION="20161209" COMMENT="XMLDB file for Moodle local/csp"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="../../../../lib/xmldb/xmldb.xsd"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="tool_csp" COMMENT="Table for storing the CSP reports.">
+    <TABLE NAME="local_csp" COMMENT="Table for storing the CSP reports.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="blockeduri" TYPE="text" NOTNULL="false" SEQUENCE="false"/>

@@ -15,55 +15,55 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package   tool_csp
+ * @package   local_csp
  * @author    Suan Kan <suankan@catalyst-au.net>
  * @copyright Catalyst IT
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__ . '/../../../config.php');
+require_once(__DIR__ . '/../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 
-admin_externalpage_setup('tool_csp_examples');
+admin_externalpage_setup('local_csp_examples');
 
-$title = get_string('mixedcontentexamples', 'tool_csp');
+$title = get_string('mixedcontentexamples', 'local_csp');
 $PAGE->set_title($title);
 $PAGE->set_heading($title);
 $PAGE->set_pagelayout('admin');
 
-$output = $PAGE->get_renderer('tool_csp');
+$output = $PAGE->get_renderer('local_csp');
 
 echo $output->header();
 echo $output->heading($title);
 
 $nonsslwwwroot = str_replace('https', 'http', $CFG->wwwroot);
 
-echo html_writer::tag('h5', get_string('loadingmixedcontentdescription', 'tool_csp'));
+echo html_writer::tag('h5', get_string('loadingmixedcontentdescription', 'local_csp'));
 
-$insecurescript = $nonsslwwwroot . '/admin/tool/csp/samples/sample.js';
-echo html_writer::tag('p', get_string('loadinsecurejavascript', 'tool_csp', $insecurescript));
+$insecurescript = $nonsslwwwroot . '/local/csp/samples/sample.js';
+echo html_writer::tag('p', get_string('loadinsecurejavascript', 'local_csp', $insecurescript));
 echo html_writer::start_tag('script', array(
     'type' => 'text/javascript',
     'src' => $insecurescript,
 ));
 echo html_writer::end_tag('script');
 
-$insecurecss = $nonsslwwwroot . '/admin/tool/csp/samples/sample.css';
-echo html_writer::tag('p', get_string('loadinsecurecss', 'tool_csp', $insecurecss));
+$insecurecss = $nonsslwwwroot . '/local/csp/samples/sample.css';
+echo html_writer::tag('p', get_string('loadinsecurecss', 'local_csp', $insecurecss));
 echo html_writer::start_tag('link', array(
     'src' => $insecurecss,
     'rel' => "stylesheet",
 ));
 echo html_writer::end_tag('link');
 
-$insecureimage = $nonsslwwwroot . '/admin/tool/csp/samples/sample.jpg';
-echo html_writer::tag('p', get_string('loadinsecureimage', 'tool_csp', $insecureimage));
+$insecureimage = $nonsslwwwroot . '/local/csp/samples/sample.jpg';
+echo html_writer::tag('p', get_string('loadinsecureimage', 'local_csp', $insecureimage));
 echo html_writer::tag('img', '', array(
     'src' => $insecureimage,
 ));
 
-$insecureiframe = $nonsslwwwroot . '/admin/tool/csp/samples/sample.html';
-echo html_writer::tag('p', get_string('loadinsecureimage', 'tool_csp', $insecureiframe));
+$insecureiframe = $nonsslwwwroot . '/local/csp/samples/sample.html';
+echo html_writer::tag('p', get_string('loadinsecureimage', 'local_csp', $insecureiframe));
 echo html_writer::tag('iframe', '', array(
     'src' => $insecureiframe,
 ));
