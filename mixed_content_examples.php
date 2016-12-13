@@ -31,10 +31,10 @@ $PAGE->set_title($title);
 $PAGE->set_heading($title);
 $PAGE->set_pagelayout('admin');
 
-$output = $PAGE->get_renderer('local_csp');
+global $OUTPUT;
 
-echo $output->header();
-echo $output->heading($title);
+echo $OUTPUT->header();
+echo $OUTPUT->heading($title);
 
 $nonsslwwwroot = str_replace('https', 'http', $CFG->wwwroot);
 
@@ -68,4 +68,4 @@ echo html_writer::tag('iframe', '', array(
     'src' => $insecureiframe,
 ));
 
-echo $output->footer();
+echo $OUTPUT->footer();

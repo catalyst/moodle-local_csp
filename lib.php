@@ -15,25 +15,22 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * General lib.php for the plugin.
+ *
  * @package   local_csp
  * @author    Suan Kan <suankan@catalyst-au.net>
  * @copyright Catalyst IT
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace local_csp\output;
-
-use renderable;
-use renderer_base;
-use templatable;
-use stdClass;
-
 /**
- * Stub class mixed_content_examples. We need it in order to make use of renderer.
- * @package local_csp\output
+ * Moodle native lib/navigationlib.php calls this hook allowing us to override UI.
+ * Here we instruct Moodle website to issue custom HTTP response header Content-Security-Policy-Report-Only on every page.
  */
-class mixed_content_examples implements renderable, templatable {
-    /** Export this data so it can be used as the context for a mustache template. */
-    public function export_for_template(renderer_base $output) {
+function local_csp_extend_navigation() {
+    // If the admin setting for monitoring is on, then send the Content-Security-Policy-Report-Only header to collect stats.
+    if (get_config('local_csp', 'activation') == 'enabled') {
+        $collectorurl = new \moodle_url('/local/csp/csp_reports_collector.php');
+        header('Content-Security-Policy-Report-Only: default-src https:; report-uri ' . $collectorurl->out());
     }
 }
