@@ -1,1 +1,5 @@
-console.log('sample.js loaded!');
+function hello() {
+    return "hello world";
+}
+
+hello();
