@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/csp/db" VERSION="20161209" COMMENT="XMLDB file for Moodle local/csp"
+<XMLDB PATH="local/csp/db" VERSION="20161214" COMMENT="XMLDB file for Moodle local/csp"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -7,15 +7,12 @@
     <TABLE NAME="local_csp" COMMENT="Table for storing the CSP reports.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="blockeduri" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="documenturi" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
-        <FIELD NAME="linenumber" TYPE="int" LENGTH="20" NOTNULL="false" SEQUENCE="false"/>
-        <FIELD NAME="originalpolicy" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
-        <FIELD NAME="scriptsample" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
-        <FIELD NAME="referrer" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
-        <FIELD NAME="sourcefile" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="blockeduri" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="violateddirective" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="failcounter" TYPE="int" LENGTH="20" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="20" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="timeupdated" TYPE="int" LENGTH="20" NOTNULL="false" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

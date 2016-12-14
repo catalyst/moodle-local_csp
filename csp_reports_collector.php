@@ -30,21 +30,32 @@ $cspreport = json_decode($inputjson, true)['csp-report'];
 require_once(__DIR__ . '/../../config.php');
 global $DB;
 
+$existingrecord = $DB->get_record('local_csp', array(
+    'documenturi' => $cspreport['document-uri'],
+    'blockeduri' => $cspreport['blocked-uri'],
+    'violateddirective' => $cspreport['violated-directive'],
+));
+
 $dataobject = new stdClass();
-$dataobject->blockeduri = $cspreport['blocked-uri'];
-$dataobject->documenturi = $cspreport['document-uri'];
-$dataobject->linenumber = $cspreport['line-number'];
-$dataobject->originalpolicy = $cspreport['original-policy'];
-$dataobject->scriptsample = $cspreport['script-sample'];
-$dataobject->referrer = $cspreport['referrer'];
-$dataobject->sourcefile = $cspreport['source-file'];
-$dataobject->violateddirective = $cspreport['violated-directive'];
-$dataobject->timecreated = time();
 
-if ($DB->insert_record('local_csp', $dataobject)) {
-    echo 'CSP report recorded.';
-} else {
+try {
+    if ($existingrecord) {
+        // Just increment failcounter of the existing record.
+        $dataobject->id = $existingrecord->id;
+        $dataobject->failcounter = $existingrecord->failcounter + 1;
+        $dataobject->timeupdated = time();
+        $DB->update_record('local_csp', $dataobject);
+        echo 'Repeated CSP violation, failcounter incremented.';
+    } else {
+        // Insert a new record.
+        $dataobject->documenturi = $cspreport['document-uri'];
+        $dataobject->blockeduri = $cspreport['blocked-uri'];
+        $dataobject->violateddirective = $cspreport['violated-directive'];
+        $dataobject->timecreated = time();
+        $DB->insert_record('local_csp', $dataobject);
+        echo 'New CSP violation recorded.';
+    }
+} catch (dml_exception $exception) {
     echo 'There was a problem with recording CSP report to Moodle database.';
+    throw $exception;
 }
-
-
