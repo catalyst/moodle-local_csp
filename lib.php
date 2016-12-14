@@ -30,7 +30,7 @@
 function local_csp_extend_navigation() {
     // If the admin setting for monitoring is on, then send the Content-Security-Policy-Report-Only header to collect stats.
     if (get_config('local_csp', 'activation') == 'enabled') {
-        $collectorurl = new \moodle_url('/local/csp/csp_reports_collector.php');
+        $collectorurl = new \moodle_url('/local/csp/collector.php');
         header('Content-Security-Policy-Report-Only: default-src https:; report-uri ' . $collectorurl->out());
     }
 }
