@@ -7,9 +7,9 @@
     <TABLE NAME="local_csp" COMMENT="Table for storing the CSP reports.">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="documenturi" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
-        <FIELD NAME="blockeduri" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
-        <FIELD NAME="violateddirective" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="documenturi" TYPE="char" LENGTH="256" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="blockeduri" TYPE="char" LENGTH="256" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="violateddirective" TYPE="char" LENGTH="256" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="failcounter" TYPE="int" LENGTH="20" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="20" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="timeupdated" TYPE="int" LENGTH="20" NOTNULL="false" SEQUENCE="false"/>
