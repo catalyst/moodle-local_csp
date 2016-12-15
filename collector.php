@@ -31,11 +31,9 @@ require_once(__DIR__ . '/../../config.php');
 global $DB;
 
 if ($cspreport) {
-    $existingrecord = $DB->get_record('local_csp', array(
-        'documenturi' => $cspreport['document-uri'],
-        'blockeduri' => $cspreport['blocked-uri'],
-        'violateddirective' => $cspreport['violated-directive'],
-    ));
+    // We will be judging if CSP report is already recorded by searching over sha1-hashed fields document-uri, blocked-uri, violated-directive.
+    $hash = sha1($cspreport['document-uri'] . $cspreport['blocked-uri'] . $cspreport['violated-directive']);
+    $existingrecord = $DB->get_record('local_csp', array('sha1hash' => $hash));
 
     $dataobject = new stdClass();
 
@@ -53,6 +51,7 @@ if ($cspreport) {
             $dataobject->blockeduri = $cspreport['blocked-uri'];
             $dataobject->violateddirective = $cspreport['violated-directive'];
             $dataobject->timecreated = time();
+            $dataobject->sha1hash = $hash;
             $DB->insert_record('local_csp', $dataobject);
             echo 'New CSP violation recorded.';
         }
