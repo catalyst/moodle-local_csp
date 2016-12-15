@@ -70,7 +70,7 @@ class csp_report extends \table_sql {
      */
     protected function col_documenturi($record) {
         if ($record->documenturi) {
-            if (filter_var($record->documenturi, FILTER_VALIDATE_URL) === FALSE) {
+            if (filter_var($record->documenturi, FILTER_VALIDATE_URL) === false) {
                 return $record->documenturi;
             } else {
                 $documenturi = '<a href="' . $record->documenturi . '">' . $record->documenturi . '</a>';
@@ -89,7 +89,7 @@ class csp_report extends \table_sql {
      */
     protected function col_blockeduri($record) {
         if ($record->blockeduri) {
-            if (filter_var($record->blockeduri, FILTER_VALIDATE_URL) === FALSE) {
+            if (filter_var($record->blockeduri, FILTER_VALIDATE_URL) === false) {
                 return $record->blockeduri;
             } else {
                 $blockeduri = '<a href="' . $record->blockeduri . '">' . $record->blockeduri . '</a>';
