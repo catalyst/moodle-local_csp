@@ -26,7 +26,7 @@
 require_once(__DIR__ . '/../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 
-admin_externalpage_setup('local_csp_report', '', null, '', array('pagelayout'=>'report'));
+admin_externalpage_setup('local_csp_report', '', null, '', array('pagelayout' => 'report'));
 
 $title = get_string('cspreports', 'local_csp');
 $PAGE->set_title($title);

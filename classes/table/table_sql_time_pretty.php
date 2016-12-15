@@ -32,18 +32,30 @@ require_once($CFG->libdir . '/tablelib.php');
  * @package local_csp\table
  */
 class table_sql_time_pretty extends \table_sql {
-    protected function col_timecreated($local_csp_rec){
-        if ($local_csp_rec->timecreated) {
-            $timecreated = userdate($local_csp_rec->timecreated);
+    /**
+     * Formatting unix timestamps in column named timecreated to human readable time.
+     *
+     * @param $record fieldset object of db table with field timecreated
+     * @return string human readable time
+     */
+    protected function col_timecreated($record) {
+        if ($record->timecreated) {
+            $timecreated = userdate($record->timecreated);
             return $timecreated;
         } else {
             return  '-';
         }
     }
 
-    protected function col_timeupdated($local_csp_rec){
-        if ($local_csp_rec->timeupdated) {
-            $timeupdated = userdate($local_csp_rec->timeupdated);
+    /**
+     * Formatting unix timestamps in column named timeupdated to human readable time.
+     *
+     * @param $record fieldset object of db table with field timeupdated
+     * @return string human readable time
+     */
+    protected function col_timeupdated($record) {
+        if ($record->timeupdated) {
+            $timeupdated = userdate($record->timeupdated);
             return $timeupdated;
         } else {
             return  '-';
