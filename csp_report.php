@@ -46,16 +46,17 @@ $failcounter = get_string('failcounter', 'local_csp');
 $timecreated = get_string('timecreated', 'local_csp');
 $timeupdated = get_string('timeupdated', 'local_csp');
 
-$table = new \local_csp\table\table_sql_time_pretty('cspreportstable');
+$table = new \local_csp\table\csp_report('cspreportstable');
 $table->define_baseurl($PAGE->url);
-$table->define_columns(array('id', 'documenturi', 'blockeduri', 'violateddirective', 'failcounter', 'timecreated', 'timeupdated'));
-$table->define_headers(array('id', $documenturi, $blockeduri, $violateddirective, $failcounter, $timecreated, $timeupdated));
+$table->sortable(true, 'failcounter', SORT_DESC);
+$table->define_columns(array('failcounter', 'documenturi', 'blockeduri', 'violateddirective', 'timecreated', 'timeupdated'));
+$table->define_headers(array($failcounter, $documenturi, $blockeduri, $violateddirective, $timecreated, $timeupdated));
 
 $fields = 'id, documenturi, blockeduri, violateddirective, failcounter, timecreated, timeupdated';
 $from = '{local_csp}';
 $where = '1 = 1';
 $table->set_sql($fields, $from, $where);
 
-$table->out(10, true);
+$table->out(30, true);
 
 echo $OUTPUT->footer();

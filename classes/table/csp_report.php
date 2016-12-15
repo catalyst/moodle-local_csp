@@ -31,7 +31,7 @@ require_once($CFG->libdir . '/tablelib.php');
  * Class table_sql_time_pretty implements formatting unix timestamps columns to human time.
  * @package local_csp\table
  */
-class table_sql_time_pretty extends \table_sql {
+class csp_report extends \table_sql {
     /**
      * Formatting unix timestamps in column named timecreated to human readable time.
      *
@@ -40,7 +40,7 @@ class table_sql_time_pretty extends \table_sql {
      */
     protected function col_timecreated($record) {
         if ($record->timecreated) {
-            $timecreated = userdate($record->timecreated);
+            $timecreated = userdate($record->timecreated, get_string('strftimedatetimeshort'));
             return $timecreated;
         } else {
             return  '-';
@@ -55,10 +55,50 @@ class table_sql_time_pretty extends \table_sql {
      */
     protected function col_timeupdated($record) {
         if ($record->timeupdated) {
-            $timeupdated = userdate($record->timeupdated);
+            $timeupdated = userdate($record->timeupdated, get_string('strftimedatetimeshort'));
             return $timeupdated;
         } else {
             return  '-';
         }
     }
+
+    /**
+     * Formatting column documenturi that has URLs as links.
+     *
+     * @param $record fieldset object of db table with field documenturi
+     * @return string HTML e.g. <a href="documenturi">documenturi</a>
+     */
+    protected function col_documenturi($record) {
+        if ($record->documenturi) {
+            if (filter_var($record->documenturi, FILTER_VALIDATE_URL) === FALSE) {
+                return $record->documenturi;
+            } else {
+                $documenturi = '<a href="' . $record->documenturi . '">' . $record->documenturi . '</a>';
+                return $documenturi;
+            }
+        } else {
+            return  '-';
+        }
+    }
+
+    /**
+     * Formatting column blockeduri that has URLs as links.
+     *
+     * @param $record fieldset object of db table with field blockeduri
+     * @return string HTML e.g. <a href="blockeduri">blockeduri</a>
+     */
+    protected function col_blockeduri($record) {
+        if ($record->blockeduri) {
+            if (filter_var($record->blockeduri, FILTER_VALIDATE_URL) === FALSE) {
+                return $record->blockeduri;
+            } else {
+                $blockeduri = '<a href="' . $record->blockeduri . '">' . $record->blockeduri . '</a>';
+                return $blockeduri;
+            }
+        } else {
+            return  '-';
+        }
+    }
+
+
 }

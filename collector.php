@@ -52,6 +52,7 @@ if ($cspreport) {
             $dataobject->violateddirective = $cspreport['violated-directive'];
             $dataobject->timecreated = time();
             $dataobject->sha1hash = $hash;
+            $dataobject->failcounter = 1;
             $DB->insert_record('local_csp', $dataobject);
             echo 'New CSP violation recorded.';
         }
