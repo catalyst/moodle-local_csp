@@ -15,28 +15,38 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * General lib.php for the plugin.
- *
  * @package   local_csp
  * @author    Suan Kan <suankan@catalyst-au.net>
  * @copyright Catalyst IT
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace local_csp\table;
+
+defined('MOODLE_INTERNAL') || die;
+
+require_once($CFG->libdir . '/tablelib.php');
+
 /**
- * Moodle native lib/navigationlib.php calls this hook allowing us to override UI.
- * Here we instruct Moodle website to issue custom HTTP response header Content-Security-Policy-Report-Only on every page.
+ * Class table_sql_time_pretty implements formatting unix timestamps columns to human time.
+ * @package local_csp\table
  */
-function local_csp_extend_navigation() {
-    // If the admin setting for monitoring is on, then send the Content-Security-Policy-Report-Only header to collect stats.
-    if (get_config('local_csp', 'activation') == 'enabled') {
-        $collectorurl = new \moodle_url('/local/csp/collector.php');
-        header('Content-Security-Policy-Report-Only:'
-            . 'style-src https:;'
-            . 'script-src https:;'
-            . 'img-src https:;'
-            . 'child-sr  https:;'
-            . 'default-src https:;'
-            . 'report-uri ' . $collectorurl->out());
+class table_sql_time_pretty extends \table_sql {
+    protected function col_timecreated($local_csp_rec){
+        if ($local_csp_rec->timecreated) {
+            $timecreated = userdate($local_csp_rec->timecreated);
+            return $timecreated;
+        } else {
+            return  '-';
+        }
+    }
+
+    protected function col_timeupdated($local_csp_rec){
+        if ($local_csp_rec->timeupdated) {
+            $timeupdated = userdate($local_csp_rec->timeupdated);
+            return $timeupdated;
+        } else {
+            return  '-';
+        }
     }
 }
