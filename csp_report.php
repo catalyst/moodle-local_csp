@@ -26,6 +26,12 @@
 require_once(__DIR__ . '/../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 
+// Remove CSP report record with specified hash. This is triggered from \local_csp\table\csp_report->col_action().
+if (($removerecordwithhash = optional_param('removerecordwithhash', false, PARAM_TEXT)) !== false && confirm_sesskey()) {
+    global $DB;
+    $DB->delete_records('local_csp', array('sha1hash' => $removerecordwithhash));
+}
+
 admin_externalpage_setup('local_csp_report', '', null, '', array('pagelayout' => 'report'));
 
 $title = get_string('cspreports', 'local_csp');
@@ -45,14 +51,15 @@ $violateddirective = get_string('violateddirective', 'local_csp');
 $failcounter = get_string('failcounter', 'local_csp');
 $timecreated = get_string('timecreated', 'local_csp');
 $timeupdated = get_string('timeupdated', 'local_csp');
+$action = get_string('action', 'local_csp');
 
 $table = new \local_csp\table\csp_report('cspreportstable');
 $table->define_baseurl($PAGE->url);
 $table->sortable(true, 'failcounter', SORT_DESC);
-$table->define_columns(array('failcounter', 'documenturi', 'blockeduri', 'violateddirective', 'timecreated', 'timeupdated'));
-$table->define_headers(array($failcounter, $documenturi, $blockeduri, $violateddirective, $timecreated, $timeupdated));
+$table->define_columns(array('failcounter', 'documenturi', 'blockeduri', 'violateddirective', 'timecreated', 'timeupdated', 'action'));
+$table->define_headers(array($failcounter, $documenturi, $blockeduri, $violateddirective, $timecreated, $timeupdated, $action));
 
-$fields = 'id, documenturi, blockeduri, violateddirective, failcounter, timecreated, timeupdated';
+$fields = 'sha1hash, documenturi, blockeduri, violateddirective, failcounter, timecreated, timeupdated';
 $from = '{local_csp}';
 $where = '1 = 1';
 $table->set_sql($fields, $from, $where);

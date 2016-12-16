@@ -47,4 +47,6 @@ $string['violateddirective'] = 'Policy';
 $string['failcounter'] = 'Count';
 $string['timecreated'] = 'Recorded';
 $string['timeupdated'] = 'Last';
-
+$string['action'] = 'Action';
+$string['reset'] = 'Reset';
+$string['areyousure'] = 'Are you sure to delete this CSP report record?';

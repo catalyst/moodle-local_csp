@@ -28,7 +28,10 @@ defined('MOODLE_INTERNAL') || die;
 require_once($CFG->libdir . '/tablelib.php');
 
 /**
- * Class table_sql_time_pretty implements formatting unix timestamps columns to human time.
+ * Class csp_report implements processing of columns:
+ * - convert unix timestamp columns to human time.
+ * - adds a button to delete a record.
+ *
  * @package local_csp\table
  */
 class csp_report extends \table_sql {
@@ -100,5 +103,21 @@ class csp_report extends \table_sql {
         }
     }
 
+    /**
+     * Draw a link to the original table report URI with a param instructing to remove the record. e.g.
+     * <a href="https://moodle32.ubox001.com/local/csp/csp_report.php?removerecordwithhash=2aff06283d490f3e64ddc26d86f767cf8a13408f&sesskey=UAlaFxCA2Z">delete</a>
+     *
+     * @param $record
+     * @return string HTML link.
+     */
+    protected function col_action($record) {
+        global $OUTPUT;
 
-}
+        $action = new \confirm_action(get_string('areyousure', 'local_csp'));
+        $url = new \moodle_url($this->baseurl);
+        $url->params(array('removerecordwithhash' => $record->sha1hash, 'sesskey' => sesskey()));
+        $actionlink = $OUTPUT->action_link($url, get_string('reset', 'local_csp'), $action);
+
+        return $actionlink;
+    }
+} // end class csp_report
