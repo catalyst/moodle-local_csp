@@ -41,10 +41,10 @@ $string['loadinsecureimage'] = 'Load insecute image from {$a}';
 $string['loadinsecureiframe'] = 'Load insecure iframe from {$a}';
 $string['loadingmixedcontentdescription'] = 'When accessing moodle website via HTTPS browser prohibits displaying of the below resources because they origin from HTTP.<br />You should be able to see it in your browser\'s Javascript console.';
 $string['cspreports'] = 'CSP violation reports';
-$string['documenturi'] = 'URI where violation occurred';
-$string['blockeduri'] = 'What URI was blocked';
-$string['violateddirective'] = 'Violated policy';
-$string['failcounter'] = 'Times violation occurred';
-$string['timecreated'] = 'First time violation occurred';
-$string['timeupdated'] = 'Last time violation occurred';
+$string['documenturi'] = 'Violation at';
+$string['blockeduri'] = 'Blocked URI';
+$string['violateddirective'] = 'Policy';
+$string['failcounter'] = 'Count';
+$string['timecreated'] = 'Recorded';
+$string['timeupdated'] = 'Last';
 
