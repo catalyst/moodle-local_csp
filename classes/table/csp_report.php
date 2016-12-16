@@ -29,8 +29,8 @@ require_once($CFG->libdir . '/tablelib.php');
 
 /**
  * Class csp_report implements processing of columns:
- * - convert unix timestamp columns to human time.
- * - adds a button to delete a record.
+ * - Convert unix timestamp columns to human time.
+ * - Adds a button to delete a record.
  *
  * @package local_csp\table
  */
