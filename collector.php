@@ -31,8 +31,11 @@ require_once(__DIR__ . '/../../config.php');
 global $DB;
 
 if ($cspreport) {
+    $documenturi = remove_sesskey($cspreport['document-uri']);
+    $blockeduri = remove_sesskey($cspreport['blocked-uri']);
+
     // We will be judging if CSP report is already recorded by searching over sha1-hashed fields document-uri, blocked-uri, violated-directive.
-    $hash = sha1($cspreport['document-uri'] . $cspreport['blocked-uri'] . $cspreport['violated-directive']);
+    $hash = sha1($documenturi . $blockeduri . $cspreport['violated-directive']);
     $existingrecord = $DB->get_record('local_csp', array('sha1hash' => $hash));
 
     $dataobject = new stdClass();
@@ -47,11 +50,12 @@ if ($cspreport) {
             echo 'Repeated CSP violation, failcounter incremented.';
         } else {
             // Insert a new record.
-            $dataobject->documenturi = $cspreport['document-uri'];
-            $dataobject->blockeduri = $cspreport['blocked-uri'];
+            $dataobject->documenturi = $documenturi;
+            $dataobject->blockeduri = $blockeduri;
             $dataobject->violateddirective = $cspreport['violated-directive'];
             $dataobject->timecreated = time();
             $dataobject->sha1hash = $hash;
+            $dataobject->failcounter = 1;
             $DB->insert_record('local_csp', $dataobject);
             echo 'New CSP violation recorded.';
         }
@@ -61,4 +65,16 @@ if ($cspreport) {
     }
 } else {
     echo "There was a problem with decoding JSON report.";
+}
+
+/**
+ * Remove sesskey part from parameters and will never store it in DB.
+ *
+ * @param $url
+ * @return string URL
+ */
+function remove_sesskey($url) {
+    $moodleurl = new moodle_url($url);
+    $moodleurl->remove_params('sesskey');
+    return $moodleurl->out();
 }
