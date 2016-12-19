@@ -115,7 +115,11 @@ class csp_report extends \table_sql {
 
         $action = new \confirm_action(get_string('areyousure', 'local_csp'));
         $url = new \moodle_url($this->baseurl);
-        $url->params(array('removerecordwithhash' => $record->sha1hash, 'sesskey' => sesskey()));
+        $url->params(array(
+            'removerecordwithhash' => $record->sha1hash,
+            'sesskey' => sesskey(),
+            'redirecttopage' => $this->currpage,
+        ));
         $actionlink = $OUTPUT->action_link($url, get_string('reset', 'local_csp'), $action);
 
         return $actionlink;

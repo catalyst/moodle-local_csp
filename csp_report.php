@@ -30,6 +30,10 @@ require_once($CFG->libdir.'/adminlib.php');
 if (($removerecordwithhash = optional_param('removerecordwithhash', false, PARAM_TEXT)) !== false && confirm_sesskey()) {
     global $DB;
     $DB->delete_records('local_csp', array('sha1hash' => $removerecordwithhash));
+    $PAGE->set_url('/local/csp/csp_report.php', array(
+        'page' => optional_param('redirecttopage', 0, PARAM_INT),
+    ));
+    redirect($PAGE->url);
 }
 
 admin_externalpage_setup('local_csp_report', '', null, '', array('pagelayout' => 'report'));
