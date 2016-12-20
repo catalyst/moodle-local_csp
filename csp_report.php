@@ -55,7 +55,7 @@ global $OUTPUT, $DB;
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
-$action = new \confirm_action(get_string('areyousure', 'local_csp'));
+$action = new \confirm_action(get_string('areyousuretodeleteallrecords', 'local_csp'));
 $urlresetallcspstatistics = new moodle_url($PAGE->url, array(
     'resetallcspstatistics' => 1,
     'sesskey' => sesskey(),

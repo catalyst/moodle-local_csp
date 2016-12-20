@@ -113,7 +113,7 @@ class csp_report extends \table_sql {
     protected function col_action($record) {
         global $OUTPUT;
 
-        $action = new \confirm_action(get_string('areyousure', 'local_csp'));
+        $action = new \confirm_action(get_string('areyousuretodeleteonerecord', 'local_csp'));
         $url = new \moodle_url($this->baseurl);
         $url->params(array(
             'removerecordwithhash' => $record->sha1hash,

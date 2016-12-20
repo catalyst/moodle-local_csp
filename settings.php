@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die;
 if ($hassiteconfig) {
     $ADMIN->add('localplugins', new admin_category('local_csp', get_string('pluginname', 'local_csp')));
 
-    $settings = new admin_settingpage('local_csp_settings', get_string('pluginname', 'local_csp'));
+    $settings = new admin_settingpage('local_csp_settings', get_string('cspsettings', 'local_csp'));
     $ADMIN->add('local_csp', $settings);
     $ADMIN->add('local_csp',
         new admin_externalpage('local_csp_examples',
@@ -41,11 +41,23 @@ if ($hassiteconfig) {
             new moodle_url('/local/csp/csp_report.php')
         ));
 
-    $choices = array (
-        'none' => get_string('cspmonitoringmodenone', 'local_csp'),
-        'enabled' => get_string('cspmonitoringenabled', 'local_csp'),
+    $settings->add(new admin_setting_heading('local_csp_heading_http_response_header', get_string('localcspheadinghttpresponseheader', 'local_csp'),
+        get_string('cspsettingsinfo', 'local_csp')
+        ));
+
+    $choicescspheader = array (
+        'none' => get_string('scspheadernone', 'local_csp'),
+        'reporting' => get_string('cspheaderreporting', 'local_csp'),
+        'enforce' => get_string('cspheaderenforce', 'local_csp'),
     );
-    $settings->add(new admin_setting_configselect('local_csp/activation', get_string('cspenable', 'local_csp'),
-        get_string('cspdescription', 'local_csp'), 'none', $choices));
+    $settings->add(new admin_setting_configselect('local_csp/csp_http_response_header', get_string('csphttpresponseheader', 'local_csp'),
+        '', 'scspheadernone', $choicescspheader));
+
+    $settings->add(new admin_setting_heading('local_csp_heading_directives', 'Configure CSP directives',
+        get_string('cspdirectivesinfo', 'local_csp')
+    ));
+
+    $settings->add(new admin_setting_configtext('local_csp/csp_directives', get_string('cspdirectives', 'local_csp'),
+        '', 'default-src https:;'));
 }
 
