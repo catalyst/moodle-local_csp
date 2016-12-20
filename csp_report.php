@@ -26,14 +26,21 @@
 require_once(__DIR__ . '/../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 
+global $DB;
+
 // Remove CSP report record with specified hash. This is triggered from \local_csp\table\csp_report->col_action().
 if (($removerecordwithhash = optional_param('removerecordwithhash', false, PARAM_TEXT)) !== false && confirm_sesskey()) {
-    global $DB;
     $DB->delete_records('local_csp', array('sha1hash' => $removerecordwithhash));
     $PAGE->set_url('/local/csp/csp_report.php', array(
         'page' => optional_param('redirecttopage', 0, PARAM_INT),
     ));
     redirect($PAGE->url);
+}
+
+$resetallcspstatistics = optional_param('resetallcspstatistics', 0, PARAM_INT);
+if ($resetallcspstatistics == 1 && confirm_sesskey()) {
+    $DB->delete_records('local_csp');
+    redirect('/local/csp/csp_report.php');
 }
 
 admin_externalpage_setup('local_csp_report', '', null, '', array('pagelayout' => 'report'));
@@ -48,6 +55,12 @@ global $OUTPUT, $DB;
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
+$action = new \confirm_action(get_string('areyousure', 'local_csp'));
+$urlresetallcspstatistics = new moodle_url($PAGE->url, array(
+    'resetallcspstatistics' => 1,
+    'sesskey' => sesskey(),
+));
+echo $OUTPUT->single_button($urlresetallcspstatistics, get_string('resetallcspstatistics', 'local_csp'), 'post', array('actions' => array($action)));
 
 $documenturi = get_string('documenturi', 'local_csp');
 $blockeduri = get_string('blockeduri', 'local_csp');
