@@ -30,21 +30,13 @@
 function local_csp_extend_navigation() {
     $settings = get_config('local_csp');
 
-    if (!property_exists($settings, 'csp_http_response_header') and !property_exists($settings, 'csp_directives')) {
-        return;
-    } else {
-        // Compose CSP header text according to settings.
-        switch ($settings->csp_http_response_header) {
-            case 'reporting':
-                $collectorurl = new \moodle_url('/local/csp/collector.php');
-                $cspheaderfulltext = 'Content-Security-Policy-Report-Only: ' . $settings->csp_directives . ' report-uri ' . $collectorurl->out();
-                break;
-            case 'enforce':
-                $cspheaderfulltext = 'Content-Security-Policy: ' . $settings->csp_directives;
-                break;
-            default:
-                return;
-        }
-        header($cspheaderfulltext);
+    if (property_exists($settings, 'csp_header_reporting')) {
+        header($settings->csp_header_reporting);
     }
+
+    if (property_exists($settings, 'csp_header_enforcing')) {
+        header($settings->csp_header_enforcing);
+    }
+
+    return;
 }

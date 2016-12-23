@@ -41,23 +41,15 @@ if ($hassiteconfig) {
             new moodle_url('/local/csp/csp_report.php')
         ));
 
-    $settings->add(new admin_setting_heading('local_csp_heading_http_response_header', get_string('localcspheadinghttpresponseheader', 'local_csp'),
+    $settings->add(new admin_setting_heading('local_csp_heading_http_response_header', get_string('configurecspheader', 'local_csp'),
         get_string('cspsettingsinfo', 'local_csp')
-        ));
-
-    $choicescspheader = array (
-        'none' => get_string('scspheadernone', 'local_csp'),
-        'reporting' => get_string('cspheaderreporting', 'local_csp'),
-        'enforce' => get_string('cspheaderenforce', 'local_csp'),
-    );
-    $settings->add(new admin_setting_configselect('local_csp/csp_http_response_header', get_string('csphttpresponseheader', 'local_csp'),
-        '', 'scspheadernone', $choicescspheader));
-
-    $settings->add(new admin_setting_heading('local_csp_heading_directives', 'Configure CSP directives',
-        get_string('cspdirectivesinfo', 'local_csp')
     ));
 
-    $settings->add(new admin_setting_configtext('local_csp/csp_directives', get_string('cspdirectives', 'local_csp'),
-        '', 'default-src https:;'));
+    $collectorurl = new moodle_url('/local/csp/collector.php');
+    $settings->add(new admin_setting_configtext('local_csp/csp_header_reporting', get_string('cspheaderreporting', 'local_csp'),
+        '', get_string('cspheaderreportingdefault', 'local_csp', $collectorurl->out())));
+
+    $settings->add(new admin_setting_configtext('local_csp/csp_header_enforcing', get_string('cspheaderenforcing', 'local_csp'),
+        '', get_string('cspheaderenforcingdefault', 'local_csp')));
 }
 

@@ -76,7 +76,7 @@ $table->sortable(true, 'failcounter', SORT_DESC);
 $table->define_columns(array('failcounter', 'documenturi', 'blockeduri', 'violateddirective', 'timecreated', 'timeupdated', 'action'));
 $table->define_headers(array($failcounter, $documenturi, $blockeduri, $violateddirective, $timecreated, $timeupdated, $action));
 
-$fields = 'sha1hash, documenturi, blockeduri, violateddirective, failcounter, timecreated, timeupdated';
+$fields = 'id, sha1hash, documenturi, blockeduri, violateddirective, failcounter, timecreated, timeupdated';
 $from = '{local_csp}';
 $where = '1 = 1';
 $table->set_sql($fields, $from, $where);
