@@ -35,7 +35,6 @@ $string['cspheaderenforce'] = 'Content-Security-Policy';
 $string['cspheaderenforcing'] = 'Content-Security-Policy';
 $string['cspheaderenforcinghelp'] = 'Enforce browsers to follow CSP directives, e.g. block loading insecure content';
 $string['cspheaderreporting'] = 'Content-Security-Policy-Report-Only';
-$string['cspheaderreporting'] = 'Content-Security-Policy-Report-Only';
 $string['cspheaderreportinghelp'] = 'Monitor and report CSP violations';
 $string['csphttpresponseheader'] = 'CSP HTTP response header';
 $string['cspreports'] = 'CSP violation reports';
