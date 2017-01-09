@@ -55,7 +55,7 @@ global $OUTPUT, $DB;
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
-$action = new \confirm_action(get_string('areyousure', 'local_csp'));
+$action = new \confirm_action(get_string('areyousuretodeleteallrecords', 'local_csp'));
 $urlresetallcspstatistics = new moodle_url($PAGE->url, array(
     'resetallcspstatistics' => 1,
     'sesskey' => sesskey(),
@@ -76,7 +76,7 @@ $table->sortable(true, 'failcounter', SORT_DESC);
 $table->define_columns(array('failcounter', 'documenturi', 'blockeduri', 'violateddirective', 'timecreated', 'timeupdated', 'action'));
 $table->define_headers(array($failcounter, $documenturi, $blockeduri, $violateddirective, $timecreated, $timeupdated, $action));
 
-$fields = 'sha1hash, documenturi, blockeduri, violateddirective, failcounter, timecreated, timeupdated';
+$fields = 'id, sha1hash, documenturi, blockeduri, violateddirective, failcounter, timecreated, timeupdated';
 $from = '{local_csp}';
 $where = '1 = 1';
 $table->set_sql($fields, $from, $where);
