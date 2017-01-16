@@ -11,8 +11,8 @@ Why would you want this?
 ------------------------
 Security, security, security.
 
-This plugin helps you to detect andeliminate security errors in your Moodle such as:
- - Mixed content (https/http).
+This plugin helps you to detect and eliminate security errors in your Moodle such as:
+ - Mixed content (https/http) after you switched to HTTPS.
  - Same origin (or specified origin) policy for scripts and media data. 
 
 What is this?
