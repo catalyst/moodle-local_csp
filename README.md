@@ -47,9 +47,12 @@ For more examples of other CSP directives please read [here](https://developer.m
 References
 ----------
 Relevant issue in Moodle tracker: (https://tracker.moodle.org/browse/MDL-46269)
+
 Complementary plugin: https://github.com/moodlerooms/moodle-tool_httpsreplace
 
 
 This plugin was developed by Catalyst IT Australia:
+
 https://www.catalyst-au.net/
+
 <img alt="Catalyst IT" src="https://cdn.rawgit.com/CatalystIT-AU/moodle-auth_saml2/master/pix/catalyst-logo.svg" width="400">
