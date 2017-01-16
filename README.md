@@ -1,10 +1,18 @@
 Travis integration: [![Build Status](https://travis-ci.org/catalyst/moodle-local_csp.svg?branch=master)](https://travis-ci.org/catalyst/moodle-local_csp)
 # moodle-local_csp
 
+* [Why would you want this?](#why-would-you-want-this)
 * [What is this?](#what-is-this)
 * [How does it work?](#how-does-it-work)
 * [Installation](#installation)
 * [References](#references)
+
+Why would you want this?
+------------------------
+Security, security, security.
+This plugin helps you to detect andeliminate security errors in your Moodle such as:
+ - Mixed content (https/http).
+ - Same origin (or specified origin) policy for scripts and media data. 
 
 What is this?
 -------------
@@ -30,7 +38,6 @@ or
 wget https://github.com/catalyst/moodle-local_csp/archive/master.zip
 mkdir -p local/csp
 unzip master.zip -d local/csp
-unzip https://github.com/catalyst/moodle-local_csp/archive/master.zip
 ```
 Then go to your Moodle admin interface and complete installation and configuration. 
 Example policy 'default-src https:;' will be reporting or enforcing the links to be HTTPS-only. Please note, the whole moodle website should be accessible via HTTPS for this to work.
