@@ -10,6 +10,7 @@ Travis integration: [![Build Status](https://travis-ci.org/catalyst/moodle-local
 Why would you want this?
 ------------------------
 Security, security, security.
+
 This plugin helps you to detect andeliminate security errors in your Moodle such as:
  - Mixed content (https/http).
  - Same origin (or specified origin) policy for scripts and media data. 
