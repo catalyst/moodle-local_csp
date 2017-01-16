@@ -26,5 +26,5 @@
 defined('MOODLE_INTERNAL') || die;
 
 $plugin->version   = 2016120700;
-// $plugin->requires  = 2016051900;
+$plugin->requires  = 2015051100;
 $plugin->component = 'local_csp'; // Full name of the plugin (used for diagnostics).
