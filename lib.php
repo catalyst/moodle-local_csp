@@ -28,16 +28,9 @@
  * Here we instruct Moodle website to issue custom HTTP response header Content-Security-Policy-Report-Only on every page.
  */
 function local_csp_extend_navigation() {
-    $settings = get_config('local_csp');
+    \local_csp\helper::enable_csp_header();
+}
 
-    if (!empty($settings->csp_header_reporting)) {
-        $collectorurl = new moodle_url('/local/csp/collector.php');
-        header('Content-Security-Policy-Report-Only: ' . $settings->csp_header_reporting . ' report-uri ' . $collectorurl->out());
-    }
-
-    if (!empty($settings->csp_header_enforcing)) {
-        header('Content-Security-Policy: ' . $settings->csp_header_enforcing);
-    }
-
-    return;
+function local_csp_before_http_headers() {
+    \local_csp\helper::enable_csp_header();
 }
