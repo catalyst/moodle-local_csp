@@ -46,9 +46,9 @@ if ($hassiteconfig) {
     ));
 
     $settings->add(new admin_setting_configtext('local_csp/csp_header_reporting', get_string('cspheaderreporting', 'local_csp'),
-        get_string('cspheaderreportinghelp', 'local_csp'), get_string('cspheaderdefault', 'local_csp')));
+        get_string('cspheaderreportinghelp', 'local_csp'), ''));
 
     $settings->add(new admin_setting_configtext('local_csp/csp_header_enforcing', get_string('cspheaderenforcing', 'local_csp'),
-        get_string('cspheaderenforcinghelp', 'local_csp'), get_string('cspheaderdefault', 'local_csp')));
+        get_string('cspheaderenforcinghelp', 'local_csp'), ''));
 }
 
