@@ -47,12 +47,14 @@ class helper {
             $settings = get_config('local_csp');
 
             if (!empty($settings->csp_header_reporting)) {
+                $cspheaderreporting = trim(str_replace(array("\r\n", "\r"), " ", $settings->csp_header_reporting));
                 $collectorurl = new \moodle_url('/local/csp/collector.php');
-                @header('Content-Security-Policy-Report-Only: ' . $settings->csp_header_reporting . ' report-uri ' . $collectorurl->out());
+                @header('Content-Security-Policy-Report-Only: ' . $cspheaderreporting . ' report-uri ' . $collectorurl->out());
             }
 
             if (!empty($settings->csp_header_enforcing)) {
-                @header('Content-Security-Policy: ' . $settings->csp_header_enforcing);
+                $cspheaderenforcing = trim(str_replace(array("\r\n", "\r"), " ", $settings->csp_header_enforcing));
+                @header('Content-Security-Policy: ' . $cspheaderenforcing);
             }
 
             self::$cspheaderssent = true;
