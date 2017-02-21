@@ -35,29 +35,26 @@ class helper {
     /**
      * @var bool Have we sent CSP headers already?
      */
-    private static $cspheaderssent = false;
+    private static $bootstrapped = false;
 
     /**
      * Sets CSP HTTP header depending on plugin settings.
      */
     public static function enable_csp_header() {
-        if (self::$cspheaderssent) {
+        $settings = get_config('local_csp');
+        if (self::$bootstrapped or empty($settings->csp_header_enable)) {
             return;
-        } else {
-            $settings = get_config('local_csp');
+        }
+        self::$bootstrapped = true;
 
-            if (!empty($settings->csp_header_reporting)) {
-                $collectorurl = new \moodle_url('/local/csp/collector.php');
-                @header('Content-Security-Policy-Report-Only: ' . $settings->csp_header_reporting . ' report-uri ' . $collectorurl->out());
-            }
-
-            if (!empty($settings->csp_header_enforcing)) {
-                @header('Content-Security-Policy: ' . $settings->csp_header_enforcing);
-            }
-
-            self::$cspheaderssent = true;
-
-            return;
+        $cspheaderreporting = trim(str_replace(array("\r\n", "\r"), " ", $settings->csp_header_reporting));
+        if (!empty($cspheaderreporting)) {
+            $collectorurl = new \moodle_url('/local/csp/collector.php');
+            @header('Content-Security-Policy-Report-Only: ' . $cspheaderreporting . ' report-uri ' . $collectorurl->out());
+        }
+        $cspheaderenforcing = trim(str_replace(array("\r\n", "\r"), " ", $settings->csp_header_enforcing));
+        if (!empty($cspheaderenforcing)) {
+            @header('Content-Security-Policy: ' . $cspheaderenforcing);
         }
     }
 } // end class csp_report
