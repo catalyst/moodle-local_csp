@@ -61,3 +61,5 @@ $string['scspheadernone'] = 'Not used';
 $string['timecreated'] = 'Recorded';
 $string['timeupdated'] = 'Last';
 $string['violateddirective'] = 'Policy';
+$string['cspheaderenable'] = 'CSP header enable';
+$string['cspheaderenabledescription'] = 'Tick this checkbox to enable CSP headers';
