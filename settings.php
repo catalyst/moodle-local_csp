@@ -45,6 +45,9 @@ if ($hassiteconfig) {
         get_string('cspsettingsinfo', 'local_csp')
     ));
 
+    $settings->add(new admin_setting_configcheckbox('local_csp/csp_header_enable', get_string('cspheaderenable', 'local_csp'),
+        get_string('cspheaderenabledescription', 'local_csp'), 1));
+
     $settings->add(new admin_setting_configtextarea('local_csp/csp_header_reporting', get_string('cspheaderreporting', 'local_csp'),
         get_string('cspheaderreportinghelp', 'local_csp'), get_string('cspheaderdefault', 'local_csp')));
 
