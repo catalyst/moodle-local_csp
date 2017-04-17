@@ -40,7 +40,7 @@ wget https://github.com/catalyst/moodle-local_csp/archive/master.zip
 mkdir -p local/csp
 unzip master.zip -d local/csp
 ```
-Then go to your Moodle admin interface and complete installation and configuration. 
+Then go to your Moodle admin interface and complete installation and configuration.
 Example policy 'default-src https:;' will be reporting or enforcing the links to be HTTPS-only. Please note, the whole moodle website should be accessible via HTTPS for this to work.
 For more examples of other CSP directives please read [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP).
 
@@ -48,7 +48,9 @@ References
 ----------
 Relevant issue in Moodle tracker: (https://tracker.moodle.org/browse/MDL-46269)
 
-Complementary plugin: https://github.com/moodlerooms/moodle-tool_httpsreplace
+A complementary plugin which works by searching the moodle DB for bad links:
+
+https://github.com/moodlerooms/moodle-tool_httpsreplace
 
 
 This plugin was developed by Catalyst IT Australia:
