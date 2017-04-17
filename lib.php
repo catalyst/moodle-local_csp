@@ -23,6 +23,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * Moodle native lib/navigationlib.php calls this hook allowing us to override UI.
  * Here we instruct Moodle website to issue custom HTTP response header Content-Security-Policy-Report-Only on every page.
@@ -31,6 +33,11 @@ function local_csp_extend_navigation() {
     \local_csp\helper::enable_csp_header();
 }
 
+/**
+ * Moodle native lib/navigationlib.php calls this hook allowing us to override UI.
+ * Here we instruct Moodle website to issue custom HTTP response header Content-Security-Policy-Report-Only on every page.
+ */
 function local_csp_before_http_headers() {
     \local_csp\helper::enable_csp_header();
 }
+

@@ -15,8 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * HTTP response header Content-Security-Policy-Report-Only has been configured to send JSON reports to this script.
- * Process JSON reports and store them in db.
+ * A CSP report collector endpoint
  *
  * @package   local_csp
  * @author    Suan Kan <suankan@catalyst-au.net>
@@ -71,7 +70,7 @@ if ($cspreport) {
 /**
  * Remove sesskey part from parameters and will never store it in DB.
  *
- * @param $url
+ * @param string $url
  * @return string URL
  */
 function remove_sesskey($url) {

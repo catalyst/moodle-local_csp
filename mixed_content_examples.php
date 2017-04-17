@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * An file which creates bad example links
+ *
  * @package   local_csp
  * @author    Suan Kan <suankan@catalyst-au.net>
  * @copyright Catalyst IT

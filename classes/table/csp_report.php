@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * csp_report table
+ *
  * @package   local_csp
  * @author    Suan Kan <suankan@catalyst-au.net>
  * @copyright Catalyst IT
@@ -28,17 +30,20 @@ defined('MOODLE_INTERNAL') || die;
 require_once($CFG->libdir . '/tablelib.php');
 
 /**
- * Class csp_report implements processing of columns:
+ * Class csp_report implements processing of columns
+ *
  * - Convert unix timestamp columns to human time.
  * - Adds a button to delete a record.
  *
  * @package local_csp\table
+ * @copyright Catalyst IT
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class csp_report extends \table_sql {
     /**
      * Formatting unix timestamps in column named timecreated to human readable time.
      *
-     * @param $record fieldset object of db table with field timecreated
+     * @param stdObject $record fieldset object of db table with field timecreated
      * @return string human readable time
      */
     protected function col_timecreated($record) {
@@ -53,7 +58,7 @@ class csp_report extends \table_sql {
     /**
      * Formatting unix timestamps in column named timeupdated to human readable time.
      *
-     * @param $record fieldset object of db table with field timeupdated
+     * @param stdObject $record fieldset object of db table with field timeupdated
      * @return string human readable time
      */
     protected function col_timeupdated($record) {
@@ -68,7 +73,7 @@ class csp_report extends \table_sql {
     /**
      * Formatting column documenturi that has URLs as links.
      *
-     * @param $record fieldset object of db table with field documenturi
+     * @param stdObject $record fieldset object of db table with field documenturi
      * @return string HTML e.g. <a href="documenturi">documenturi</a>
      */
     protected function col_documenturi($record) {
@@ -87,7 +92,7 @@ class csp_report extends \table_sql {
     /**
      * Formatting column blockeduri that has URLs as links.
      *
-     * @param $record fieldset object of db table with field blockeduri
+     * @param stdObject $record fieldset object of db table with field blockeduri
      * @return string HTML e.g. <a href="blockeduri">blockeduri</a>
      */
     protected function col_blockeduri($record) {
@@ -106,7 +111,7 @@ class csp_report extends \table_sql {
     /**
      * Draw a link to the original table report URI with a param instructing to remove the record. e.g.
      *
-     * @param $record
+     * @param stdObject $record
      * @return string HTML link.
      */
     protected function col_action($record) {

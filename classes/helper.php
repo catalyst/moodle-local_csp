@@ -15,9 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Helper class
+ *
  * @package   local_csp
  * @author    Suan Kan <suankan@catalyst-au.net>
- * @copyright Catalyst IT
+ * @copyright 2016 Catalyst IT
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -29,6 +31,8 @@ defined('MOODLE_INTERNAL') || die;
  * Class helper
  *
  * @package local_csp
+ * @copyright 2016 Catalyst IT
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class helper {
 
@@ -57,4 +61,5 @@ class helper {
             @header('Content-Security-Policy: ' . $cspheaderenforcing);
         }
     }
-} // end class csp_report
+}
+
