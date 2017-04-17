@@ -41,7 +41,8 @@ if ($hassiteconfig) {
             new moodle_url('/local/csp/csp_report.php')
         ));
 
-    $settings->add(new admin_setting_heading('local_csp_heading_http_response_header', get_string('configurecspheader', 'local_csp'),
+    $settings->add(new admin_setting_heading('local_csp_heading_http_response_header',
+        get_string('configurecspheader', 'local_csp'),
         get_string('cspsettingsinfo', 'local_csp')
     ));
 

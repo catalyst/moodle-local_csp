@@ -34,7 +34,8 @@ if ($cspreport) {
     $documenturi = remove_sesskey($cspreport['document-uri']);
     $blockeduri = remove_sesskey($cspreport['blocked-uri']);
 
-    // We will be judging if CSP report is already recorded by searching over sha1-hashed fields document-uri, blocked-uri, violated-directive.
+    // We will be judging if CSP report is already recorded by searching over
+    // sha1-hashed fields document-uri, blocked-uri, violated-directive.
     $hash = sha1($documenturi . $blockeduri . $cspreport['violated-directive']);
     $existingrecord = $DB->get_record('local_csp', array('sha1hash' => $hash));
 

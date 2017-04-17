@@ -60,7 +60,8 @@ $urlresetallcspstatistics = new moodle_url($PAGE->url, array(
     'resetallcspstatistics' => 1,
     'sesskey' => sesskey(),
 ));
-echo $OUTPUT->single_button($urlresetallcspstatistics, get_string('resetallcspstatistics', 'local_csp'), 'post', array('actions' => array($action)));
+echo $OUTPUT->single_button($urlresetallcspstatistics,
+    get_string('resetallcspstatistics', 'local_csp'), 'post', array('actions' => array($action)));
 
 $documenturi = get_string('documenturi', 'local_csp');
 $blockeduri = get_string('blockeduri', 'local_csp');
@@ -73,8 +74,24 @@ $action = get_string('action', 'local_csp');
 $table = new \local_csp\table\csp_report('cspreportstable');
 $table->define_baseurl($PAGE->url);
 $table->sortable(true, 'failcounter', SORT_DESC);
-$table->define_columns(array('failcounter', 'documenturi', 'blockeduri', 'violateddirective', 'timecreated', 'timeupdated', 'action'));
-$table->define_headers(array($failcounter, $documenturi, $blockeduri, $violateddirective, $timecreated, $timeupdated, $action));
+$table->define_columns(array(
+    'failcounter',
+    'documenturi',
+    'blockeduri',
+    'violateddirective',
+    'timecreated',
+    'timeupdated',
+    'action',
+));
+$table->define_headers(array(
+    $failcounter,
+    $documenturi,
+    $blockeduri,
+    $violateddirective,
+    $timecreated,
+    $timeupdated,
+    $action,
+));
 
 $fields = 'id, sha1hash, documenturi, blockeduri, violateddirective, failcounter, timecreated, timeupdated';
 $from = '{local_csp}';

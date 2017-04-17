@@ -105,7 +105,6 @@ class csp_report extends \table_sql {
 
     /**
      * Draw a link to the original table report URI with a param instructing to remove the record. e.g.
-     * <a href="https://moodle32.ubox001.com/local/csp/csp_report.php?removerecordwithhash=2aff06283d490f3e64ddc26d86f767cf8a13408f&sesskey=UAlaFxCA2Z">delete</a>
      *
      * @param $record
      * @return string HTML link.
