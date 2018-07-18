@@ -40,7 +40,7 @@ if (($removerecordwithhash = optional_param('removerecordwithhash', false, PARAM
 $resetallcspstatistics = optional_param('resetallcspstatistics', 0, PARAM_INT);
 if ($resetallcspstatistics == 1 && confirm_sesskey()) {
     $DB->delete_records('local_csp');
-    redirect('/local/csp/csp_report.php');
+    redirect(new moodle_url('/local/csp/csp_report.php'));
 }
 
 admin_externalpage_setup('local_csp_report', '', null, '', array('pagelayout' => 'report'));
