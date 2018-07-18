@@ -61,3 +61,4 @@ $string['scspheadernone'] = 'Not used';
 $string['timecreated'] = 'Recorded';
 $string['timeupdated'] = 'Last';
 $string['violateddirective'] = 'Policy';
+$string['privacy:metadata'] = 'The CSP plugin contains no user specific data.';
