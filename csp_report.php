@@ -28,9 +28,17 @@ require_once($CFG->libdir.'/adminlib.php');
 
 global $DB;
 
-// Remove CSP report record with specified hash. This is triggered from \local_csp\table\csp_report->col_action().
+/*// Remove CSP report record with specified hash. This is triggered from \local_csp\table\csp_report->col_action().
 if (($removerecordwithhash = optional_param('removerecordwithhash', false, PARAM_TEXT)) !== false && confirm_sesskey()) {
-    $DB->delete_records('local_csp', array('sha1hash' => $removerecordwithhash));
+    //$DB->delete_records('local_csp', array('sha1hash' => $removerecordwithhash));
+    $PAGE->set_url('/local/csp/csp_report.php', array(
+        'page' => optional_param('redirecttopage', 0, PARAM_INT),
+    ));
+    redirect($PAGE->url);
+}*/
+
+if (($removeviolationclass = optional_param('removeviolationclass', false, PARAM_TEXT)) !== false && confirm_sesskey()) {
+    $DB->delete_records('local_csp', array('blockeduri' => $removeviolationclass));
     $PAGE->set_url('/local/csp/csp_report.php', array(
         'page' => optional_param('redirecttopage', 0, PARAM_INT),
     ));
@@ -63,7 +71,6 @@ $urlresetallcspstatistics = new moodle_url($PAGE->url, array(
 echo $OUTPUT->single_button($urlresetallcspstatistics,
     get_string('resetallcspstatistics', 'local_csp'), 'post', array('actions' => array($action)));
 
-$documenturi = get_string('documenturi', 'local_csp');
 $blockeduri = get_string('blockeduri', 'local_csp');
 $violateddirective = get_string('violateddirective', 'local_csp');
 $failcounter = get_string('failcounter', 'local_csp');
@@ -76,7 +83,6 @@ $table->define_baseurl($PAGE->url);
 $table->sortable(true, 'failcounter', SORT_DESC);
 $table->define_columns(array(
     'failcounter',
-    'documenturi',
     'blockeduri',
     'violateddirective',
     'timecreated',
@@ -85,7 +91,6 @@ $table->define_columns(array(
 ));
 $table->define_headers(array(
     $failcounter,
-    $documenturi,
     $blockeduri,
     $violateddirective,
     $timecreated,
@@ -93,8 +98,23 @@ $table->define_headers(array(
     $action,
 ));
 
-$fields = 'id, sha1hash, documenturi, blockeduri, violateddirective, failcounter, timecreated, timeupdated';
-$from = '{local_csp}';
+$fields = 'id, sha1hash, blockeduri, violateddirective, failcounter, timecreated, timeupdated';
+// Select the first blockedURI of a type, and collapse the rest while summing failcounter
+// Then grab other fields from the table where id is the selected collapsed ID
+$from = "(SELECT A.id,
+                 A.blockeduri,
+                 A.failcounter, 
+                 B.violateddirective, 
+                 B.sha1hash, 
+                 B.timecreated, 
+                 B.timeupdated 
+            FROM (
+          SELECT MIN(id) AS id,
+                 blockeduri, 
+                 SUM(failcounter) AS failcounter 
+            FROM {local_csp} GROUP BY blockeduri) AS A,
+                 {local_csp} as B 
+           WHERE A.id = B.id) AS subquery";
 $where = '1 = 1';
 $table->set_sql($fields, $from, $where);
 

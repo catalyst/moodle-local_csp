@@ -120,7 +120,7 @@ class csp_report extends \table_sql {
         $action = new \confirm_action(get_string('areyousuretodeleteonerecord', 'local_csp'));
         $url = new \moodle_url($this->baseurl);
         $url->params(array(
-            'removerecordwithhash' => $record->sha1hash,
+            'removeviolationclass' => $record->blockeduri,
             'sesskey' => sesskey(),
             'redirecttopage' => $this->currpage,
         ));
