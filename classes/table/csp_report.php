@@ -128,4 +128,21 @@ class csp_report extends \table_sql {
 
         return $actionlink;
     }
+
+    protected function col_highestviolaters($record) {
+        global $DB;
+
+        // Get 3 highest violaters for each blocked URI
+        $sql = "SELECT *
+                  FROM {local_csp}
+                 WHERE blockeduri = ?
+              ORDER BY failcounter DESC";
+        $violaters = $DB->get_records_sql($sql, array($record->blockeduri), 0, 3);
+        $return = '';
+        foreach ($violaters as $violater) {
+            $return .= \html_writer::link($violater->documenturi, $violater->documenturi).'<br>';
+            $return .= get_string('highestviolaterscount', 'local_csp', $violater->failcounter).'<br>';
+        }
+        return $return;
+    }
 } // end class csp_report

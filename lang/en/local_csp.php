@@ -46,6 +46,8 @@ $string['cspsettings'] = 'Content security policy settings';
 $string['cspsettingsinfo'] = '<p>CSP works through adding a special HTTP response header to every Moodle page. Modern browsers, when they see this header, are able to perform certain actions e.g. block insecure content on such pages. Please read more about CSP <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP">here</a>.</p><p>If you leave any of these settings blank CSP headers will not be used.</p>';
 $string['documenturi'] = 'Violation at';
 $string['failcounter'] = 'Count';
+$string['highestviolaters'] = 'Top Violation Sources';
+$string['highestviolaterscount'] = 'Count: {$a}';
 $string['loadingmixedcontentdescription'] = 'When accessing moodle website via HTTPS browser prohibits displaying of the below resources because they origin from HTTP.<br />You should be able to see it in your browser\'s Javascript console.';
 $string['loadinsecurecss'] = 'Load insecure css from {$a}';
 $string['loadinsecureiframe'] = 'Load insecure iframe from {$a}';

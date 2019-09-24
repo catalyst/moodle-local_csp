@@ -72,6 +72,7 @@ echo $OUTPUT->single_button($urlresetallcspstatistics,
     get_string('resetallcspstatistics', 'local_csp'), 'post', array('actions' => array($action)));
 
 $blockeduri = get_string('blockeduri', 'local_csp');
+$highestviolaters = get_string('highestviolaters', 'local_csp');
 $violateddirective = get_string('violateddirective', 'local_csp');
 $failcounter = get_string('failcounter', 'local_csp');
 $timecreated = get_string('timecreated', 'local_csp');
@@ -84,6 +85,7 @@ $table->sortable(true, 'failcounter', SORT_DESC);
 $table->define_columns(array(
     'failcounter',
     'blockeduri',
+    'highestviolaters',
     'violateddirective',
     'timecreated',
     'timeupdated',
@@ -92,6 +94,7 @@ $table->define_columns(array(
 $table->define_headers(array(
     $failcounter,
     $blockeduri,
+    $highestviolaters,
     $violateddirective,
     $timecreated,
     $timeupdated,
@@ -103,17 +106,17 @@ $fields = 'id, sha1hash, blockeduri, violateddirective, failcounter, timecreated
 // Then grab other fields from the table where id is the selected collapsed ID
 $from = "(SELECT A.id,
                  A.blockeduri,
-                 A.failcounter, 
-                 B.violateddirective, 
-                 B.sha1hash, 
-                 B.timecreated, 
-                 B.timeupdated 
+                 A.failcounter,
+                 B.violateddirective,
+                 B.sha1hash,
+                 B.timecreated,
+                 B.timeupdated
             FROM (
-          SELECT MIN(id) AS id,
-                 blockeduri, 
-                 SUM(failcounter) AS failcounter 
+          SELECT MAX(id) AS id,
+                 blockeduri,
+                 SUM(failcounter) AS failcounter
             FROM {local_csp} GROUP BY blockeduri) AS A,
-                 {local_csp} as B 
+                 {local_csp} as B
            WHERE A.id = B.id) AS subquery";
 $where = '1 = 1';
 $table->set_sql($fields, $from, $where);
