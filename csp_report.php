@@ -75,7 +75,6 @@ $blockeduri = get_string('blockeduri', 'local_csp');
 $highestviolaters = get_string('highestviolaters', 'local_csp');
 $violateddirective = get_string('violateddirective', 'local_csp');
 $failcounter = get_string('failcounter', 'local_csp');
-$timecreated = get_string('timecreated', 'local_csp');
 $timeupdated = get_string('timeupdated', 'local_csp');
 $action = get_string('action', 'local_csp');
 
@@ -84,19 +83,17 @@ $table->define_baseurl($PAGE->url);
 $table->sortable(true, 'failcounter', SORT_DESC);
 $table->define_columns(array(
     'failcounter',
+    'violateddirective',
     'blockeduri',
     'highestviolaters',
-    'violateddirective',
-    'timecreated',
     'timeupdated',
     'action',
 ));
 $table->define_headers(array(
     $failcounter,
+    $violateddirective,
     $blockeduri,
     $highestviolaters,
-    $violateddirective,
-    $timecreated,
     $timeupdated,
     $action,
 ));

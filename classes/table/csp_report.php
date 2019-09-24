@@ -130,7 +130,7 @@ class csp_report extends \table_sql {
     }
 
     protected function col_highestviolaters($record) {
-        global $DB;
+        global $DB, $CFG;
 
         // Get 3 highest violaters for each blocked URI
         $sql = "SELECT *
@@ -140,8 +140,9 @@ class csp_report extends \table_sql {
         $violaters = $DB->get_records_sql($sql, array($record->blockeduri), 0, 3);
         $return = '';
         foreach ($violaters as $violater) {
-            $return .= \html_writer::link($violater->documenturi, $violater->documenturi).'<br>';
-            $return .= get_string('highestviolaterscount', 'local_csp', $violater->failcounter).'<br>';
+            // Strip the top level domain out of the display
+            $urlstring = str_replace($CFG->wwwroot, '', $violater->documenturi);
+            $return .= $violater->failcounter.' '.\html_writer::link($violater->documenturi, $urlstring).'<br>';
         }
         return $return;
     }
