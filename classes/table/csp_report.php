@@ -40,6 +40,30 @@ require_once($CFG->libdir . '/tablelib.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class csp_report extends \table_sql {
+
+    /**
+     * Embeds a link to a drilldown table showing only 1 violation class
+     *
+     * @param stdObject $record fieldset object of db table with field timecreated
+     * @return string Link to drilldown table
+     */
+    protected function col_failcounter($record) {
+        // Get blocked URI, and set as param for page if clicked on
+        $url = new \moodle_url('/local/csp/csp_report.php', array ('viewviolationclass' => $record->blockeduri));
+        return  \html_writer::link($url, $record->failcounter);
+    }
+
+    /**
+     * Stop violateddirective from wrapping when long urls are present
+     *
+     * @param stdObject $record fieldset object of db table with field timecreated
+     * @return string Non breaking text line
+     */
+    protected function col_violateddirective($record) {
+        // Stop line from wrapping
+        return \html_writer::tag('span', $record->violateddirective, array('style' => 'white-space: nowrap'));
+    }
+
     /**
      * Formatting unix timestamps in column named timecreated to human readable time.
      *
@@ -129,6 +153,12 @@ class csp_report extends \table_sql {
         return $actionlink;
     }
 
+    /**
+     * Gets the 3 highest violater documentURIs for each blockedURI
+     *
+     * @param stdObject $record fieldset object of db table with field timecreated
+     * @return string details of the highest violating documents
+     */
     protected function col_highestviolaters($record) {
         global $DB, $CFG;
 
@@ -142,7 +172,7 @@ class csp_report extends \table_sql {
         foreach ($violaters as $violater) {
             // Strip the top level domain out of the display
             $urlstring = str_replace($CFG->wwwroot, '', $violater->documenturi);
-            $return .= $violater->failcounter.' '.\html_writer::link($violater->documenturi, $urlstring).'<br>';
+            $return .= get_string('highestviolaterscount', 'local_csp', $violater->failcounter).' '.\html_writer::link($violater->documenturi, $urlstring).'<br>';
         }
         return $return;
     }
