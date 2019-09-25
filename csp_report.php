@@ -28,8 +28,18 @@ require_once($CFG->libdir.'/adminlib.php');
 
 global $DB;
 
+// Delete violation class if param set
 if (($removeviolationclass = optional_param('removeviolationclass', false, PARAM_TEXT)) !== false && confirm_sesskey()) {
     $DB->delete_records('local_csp', array('blockeduri' => $removeviolationclass));
+    $PAGE->set_url('/local/csp/csp_report.php', array(
+        'page' => optional_param('redirecttopage', 0, PARAM_INT),
+    ));
+    redirect($PAGE->url);
+}
+
+// Delete individual violation records if set
+if (($removerecordwithid = optional_param('removerecordwithid', false, PARAM_TEXT)) !== false && confirm_sesskey()) {
+    $DB->delete_records('local_csp', array('id' => $removerecordwithid));
     $PAGE->set_url('/local/csp/csp_report.php', array(
         'page' => optional_param('redirecttopage', 0, PARAM_INT),
     ));
@@ -117,16 +127,17 @@ if ($viewviolationclass !== false) {
     ));
 
 } else {
-    $fields = 'A.id, B.sha1hash, A.blockeduri, B.violateddirective, A.failcounter, A.timecreated';
+    $fields = 'id, blockeduri, violateddirective, failcounter, timecreated';
     // Select the first blockedURI of a type, and collapse the rest while summing failcounter
-    // Then grab other fields from the table where id is the selected collapsed ID
+    //
     $from = "(SELECT MAX(id) AS id,
                      blockeduri,
+                     violateddirective,
                      SUM(failcounter) AS failcounter,
                      MAX(timecreated) AS timecreated
-                FROM {local_csp} GROUP BY blockeduri) AS A,
-                     {local_csp} as B";
-    $where = 'A.id = B.id';
+                FROM {local_csp}
+            GROUP BY blockeduri, violateddirective) AS A";
+    $where = '1 = 1';
     $params = array();
 }
 $table->set_sql($fields, $from, $where, $params);

@@ -139,18 +139,34 @@ class csp_report extends \table_sql {
      * @return string HTML link.
      */
     protected function col_action($record) {
-        global $OUTPUT;
+        global $OUTPUT, $PAGE;
 
-        $action = new \confirm_action(get_string('areyousuretodeleteonerecord', 'local_csp'));
-        $url = new \moodle_url($this->baseurl);
-        $url->params(array(
-            'removeviolationclass' => $record->blockeduri,
-            'sesskey' => sesskey(),
-            'redirecttopage' => $this->currpage,
-        ));
-        $actionlink = $OUTPUT->action_link($url, get_string('reset', 'local_csp'), $action);
+        // Find whether drilldown flag is present in PAGE params
+        $viewviolationclass = optional_param('viewviolationclass', false, PARAM_TEXT);
+        if ($viewviolationclass !== false) {
+            $action = new \confirm_action(get_string('areyousuretodeleteonerecord', 'local_csp'));
+            $url = new \moodle_url($this->baseurl);
+            $url->params(array(
+                'removerecordwithid' => $record->id,
+                'sesskey' => sesskey(),
+                'redirecttopage' => $this->currpage,
+            ));
+            $actionlink = $OUTPUT->action_link($url, get_string('reset', 'local_csp'), $action);
 
-        return $actionlink;
+            return $actionlink;
+        } else {
+            // Else delete entire violation class
+            $action = new \confirm_action(get_string('areyousuretodeleteonerecord', 'local_csp'));
+            $url = new \moodle_url($this->baseurl);
+            $url->params(array(
+                'removeviolationclass' => $record->blockeduri,
+                'sesskey' => sesskey(),
+                'redirecttopage' => $this->currpage,
+            ));
+            $actionlink = $OUTPUT->action_link($url, get_string('reset', 'local_csp'), $action);
+
+            return $actionlink;
+        }
     }
 
     /**
