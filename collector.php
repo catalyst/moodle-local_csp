@@ -22,11 +22,11 @@
  * @copyright Catalyst IT
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+require_once(__DIR__ . '/../../config.php');
 
 $inputjson = file_get_contents('php://input');
 $cspreport = json_decode($inputjson, true)['csp-report'];
 
-require_once(__DIR__ . '/../../config.php');
 global $DB;
 
 if ($cspreport) {
