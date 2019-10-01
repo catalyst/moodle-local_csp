@@ -50,8 +50,9 @@ if ($cspreport) {
             echo 'Repeated CSP violation, failcounter incremented.';
         } else {
             // Insert a new record.
-            $dataobject->documenturi = $documenturi;
-            $dataobject->blockeduri = $blockeduri;
+            // Truncate URIs of extreme length.
+            $dataobject->documenturi = substr($documenturi, 0, 1024);
+            $dataobject->blockeduri = substr($blockeduri, 0, 1024);
             $dataobject->violateddirective = $cspreport['violated-directive'];
             $dataobject->timecreated = time();
             $dataobject->sha1hash = $hash;
