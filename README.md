@@ -11,10 +11,11 @@ Why would you want this?
 ------------------------
 Security, security, security.
 
-This plugin helps you to detect and eliminate security errors in your Moodle such as:
+This plugin helps you to detect and mitigate certain classes of security errors in your Moodle such as:
 
  - Mixed content (https/http) after you switched to HTTPS.
- - Same origin (or specified origin) policy for scripts and media data. 
+ - Same origin (or specified origin) policy for scripts and media data.
+ - Unintended iframes
 
 What is this?
 -------------
