@@ -1,4 +1,4 @@
-Travis integration: [![Build Status](https://travis-ci.org/catalyst/moodle-local_csp.svg?branch=master)](https://travis-ci.org/catalyst/moodle-local_csp)
+[![Build Status](https://travis-ci.org/catalyst/moodle-local_csp.svg?branch=master)](https://travis-ci.org/catalyst/moodle-local_csp)
 # moodle-local_csp
 
 * [Why would you want this?](#why-would-you-want-this)
