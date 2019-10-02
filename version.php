@@ -25,8 +25,8 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->version = 2017041801;
-$plugin->release = 2017041801;
+$plugin->version = 2019100100;
+$plugin->release = 2019100100;
 $plugin->requires = 2015051100;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->component = 'local_csp';

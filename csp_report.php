@@ -28,9 +28,18 @@ require_once($CFG->libdir.'/adminlib.php');
 
 global $DB;
 
-// Remove CSP report record with specified hash. This is triggered from \local_csp\table\csp_report->col_action().
-if (($removerecordwithhash = optional_param('removerecordwithhash', false, PARAM_TEXT)) !== false && confirm_sesskey()) {
-    $DB->delete_records('local_csp', array('sha1hash' => $removerecordwithhash));
+// Delete violation class if param set
+if (($removeviolationclass = optional_param('removeviolationclass', false, PARAM_TEXT)) !== false && confirm_sesskey()) {
+    $DB->delete_records('local_csp', array('blockeduri' => $removeviolationclass));
+    $PAGE->set_url('/local/csp/csp_report.php', array(
+        'page' => optional_param('redirecttopage', 0, PARAM_INT),
+    ));
+    redirect($PAGE->url);
+}
+
+// Delete individual violation records if set
+if (($removerecordwithid = optional_param('removerecordwithid', false, PARAM_TEXT)) !== false && confirm_sesskey()) {
+    $DB->delete_records('local_csp', array('id' => $removerecordwithid));
     $PAGE->set_url('/local/csp/csp_report.php', array(
         'page' => optional_param('redirecttopage', 0, PARAM_INT),
     ));
@@ -63,11 +72,11 @@ $urlresetallcspstatistics = new moodle_url($PAGE->url, array(
 echo $OUTPUT->single_button($urlresetallcspstatistics,
     get_string('resetallcspstatistics', 'local_csp'), 'post', array('actions' => array($action)));
 
-$documenturi = get_string('documenturi', 'local_csp');
 $blockeduri = get_string('blockeduri', 'local_csp');
+$highestviolaters = get_string('highestviolaters', 'local_csp');
 $violateddirective = get_string('violateddirective', 'local_csp');
+$documenturi = get_string('documenturi', 'local_csp');
 $failcounter = get_string('failcounter', 'local_csp');
-$timecreated = get_string('timecreated', 'local_csp');
 $timeupdated = get_string('timeupdated', 'local_csp');
 $action = get_string('action', 'local_csp');
 
@@ -76,27 +85,62 @@ $table->define_baseurl($PAGE->url);
 $table->sortable(true, 'failcounter', SORT_DESC);
 $table->define_columns(array(
     'failcounter',
-    'documenturi',
-    'blockeduri',
     'violateddirective',
+    'blockeduri',
+    'highestviolaters',
     'timecreated',
-    'timeupdated',
     'action',
 ));
 $table->define_headers(array(
     $failcounter,
-    $documenturi,
-    $blockeduri,
     $violateddirective,
-    $timecreated,
+    $blockeduri,
+    $highestviolaters,
     $timeupdated,
     $action,
 ));
 
-$fields = 'id, sha1hash, documenturi, blockeduri, violateddirective, failcounter, timecreated, timeupdated';
-$from = '{local_csp}';
-$where = '1 = 1';
-$table->set_sql($fields, $from, $where);
+$viewviolationclass = optional_param('viewviolationclass', false, PARAM_TEXT);
+// If user has clicked on a violation to view all violation entries
+if ($viewviolationclass !== false) {
+    $fields = 'id, sha1hash, blockeduri, violateddirective, failcounter, timeupdated, documenturi';
+    $from = "{local_csp}";
+    $where = "blockeduri = ?";
+    $params = array($viewviolationclass);
+
+    // Redefine columns to display Violation source
+    $table->define_columns(array(
+        'failcounter',
+        'violateddirective',
+        'blockeduri',
+        'documenturi',
+        'timeupdated',
+        'action',
+    ));
+    $table->define_headers(array(
+        $failcounter,
+        $violateddirective,
+        $blockeduri,
+        $documenturi,
+        $timeupdated,
+        $action,
+    ));
+
+} else {
+    $fields = 'id, blockeduri, violateddirective, failcounter, timecreated';
+    // Select the first blockedURI of a type, and collapse the rest while summing failcounter
+    //
+    $from = "(SELECT MAX(id) AS id,
+                     blockeduri,
+                     violateddirective,
+                     SUM(failcounter) AS failcounter,
+                     MAX(timecreated) AS timecreated
+                FROM {local_csp}
+            GROUP BY blockeduri, violateddirective) AS A";
+    $where = '1 = 1';
+    $params = array();
+}
+$table->set_sql($fields, $from, $where, $params);
 
 $table->out(30, true);
 

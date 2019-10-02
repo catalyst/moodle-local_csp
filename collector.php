@@ -22,11 +22,11 @@
  * @copyright Catalyst IT
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+require_once(__DIR__ . '/../../config.php');
 
 $inputjson = file_get_contents('php://input');
 $cspreport = json_decode($inputjson, true)['csp-report'];
 
-require_once(__DIR__ . '/../../config.php');
 global $DB;
 
 if ($cspreport) {
@@ -50,8 +50,9 @@ if ($cspreport) {
             echo 'Repeated CSP violation, failcounter incremented.';
         } else {
             // Insert a new record.
-            $dataobject->documenturi = $documenturi;
-            $dataobject->blockeduri = $blockeduri;
+            // Truncate URIs of extreme length.
+            $dataobject->documenturi = substr($documenturi, 0, 1024);
+            $dataobject->blockeduri = substr($blockeduri, 0, 1024);
             $dataobject->violateddirective = $cspreport['violated-directive'];
             $dataobject->timecreated = time();
             $dataobject->sha1hash = $hash;
