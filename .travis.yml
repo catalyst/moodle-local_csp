@@ -1,11 +1,5 @@
 language: php
 
-notifications:
-  email:
-    recipients:
-      - brendan.heywood@gmail.com
-      - suankan@catalyst-au.net
-
 sudo: false
 
 cache:
