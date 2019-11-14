@@ -4,6 +4,7 @@
 * [Why would you want this?](#why-would-you-want-this)
 * [What is this?](#what-is-this)
 * [How does it work?](#how-does-it-work)
+* [Branches](#branches)
 * [Installation](#installation)
 * [References](#references)
 
@@ -36,6 +37,13 @@ Enabling of Content-Security-Policy blocks browser from showing site resources t
 CSP support in browsers is quite good:
 
 https://caniuse.com/#search=CSP
+
+Branches
+--------
+
+| Moodle verion     | Branch      | PHP       |
+| ----------------- | ----------- | --------  |
+| Moodle 2.7 to 3.7 | master      | 5.5 - 7.2 |
 
 Installation
 ------------
