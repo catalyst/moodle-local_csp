@@ -54,5 +54,8 @@ if ($hassiteconfig) {
 
     $settings->add(new admin_setting_configtextarea('local_csp/csp_header_enforcing', get_string('cspheaderenforcing', 'local_csp'),
         get_string('cspheaderenforcinghelp', 'local_csp'), ''));
+
+    $settings->add(new admin_setting_configcheckbox('local_csp/csp_record_user', get_string('csprecorduser', 'local_csp'),
+        get_string('csprecorduserhelp', 'local_csp'), 0));
 }
 
