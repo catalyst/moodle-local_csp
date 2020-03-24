@@ -49,6 +49,19 @@ function xmldb_local_csp_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019100100, 'local', 'csp');
     }
 
+    if ($oldversion < 2020032400) {
+
+        // Changing precision of field violateddirective on table local_csp to (1333).
+        $table = new xmldb_table('local_csp');
+        $field = new xmldb_field('violateddirective', XMLDB_TYPE_CHAR, '1333', null, null, null, null, 'blockeduri');
+
+        // Launch change of precision for field violateddirective.
+        $dbman->change_field_precision($table, $field);
+
+        // Csp savepoint reached.
+        upgrade_plugin_savepoint(true, 2020032400, 'local', 'csp');
+    }
+
     return true;
 }
 
