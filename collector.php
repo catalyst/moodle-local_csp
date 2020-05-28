@@ -75,7 +75,12 @@ if ($cspreport) {
  * @return string URL
  */
 function remove_sesskey($url) {
-    $moodleurl = new moodle_url($url);
-    $moodleurl->remove_params('sesskey');
-    return $moodleurl->out();
+    try {
+        $moodleurl = new moodle_url($url);
+        $moodleurl->remove_params('sesskey');
+        return $moodleurl->out();
+    } catch (Exception $e) {
+        // Not a url.
+        return $url;
+    }
 }
