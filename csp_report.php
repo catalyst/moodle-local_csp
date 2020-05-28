@@ -28,7 +28,7 @@ require_once($CFG->libdir.'/adminlib.php');
 
 global $DB;
 
-// Delete violation class if param set
+// Delete violation class if param set.
 if (($removeviolationclass = optional_param('removeviolationclass', false, PARAM_TEXT)) !== false && confirm_sesskey()) {
     $DB->delete_records('local_csp', array('blockeduri' => $removeviolationclass));
     $PAGE->set_url('/local/csp/csp_report.php', array(
@@ -37,7 +37,7 @@ if (($removeviolationclass = optional_param('removeviolationclass', false, PARAM
     redirect($PAGE->url);
 }
 
-// Delete individual violation records if set
+// Delete individual violation records if set.
 if (($removerecordwithid = optional_param('removerecordwithid', false, PARAM_TEXT)) !== false && confirm_sesskey()) {
     $DB->delete_records('local_csp', array('id' => $removerecordwithid));
     $PAGE->set_url('/local/csp/csp_report.php', array(
@@ -101,14 +101,14 @@ $table->define_headers(array(
 ));
 
 $viewviolationclass = optional_param('viewviolationclass', false, PARAM_TEXT);
-// If user has clicked on a violation to view all violation entries
+// If user has clicked on a violation to view all violation entries.
 if ($viewviolationclass !== false) {
     $fields = 'id, sha1hash, blockeduri, violateddirective, failcounter, timeupdated, documenturi';
     $from = "{local_csp}";
     $where = "blockeduri = ?";
     $params = array($viewviolationclass);
 
-    // Redefine columns to display Violation source
+    // Redefine columns to display Violation source.
     $table->define_columns(array(
         'failcounter',
         'violateddirective',
@@ -128,7 +128,7 @@ if ($viewviolationclass !== false) {
 
 } else {
     $fields = 'id, blockeduri, violateddirective, failcounter, timecreated';
-    // Select the first blockedURI of a type, and collapse the rest while summing failcounter
+    // Select the first blockedURI of a type, and collapse the rest while summing failcounter.
     //
     $from = "(SELECT MAX(id) AS id,
                      blockeduri,

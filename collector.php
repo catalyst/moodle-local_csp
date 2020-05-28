@@ -22,7 +22,10 @@
  * @copyright Catalyst IT
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+// @codingStandardsIgnoreStart
 require_once(__DIR__ . '/../../config.php');
+// @codingStandardsIgnoreEnd
 
 $inputjson = file_get_contents('php://input');
 $cspreport = json_decode($inputjson, true)['csp-report'];
@@ -47,7 +50,7 @@ if ($cspreport) {
             $dataobject->failcounter = $existingrecord->failcounter + 1;
             $dataobject->timeupdated = time();
             $DB->update_record('local_csp', $dataobject);
-            echo 'Repeated CSP violation, failcounter incremented.';
+            echo "OK\n";
         } else {
             // Insert a new record.
             // Truncate URIs of extreme length.
@@ -58,14 +61,14 @@ if ($cspreport) {
             $dataobject->sha1hash = $hash;
             $dataobject->failcounter = 1;
             $DB->insert_record('local_csp', $dataobject);
-            echo 'New CSP violation recorded.';
+            echo "OK\n";
         }
     } catch (dml_exception $exception) {
-        echo 'There was a problem with recording CSP report to Moodle database.';
+        echo "There was a problem with recording CSP report to Moodle database.\n";
         throw $exception;
     }
 } else {
-    echo "There was a problem with decoding JSON report.";
+    echo "There was a problem with decoding JSON report.\n";
 }
 
 /**

@@ -48,7 +48,7 @@ class csp_report extends \table_sql {
      * @return string Link to drilldown table
      */
     protected function col_failcounter($record) {
-        // Get blocked URI, and set as param for page if clicked on
+        // Get blocked URI, and set as param for page if clicked on.
         $url = new \moodle_url('/local/csp/csp_report.php', array ('viewviolationclass' => $record->blockeduri));
         return  \html_writer::link($url, $record->failcounter);
     }
@@ -60,7 +60,7 @@ class csp_report extends \table_sql {
      * @return string Non breaking text line
      */
     protected function col_violateddirective($record) {
-        // Stop line from wrapping
+        // Stop line from wrapping.
         return \html_writer::tag('span', $record->violateddirective, array('style' => 'white-space: nowrap'));
     }
 
@@ -101,16 +101,28 @@ class csp_report extends \table_sql {
      * @return string HTML e.g. <a href="documenturi">documenturi</a>
      */
     protected function col_documenturi($record) {
-        if ($record->documenturi) {
-            if (filter_var($record->documenturi, FILTER_VALIDATE_URL) === false) {
-                return $record->documenturi;
-            } else {
-                $documenturi = '<a href="' . $record->documenturi . '">' . $record->documenturi . '</a>';
-                return $documenturi;
-            }
-        } else {
-            return  '-';
+        return $this->format_uri($record->documenturi);
+    }
+
+    /**
+     * Format a uri
+     *
+     * @param string $uri Unsafe uri data
+     * @return string HTML e.g. <a href="documenturi">documenturi</a>
+     */
+    private function format_uri($uri) {
+        global $CFG;
+        if (!$uri) {
+            return '-';
         }
+        if (filter_var($uri, FILTER_VALIDATE_URL) === false) {
+            return s($uri);
+        }
+
+        $label = str_replace($CFG->wwwroot, '', $uri);
+        $label = shorten_text($label, 60, true);
+        $label = s($label);
+        return \html_writer::link($uri, $label);
     }
 
     /**
@@ -120,16 +132,7 @@ class csp_report extends \table_sql {
      * @return string HTML e.g. <a href="blockeduri">blockeduri</a>
      */
     protected function col_blockeduri($record) {
-        if ($record->blockeduri) {
-            if (filter_var($record->blockeduri, FILTER_VALIDATE_URL) === false) {
-                return $record->blockeduri;
-            } else {
-                $blockeduri = '<a href="' . $record->blockeduri . '">' . $record->blockeduri . '</a>';
-                return $blockeduri;
-            }
-        } else {
-            return  '-';
-        }
+        return $this->format_uri($record->blockeduri);
     }
 
     /**
@@ -141,7 +144,7 @@ class csp_report extends \table_sql {
     protected function col_action($record) {
         global $OUTPUT, $PAGE;
 
-        // Find whether drilldown flag is present in PAGE params
+        // Find whether drilldown flag is present in PAGE params.
         $viewviolationclass = optional_param('viewviolationclass', false, PARAM_TEXT);
         if ($viewviolationclass !== false) {
             $action = new \confirm_action(get_string('areyousuretodeleteonerecord', 'local_csp'));
@@ -155,7 +158,7 @@ class csp_report extends \table_sql {
 
             return $actionlink;
         } else {
-            // Else delete entire violation class
+            // Else delete entire violation class.
             $action = new \confirm_action(get_string('areyousuretodeleteonerecord', 'local_csp'));
             $url = new \moodle_url($this->baseurl);
             $url->params(array(
@@ -178,7 +181,7 @@ class csp_report extends \table_sql {
     protected function col_highestviolaters($record) {
         global $DB, $CFG;
 
-        // Get 3 highest violaters for each blocked URI
+        // Get 3 highest violaters for each blocked URI.
         $sql = "SELECT *
                   FROM {local_csp}
                  WHERE blockeduri = ?
@@ -186,9 +189,11 @@ class csp_report extends \table_sql {
         $violaters = $DB->get_records_sql($sql, array($record->blockeduri), 0, 3);
         $return = '';
         foreach ($violaters as $violater) {
-            // Strip the top level domain out of the display
+            // Strip the top level domain out of the display.
             $urlstring = str_replace($CFG->wwwroot, '', $violater->documenturi);
-            $return .= get_string('highestviolaterscount', 'local_csp', $violater->failcounter).' '.\html_writer::link($violater->documenturi, $urlstring).'<br>';
+            $return .= get_string('highestviolaterscount', 'local_csp', $violater->failcounter);
+            $return .= ' ';
+            $return .= $this->format_uri($violater->documenturi);
         }
         return $return;
     }
