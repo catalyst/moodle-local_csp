@@ -41,6 +41,9 @@ $string['cspheaderenforcinghelp'] = 'Enforce browsers to follow CSP directives, 
 $string['cspheaderreporting'] = 'Content-Security-Policy-Report-Only';
 $string['cspheaderreportinghelp'] = 'Monitor and report CSP violations';
 $string['csphttpresponseheader'] = 'CSP HTTP response header';
+$string['enablefeaturepolicy'] = 'Enable Feature-Policy header';
+$string['enablefeaturepolicydescription'] = 'Send a feature policy header as part of the Plugin headers sent. This header controls what browser features are allowed to be accessed by DOM elements.';
+$string['featurepolicydescription'] = 'Enter the feature policy to be sent. Add one entry per line, ending with a semicolon. E.g. <pre> microphone \'none\'; </pre>';
 $string['cspreports'] = 'CSP violation reports';
 $string['cspsettings'] = 'Content security policy settings';
 $string['cspsettingsinfo'] = '<p>CSP works through adding a special HTTP response header to every Moodle page. Modern browsers, when they see this header, are able to perform certain actions e.g. block insecure content on such pages. Please read more about CSP <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP">here</a>.</p><p>If you leave any of these settings blank CSP headers will not be used.</p>';
