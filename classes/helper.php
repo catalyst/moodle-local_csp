@@ -61,5 +61,16 @@ class helper {
             @header('Content-Security-Policy: ' . $cspheaderenforcing);
         }
     }
-}
 
+    public static function enable_feature_policy() {
+        $settings = get_config('local_csp');
+        if (empty($settings->feature_policy_enable)) {
+            return;
+        }
+
+        $featureheader = trim(str_replace(array("\r\n", "\r"), " ", $settings->feature_policy));
+        if (!empty($featureheader)) {
+            @header('Feature-Policy: ' . $featureheader);
+        }
+    }
+}

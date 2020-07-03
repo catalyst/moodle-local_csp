@@ -39,5 +39,5 @@ function local_csp_extend_navigation() {
  */
 function local_csp_before_http_headers() {
     \local_csp\helper::enable_csp_header();
+    \local_csp\helper::enable_feature_policy();
 }
-
