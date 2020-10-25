@@ -45,6 +45,8 @@ class helper {
      * Sets CSP HTTP header depending on plugin settings.
      */
     public static function enable_csp_header() {
+        global $USER;
+
         $settings = get_config('local_csp');
         if (self::$bootstrapped or empty($settings->csp_header_enable)) {
             return;
@@ -54,6 +56,7 @@ class helper {
         $cspheaderreporting = trim(str_replace(array("\r\n", "\r"), " ", $settings->csp_header_reporting));
         if (!empty($cspheaderreporting)) {
             $collectorurl = new \moodle_url('/local/csp/collector.php');
+            $collectorurl->params(['uid' => $USER->id]);
             @header('Content-Security-Policy-Report-Only: ' . $cspheaderreporting . ' report-uri ' . $collectorurl->out());
         }
         $cspheaderenforcing = trim(str_replace(array("\r\n", "\r"), " ", $settings->csp_header_enforcing));
