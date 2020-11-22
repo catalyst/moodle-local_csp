@@ -69,7 +69,7 @@ if ($cspreport) {
         throw $exception;
     }
 } else {
-    echo "There was a problem with decoding JSON report.\n";
+    print_error("There was a problem with decoding JSON report.");
 }
 
 /**
