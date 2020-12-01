@@ -62,6 +62,28 @@ function xmldb_local_csp_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2020032400, 'local', 'csp');
     }
 
+    if ($oldversion < 2020070301) {
+        // Add field 'blockeddomain' to 'local_csp' to store the blocked domain.
+        $table = new xmldb_table('local_csp');
+        $field = new xmldb_field('blockeddomain', XMLDB_TYPE_CHAR, '1333', null, null, null, null, 'blockeduri');
+
+        // Conditionally launch add field.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Add field 'blockedurlpath' to 'local_csp' to store the blocked path.
+        $field = new xmldb_field('blockedurlpath', XMLDB_TYPE_CHAR, '1333', null, null, null, null, 'blockeddomain');
+
+        // Conditionally launch add field.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Csp savepoint reached.
+        upgrade_plugin_savepoint(true, 2020070301, 'local', 'csp');
+    }
+
     return true;
 }
 
