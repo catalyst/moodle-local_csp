@@ -51,6 +51,7 @@ $string['documenturi'] = 'Violation at';
 $string['failcounter'] = '#';
 $string['highestviolaters'] = 'Top Violation Sources';
 $string['highestviolaterscount'] = 'Count: {$a}';
+$string['loadexternaljavascript'] = 'Load external javascript from {$a}';
 $string['loadingmixedcontentdescription'] = 'When accessing moodle website via HTTPS browser prohibits displaying of the below resources because they origin from HTTP.<br />You should be able to see it in your browser\'s Javascript console.';
 $string['loadinsecurecss'] = 'Load insecure css from {$a}';
 $string['loadinsecureiframe'] = 'Load insecure iframe from {$a}';

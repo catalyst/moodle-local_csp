@@ -50,6 +50,14 @@ echo html_writer::start_tag('script', array(
 ));
 echo html_writer::end_tag('script');
 
+$externalscript = 'https://code.jquery.com/jquery-3.5.1.min.js';
+echo html_writer::tag('p', get_string('loadexternaljavascript', 'local_csp', $externalscript));
+echo html_writer::start_tag('script', array(
+    'type' => 'text/javascript',
+    'src' => $externalscript,
+));
+echo html_writer::end_tag('script');
+
 $insecurecss = $nonsslwwwroot . '/local/csp/samples/sample.css';
 echo html_writer::tag('p', get_string('loadinsecurecss', 'local_csp', $insecurecss));
 echo html_writer::start_tag('link', array(
