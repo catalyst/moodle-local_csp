@@ -53,10 +53,17 @@ if ($cspreport) {
             $DB->update_record('local_csp', $dataobject);
             echo "OK\n";
         } else {
+            // Set the 'blockeddomain' and 'blockedurlpath' values.
+            $parsedurl = parse_url($blockeduri);
+            $blockeddomain = $parsedurl['host'];
+            $blockedurlpath = $parsedurl['path'];
+
             // Insert a new record.
             // Truncate URIs of extreme length.
             $dataobject->documenturi = substr($documenturi, 0, 1024);
             $dataobject->blockeduri = substr($blockeduri, 0, 1024);
+            $dataobject->blockeddomain = $blockeddomain;
+            $dataobject->blockedurlpath = $blockedurlpath;
             $dataobject->violateddirective = $cspreport['violated-directive'];
             $dataobject->timecreated = time();
             $dataobject->sha1hash = $hash;
