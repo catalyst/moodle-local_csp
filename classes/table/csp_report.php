@@ -49,8 +49,13 @@ class csp_report extends \table_sql {
      */
     protected function col_failcounter($record) {
         // Get blocked URI, and set as param for page if clicked on.
-        $url = new \moodle_url('/local/csp/csp_report.php', array ('viewviolationclass' => $record->blockeduri));
-        return  \html_writer::link($url, $record->failcounter);
+        $url = new \moodle_url('/local/csp/csp_report.php',
+            [
+                'blockeddomain' => $record->blockeddomain,
+                'blockeddirective' => $record->violateddirective
+            ]
+        );
+        return \html_writer::link($url, $record->failcounter);
     }
 
     /**
@@ -72,8 +77,7 @@ class csp_report extends \table_sql {
      */
     protected function col_timecreated($record) {
         if ($record->timecreated) {
-            $timecreated = userdate($record->timecreated, get_string('strftimedatetimeshort'));
-            return $timecreated;
+            return userdate($record->timecreated, get_string('strftimedatetimeshort'));
         } else {
             return  '-';
         }
@@ -87,8 +91,7 @@ class csp_report extends \table_sql {
      */
     protected function col_timeupdated($record) {
         if ($record->timeupdated) {
-            $timeupdated = userdate($record->timeupdated, get_string('strftimedatetimeshort'));
-            return $timeupdated;
+            return userdate($record->timeupdated, get_string('strftimedatetimeshort'));
         } else {
             return  '-';
         }
@@ -108,9 +111,10 @@ class csp_report extends \table_sql {
      * Format a uri
      *
      * @param string $uri Unsafe uri data
+     * @param string $label The label for the URL
      * @return string HTML e.g. <a href="documenturi">documenturi</a>
      */
-    private function format_uri($uri) {
+    private function format_uri($uri, $label = '') {
         global $CFG;
         if (!$uri) {
             return '-';
@@ -119,9 +123,12 @@ class csp_report extends \table_sql {
             return s($uri);
         }
 
-        $label = str_replace($CFG->wwwroot, '', $uri);
-        $label = shorten_text($label, 60, true);
-        $label = s($label);
+        if (empty($label)) {
+            $label = str_replace($CFG->wwwroot, '', $uri);
+            $label = shorten_text($label, 60, true);
+            $label = s($label);
+        }
+
         return \html_writer::link($uri, $label);
     }
 
@@ -150,17 +157,88 @@ class csp_report extends \table_sql {
     }
 
     /**
+     * Displays the column 'blockedurlpath'.
+     *
+     * @param stdObject $record fieldset object of db table with field blockedurlpath
+     * @return string The blocked domain
+     */
+    protected function col_blockedurlpaths($record) {
+        global $DB;
+
+        // Get 3 highest blocked paths for each blocked directive + blocked domain.
+        $subsql = "SELECT blockeduri,
+                          blockedurlpath,
+                          SUM(failcounter) AS failcounter
+                     FROM {local_csp} csp
+                    WHERE violateddirective = :directive
+                      AND blockeddomain = :blockeddomain
+                 GROUP BY blockeduri, blockedurlpath";
+
+        $params = [
+            'directive' => $record->violateddirective,
+            'blockeddomain' => $record->blockeddomain
+        ];
+
+        $blockedpaths = $DB->get_records_sql($subsql, $params, 0, 3);
+        $return = '';
+        foreach ($blockedpaths as $blockedpath) {
+            // Strip the top level domain out of the display.
+            $return .= $this->format_uri($blockedpath->blockeduri, $blockedpath->blockedurlpath);
+            $return .= ' ';
+            $return .= "($blockedpath->failcounter)";
+            $return .= '<br />';
+        }
+        return $return;
+    }
+
+    /**
+     * Gets the 3 highest violater documentURIs for each blockedURI
+     *
+     * @param stdObject $record fieldset object of db table with field timecreated
+     * @return string details of the highest violating documents
+     */
+    protected function col_highestviolaters($record) {
+        global $DB;
+
+        // Get 3 highest blocked paths for each blocked directive + blocked domain.
+        $subsql = "SELECT documenturi, 
+                          SUM(failcounter) AS failcounter
+                     FROM {local_csp} csp
+                    WHERE violateddirective = :directive
+                      AND blockeddomain = :blockeddomain
+                 GROUP BY documenturi";
+
+        $params = [
+            'directive' => $record->violateddirective,
+            'blockeddomain' => $record->blockeddomain
+        ];
+
+        $violators = $DB->get_records_sql($subsql, $params, 0, 3);
+        $return = '';
+        foreach ($violators as $violator) {
+            // Strip the top level domain out of the display.
+            $return .= $this->format_uri($violator->documenturi);
+            $return .= ' ';
+            $return .= "($violator->failcounter)";
+            $return .= '<br />';
+        }
+        return $return;
+    }
+
+    /**
      * Draw a link to the original table report URI with a param instructing to remove the record. e.g.
      *
      * @param stdObject $record
      * @return string HTML link.
      */
-    protected function col_action($record) {
+    protected function col_action($record)
+    {
         global $OUTPUT;
 
-        // Find whether drilldown flag is present in PAGE params.
-        $viewviolationclass = optional_param('viewviolationclass', false, PARAM_TEXT);
-        if ($viewviolationclass !== false) {
+        // Find whether we are drilling down.
+        $viewblockeddomain = optional_param('blockeddomain', false, PARAM_TEXT);
+        $viewdirective = optional_param('blockeddirective', false, PARAM_TEXT);
+        if ($viewblockeddomain && $viewdirective) {
             $action = new \confirm_action(get_string('areyousuretodeleteonerecord', 'local_csp'));
             $url = new \moodle_url($this->baseurl);
             $url->params(array(
@@ -175,40 +253,17 @@ class csp_report extends \table_sql {
             // Else delete entire violation class.
             $action = new \confirm_action(get_string('areyousuretodeleteonerecord', 'local_csp'));
             $url = new \moodle_url($this->baseurl);
-            $url->params(array(
-                'removeviolationclass' => $record->blockeduri,
-                'sesskey' => sesskey(),
-                'redirecttopage' => $this->currpage,
-            ));
+            $url->params(
+                [
+                    'removedirective' => $record->violateddirective,
+                    'removedomain' => $record->blockeddomain,
+                    'sesskey' => sesskey(),
+                    'redirecttopage' => $this->currpage,
+                ]
+            );
             $actionlink = $OUTPUT->action_link($url, get_string('reset', 'local_csp'), $action);
 
             return $actionlink;
         }
     }
-
-    /**
-     * Gets the 3 highest violater documentURIs for each blockedURI
-     *
-     * @param stdObject $record fieldset object of db table with field timecreated
-     * @return string details of the highest violating documents
-     */
-    protected function col_highestviolaters($record) {
-        global $DB, $CFG;
-
-        // Get 3 highest violaters for each blocked URI.
-        $sql = "SELECT *
-                  FROM {local_csp}
-                 WHERE blockeduri = ?
-              ORDER BY failcounter DESC";
-        $violaters = $DB->get_records_sql($sql, array($record->blockeduri), 0, 3);
-        $return = '';
-        foreach ($violaters as $violater) {
-            // Strip the top level domain out of the display.
-            $return .= $this->format_uri($violater->documenturi);
-            $return .= ' ';
-            $return .= "($violater->failcounter)";
-            $return .= '<br />';
-        }
-        return $return;
-    }
-} // end class csp_report
+}

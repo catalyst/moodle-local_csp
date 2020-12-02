@@ -30,6 +30,7 @@ $string['areyousuretodeleteallrecords'] = 'Are you sure to delete all CSP report
 $string['areyousuretodeleteonerecord'] = 'Are you sure to delete this CSP report record?';
 $string['blockeddomain'] = 'Blocked domain';
 $string['blockeduri'] = 'Blocked URI';
+$string['blockedurlpaths'] = 'Blocked paths';
 $string['configurecspheader'] = 'Configure CSP header';
 $string['cspdirectives'] = 'CSP directives';
 $string['cspdirectivesinfo'] = '<p>Example of CSP directives (please refer to the above link for exact syntax):<br /><span style="color:#00acdf">script-src https:; style-src cdn.example.com; default-src \'self\';</span></p>';

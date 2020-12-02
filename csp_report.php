@@ -26,11 +26,21 @@
 require_once(__DIR__ . '/../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 
-global $DB;
+$viewblockeddomain = optional_param('blockeddomain', false, PARAM_TEXT);
+if ($viewblockeddomain) {
+    $viewdirective = required_param('blockeddirective', PARAM_TEXT);
+}
+$removedirective = optional_param('removedirective', false, PARAM_TEXT);
+$removedomain = optional_param('removedomain', false, PARAM_TEXT);
+$removerecordwithid = optional_param('removerecordwithid', false, PARAM_TEXT);
 
 // Delete violation class if param set.
-if (($removeviolationclass = optional_param('removeviolationclass', false, PARAM_TEXT)) !== false && confirm_sesskey()) {
-    $DB->delete_records('local_csp', array('blockeduri' => $removeviolationclass));
+if ($removedirective && $removedomain && confirm_sesskey()) {
+    $DB->delete_records('local_csp', [
+            'violateddirective' => $removedirective,
+            'blockeddomain' => $removedomain
+        ]
+    );
     $PAGE->set_url('/local/csp/csp_report.php', array(
         'page' => optional_param('redirecttopage', 0, PARAM_INT),
     ));
@@ -38,7 +48,7 @@ if (($removeviolationclass = optional_param('removeviolationclass', false, PARAM
 }
 
 // Delete individual violation records if set.
-if (($removerecordwithid = optional_param('removerecordwithid', false, PARAM_TEXT)) !== false && confirm_sesskey()) {
+if ($removerecordwithid && confirm_sesskey()) {
     $DB->delete_records('local_csp', array('id' => $removerecordwithid));
     $PAGE->set_url('/local/csp/csp_report.php', array(
         'page' => optional_param('redirecttopage', 0, PARAM_INT),
@@ -74,6 +84,7 @@ echo $OUTPUT->single_button($urlresetallcspstatistics,
 
 $blockeduri = get_string('blockeduri', 'local_csp');
 $blockeddomain = get_string('blockeddomain', 'local_csp');
+$blockedurlpath = get_string('blockedurlpaths', 'local_csp');
 $highestviolaters = get_string('highestviolaters', 'local_csp');
 $violateddirective = get_string('violateddirective', 'local_csp');
 $documenturi = get_string('documenturi', 'local_csp');
@@ -88,6 +99,7 @@ $table->define_columns(array(
     'failcounter',
     'violateddirective',
     'blockeddomain',
+    'blockedurlpaths',
     'highestviolaters',
     'timecreated',
     'action',
@@ -96,18 +108,18 @@ $table->define_headers(array(
     $failcounter,
     $violateddirective,
     $blockeddomain,
+    $blockedurlpath,
     $highestviolaters,
     $timeupdated,
     $action,
 ));
 
-$viewviolationclass = optional_param('viewviolationclass', false, PARAM_TEXT);
 // If user has clicked on a violation to view all violation entries.
-if ($viewviolationclass !== false) {
-    $fields = 'id, sha1hash, blockeduri, violateddirective, failcounter, timeupdated, documenturi';
+if ($viewblockeddomain && $viewdirective) {
+    $fields = 'id, sha1hash, blockeduri, blockeddomain, violateddirective, failcounter, timeupdated, documenturi';
     $from = "{local_csp}";
-    $where = "blockeduri = ?";
-    $params = array($viewviolationclass);
+    $where = "blockeddomain = ? AND violateddirective = ?";
+    $params = [$viewblockeddomain, $viewdirective];
 
     // Redefine columns to display Violation source.
     $table->define_columns(array(
@@ -128,17 +140,15 @@ if ($viewviolationclass !== false) {
     ));
 
 } else {
-    $fields = 'id, blockeduri, blockeddomain, violateddirective, failcounter, timecreated';
+    $fields = 'id, blockeddomain, violateddirective, failcounter, timecreated';
     // Select the first blockedURI of a type, and collapse the rest while summing failcounter.
-    //
     $from = "(SELECT MAX(id) AS id,
-                     blockeduri,
                      blockeddomain,
                      violateddirective,
                      SUM(failcounter) AS failcounter,
                      MAX(timecreated) AS timecreated
                 FROM {local_csp}
-            GROUP BY blockeduri, violateddirective, blockeddomain) AS A";
+            GROUP BY violateddirective, blockeddomain) AS A";
     $where = '1 = 1';
     $params = array();
 }
