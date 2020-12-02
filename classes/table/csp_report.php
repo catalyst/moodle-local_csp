@@ -61,7 +61,7 @@ class csp_report extends \table_sql {
      */
     protected function col_violateddirective($record) {
         // Stop line from wrapping.
-        return \html_writer::tag('span', $record->violateddirective, array('style' => 'white-space: nowrap'));
+        return \html_writer::tag('span', strtok($record->violateddirective, ' '), array('style' => 'white-space: nowrap'));
     }
 
     /**

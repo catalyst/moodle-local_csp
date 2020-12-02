@@ -64,7 +64,7 @@ if ($cspreport) {
             $dataobject->blockeduri = substr($blockeduri, 0, 1024);
             $dataobject->blockeddomain = $blockeddomain;
             $dataobject->blockedurlpath = $blockedurlpath;
-            $dataobject->violateddirective = $cspreport['violated-directive'];
+            $dataobject->violateddirective = strtok($cspreport['violated-directive'], ' ');
             $dataobject->timecreated = time();
             $dataobject->sha1hash = $hash;
             $dataobject->failcounter = 1;
