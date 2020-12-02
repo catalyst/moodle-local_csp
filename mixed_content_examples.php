@@ -73,7 +73,7 @@ echo html_writer::tag('img', '', array(
 ));
 
 $insecureiframe = $nonsslwwwroot . '/local/csp/samples/sample.html';
-echo html_writer::tag('p', get_string('loadinsecureimage', 'local_csp', $insecureiframe));
+echo html_writer::tag('p', get_string('loadinsecureiframe', 'local_csp', $insecureiframe));
 echo html_writer::tag('iframe', '', array(
     'src' => $insecureiframe,
 ));
