@@ -204,10 +204,10 @@ class csp_report extends \table_sql {
         $return = '';
         foreach ($violaters as $violater) {
             // Strip the top level domain out of the display.
-            $urlstring = str_replace($CFG->wwwroot, '', $violater->documenturi);
-            $return .= get_string('highestviolaterscount', 'local_csp', $violater->failcounter);
-            $return .= ' ';
             $return .= $this->format_uri($violater->documenturi);
+            $return .= ' ';
+            $return .= "($violater->failcounter)";
+            $return .= '<br />';
         }
         return $return;
     }
