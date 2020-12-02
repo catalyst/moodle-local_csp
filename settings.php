@@ -35,7 +35,8 @@ if ($hassiteconfig) {
             get_string('mixedcontentexamples', 'local_csp'),
             new moodle_url('/local/csp/mixed_content_examples.php')
         ));
-    $ADMIN->add('local_csp',
+
+    $ADMIN->add('reports',
         new admin_externalpage('local_csp_report',
             get_string('cspreports', 'local_csp'),
             new moodle_url('/local/csp/csp_report.php')
