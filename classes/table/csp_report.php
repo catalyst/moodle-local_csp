@@ -136,13 +136,27 @@ class csp_report extends \table_sql {
     }
 
     /**
+     * Displays the column 'blockeddomain'.
+     *
+     * @param stdObject $record fieldset object of db table with field blockeddomain
+     * @return string The blocked domain
+     */
+    protected function col_blockeddomain($record) {
+        if (is_null($record->blockeddomain)) {
+            return '-';
+        }
+
+        return $record->blockeddomain;
+    }
+
+    /**
      * Draw a link to the original table report URI with a param instructing to remove the record. e.g.
      *
      * @param stdObject $record
      * @return string HTML link.
      */
     protected function col_action($record) {
-        global $OUTPUT, $PAGE;
+        global $OUTPUT;
 
         // Find whether drilldown flag is present in PAGE params.
         $viewviolationclass = optional_param('viewviolationclass', false, PARAM_TEXT);

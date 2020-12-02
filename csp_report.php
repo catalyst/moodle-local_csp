@@ -73,6 +73,7 @@ echo $OUTPUT->single_button($urlresetallcspstatistics,
     get_string('resetallcspstatistics', 'local_csp'), 'post', array('actions' => array($action)));
 
 $blockeduri = get_string('blockeduri', 'local_csp');
+$blockeddomain = get_string('blockeddomain', 'local_csp');
 $highestviolaters = get_string('highestviolaters', 'local_csp');
 $violateddirective = get_string('violateddirective', 'local_csp');
 $documenturi = get_string('documenturi', 'local_csp');
@@ -86,7 +87,7 @@ $table->sortable(true, 'failcounter', SORT_DESC);
 $table->define_columns(array(
     'failcounter',
     'violateddirective',
-    'blockeduri',
+    'blockeddomain',
     'highestviolaters',
     'timecreated',
     'action',
@@ -94,7 +95,7 @@ $table->define_columns(array(
 $table->define_headers(array(
     $failcounter,
     $violateddirective,
-    $blockeduri,
+    $blockeddomain,
     $highestviolaters,
     $timeupdated,
     $action,
@@ -127,16 +128,17 @@ if ($viewviolationclass !== false) {
     ));
 
 } else {
-    $fields = 'id, blockeduri, violateddirective, failcounter, timecreated';
+    $fields = 'id, blockeduri, blockeddomain, violateddirective, failcounter, timecreated';
     // Select the first blockedURI of a type, and collapse the rest while summing failcounter.
     //
     $from = "(SELECT MAX(id) AS id,
                      blockeduri,
+                     blockeddomain,
                      violateddirective,
                      SUM(failcounter) AS failcounter,
                      MAX(timecreated) AS timecreated
                 FROM {local_csp}
-            GROUP BY blockeduri, violateddirective) AS A";
+            GROUP BY blockeduri, violateddirective, blockeddomain) AS A";
     $where = '1 = 1';
     $params = array();
 }
