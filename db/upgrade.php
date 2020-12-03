@@ -80,8 +80,26 @@ function xmldb_local_csp_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
-        // Csp savepoint reached.
+        // CSP savepoint reached.
         upgrade_plugin_savepoint(true, 2020070301, 'local', 'csp');
+    }
+
+    if ($oldversion < 2020070302) {
+        // Add field 'courseid' to 'local_csp' to store the course id.
+        $table = new xmldb_table('local_csp');
+        $field = new xmldb_field('courseid', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, '0', 'id');
+
+        // Conditionally launch add field.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Set 'courseid' as a foreign key.
+        $key = new xmldb_key('courseid', XMLDB_KEY_FOREIGN, ['courseid'], 'course', ['id']);
+        $dbman->add_key($table, $key);
+
+        // CSP savepoint reached.
+        upgrade_plugin_savepoint(true, 2020070302, 'local', 'csp');
     }
 
     return true;
