@@ -31,7 +31,7 @@ require_once(__DIR__ . '/../../config.php');
 $inputjson = file_get_contents('php://input');
 $cspreport = json_decode($inputjson, true)['csp-report'];
 
-global $DB;
+global $DB, $SITE;
 
 if ($cspreport) {
     $documenturi = remove_sesskey($cspreport['document-uri']);
@@ -60,6 +60,7 @@ if ($cspreport) {
 
             // Insert a new record.
             // Truncate URIs of extreme length.
+            $dataobject->courseid = optional_param('cid', $SITE->id, PARAM_INT);
             $dataobject->documenturi = substr($documenturi, 0, 1024);
             $dataobject->blockeduri = substr($blockeduri, 0, 1024);
             $dataobject->blockeddomain = $blockeddomain;
