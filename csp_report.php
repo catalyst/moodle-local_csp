@@ -88,6 +88,7 @@ $blockedurlpath = get_string('blockedurlpaths', 'local_csp');
 $highestviolaters = get_string('highestviolaters', 'local_csp');
 $violateddirective = get_string('violateddirective', 'local_csp');
 $documenturi = get_string('documenturi', 'local_csp');
+$courses = get_string('courses');
 $failcounter = get_string('failcounter', 'local_csp');
 $timeupdated = get_string('timeupdated', 'local_csp');
 $action = get_string('action', 'local_csp');
@@ -101,6 +102,7 @@ $table->define_columns(array(
     'blockeddomain',
     'blockedurlpaths',
     'highestviolaters',
+    'courses',
     'timecreated',
     'action',
 ));
@@ -110,6 +112,7 @@ $table->define_headers(array(
     $blockeddomain,
     $blockedurlpath,
     $highestviolaters,
+    $courses,
     $timeupdated,
     $action,
 ));

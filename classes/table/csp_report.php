@@ -201,7 +201,7 @@ class csp_report extends \table_sql {
         global $DB;
 
         // Get 3 highest blocked paths for each blocked directive + blocked domain.
-        $subsql = "SELECT documenturi, 
+        $subsql = "SELECT documenturi,
                           SUM(failcounter) AS failcounter
                      FROM {local_csp} csp
                     WHERE violateddirective = :directive
@@ -222,6 +222,41 @@ class csp_report extends \table_sql {
             $return .= "($violator->failcounter)";
             $return .= '<br />';
         }
+
+        return $return;
+    }
+
+    protected function col_courses($record) {
+        global $DB;
+
+        // Get 3 highest courses for each blocked directive + blocked domain.
+        // Don't get any rows that have the value of 0 for their courseid (legacy data).
+        $subsql = "SELECT courseid,
+                          shortname,
+                          SUM(failcounter) AS failcounter
+                     FROM {local_csp} csp
+                     JOIN {course} c
+                       ON c.id = csp.courseid
+                    WHERE violateddirective = :directive
+                      AND blockeddomain = :blockeddomain
+                 GROUP BY courseid, shortname";
+
+        $params = [
+            'directive' => $record->violateddirective,
+            'blockeddomain' => $record->blockeddomain
+        ];
+
+        $courses = $DB->get_records_sql($subsql, $params, 0, 3);
+        $return = '';
+        foreach ($courses as $course) {
+            $courseurl = new \moodle_url('course/view.php', ['id' => $course->courseid]);
+
+            $return .= \html_writer::link($courseurl, $course->shortname);
+            $return .= ' ';
+            $return .= "($course->failcounter)";
+            $return .= '<br />';
+        }
+
         return $return;
     }
 
