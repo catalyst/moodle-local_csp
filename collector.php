@@ -38,9 +38,13 @@ if ($cspreport) {
     $blockeduri = remove_sesskey($cspreport['blocked-uri']);
 
     // We will be judging if CSP report is already recorded by searching over
-    // sha1-hashed fields document-uri, blocked-uri, violated-directive.
-    $hash = sha1($documenturi . $blockeduri . $cspreport['violated-directive']);
-    $existingrecord = $DB->get_record('local_csp', array('sha1hash' => $hash));
+    // the fields document-uri, blocked-uri, violated-directive.
+    $params = [
+        'documenturi' => $documenturi,
+        'blockeduri' => $blockeduri,
+        'violateddirective' => $cspreport['violated-directive']
+    ];
+    $existingrecord = $DB->get_record('local_csp', $params);
 
     $dataobject = new stdClass();
 
@@ -67,7 +71,7 @@ if ($cspreport) {
             $dataobject->blockedurlpath = $blockedurlpath;
             $dataobject->violateddirective = strtok($cspreport['violated-directive'], ' ');
             $dataobject->timecreated = time();
-            $dataobject->sha1hash = $hash;
+            $dataobject->sha1hash = sha1($documenturi . $blockeduri . $cspreport['violated-directive']);
             $dataobject->failcounter = 1;
             $DB->insert_record('local_csp', $dataobject);
             echo "OK\n";
