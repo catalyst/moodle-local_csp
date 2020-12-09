@@ -53,8 +53,8 @@ if ($hassiteconfig) {
     $settings->add(new admin_setting_configtextarea('local_csp/csp_header_reporting', get_string('cspheaderreporting', 'local_csp'),
         get_string('cspheaderreportinghelp', 'local_csp'), get_string('cspheaderdefault', 'local_csp')));
 
-    $settings->add(new admin_setting_configtextarea('local_csp/csp_header_enforcing', get_string('cspheaderenforcing', 'local_csp'),
-        get_string('cspheaderenforcinghelp', 'local_csp'), ''));
+    $settings->add(new admin_setting_configtextarea('local_csp/csp_header_enforcing',
+        get_string('cspheaderenforcing', 'local_csp'), get_string('cspheaderenforcinghelp', 'local_csp'), ''));
 
     $settings->add(new admin_setting_configcheckbox('local_csp/feature_policy_enable', get_string('enablefeaturepolicy', 'local_csp'),
         get_string('enablefeaturepolicydescription', 'local_csp'), 0));
