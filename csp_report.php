@@ -107,6 +107,9 @@ $table->define_columns(array(
     'timecreated',
     'action',
 ));
+$table->no_sorting('blockedurlpaths');
+$table->no_sorting('highestviolaters');
+$table->no_sorting('courses');
 $table->define_headers(array(
     $failcounter,
     $violateddirective,
