@@ -77,7 +77,9 @@ class csp_report extends \table_sql {
      */
     protected function col_timecreated($record) {
         if ($record->timecreated) {
-            return userdate($record->timecreated, get_string('strftimedatetimeshort'));
+            return userdate($record->timecreated, get_string('strftimedatetimeshort'))
+                . '<br>'
+                . format_time(time() - $record->timecreated);
         } else {
             return  '-';
         }
@@ -128,6 +130,7 @@ class csp_report extends \table_sql {
             $label = $uri;
         }
         $label = str_replace($CFG->wwwroot, '', $uri);
+        $label = ltrim($label,'/');
         $label = shorten_text($label, $size, true);
         $label = s($label);
 
@@ -190,7 +193,7 @@ class csp_report extends \table_sql {
             // Strip the top level domain out of the display.
             $return .= $this->format_uri($blockedpath->blockeduri, $blockedpath->blockeduri);
             $return .= ' ';
-            $return .= "($blockedpath->failcounter)";
+            $return .= "<sup>($blockedpath->failcounter)</sup>";
             $return .= '<br />';
         }
         return $return;
@@ -211,7 +214,9 @@ class csp_report extends \table_sql {
                      FROM {local_csp} csp
                     WHERE violateddirective = :directive
                       AND blockeddomain = :blockeddomain
-                 GROUP BY documenturi";
+                 GROUP BY documenturi
+                 ORDER BY SUM(failcounter) DESC,
+                          documenturi ASC";
 
         $params = [
             'directive' => $record->violateddirective,
@@ -224,7 +229,7 @@ class csp_report extends \table_sql {
             // Strip the top level domain out of the display.
             $return .= $this->format_uri($violator->documenturi);
             $return .= ' ';
-            $return .= "($violator->failcounter)";
+            $return .= "<sup>($violator->failcounter)</sup>";
             $return .= '<br />';
         }
 
@@ -244,7 +249,9 @@ class csp_report extends \table_sql {
                        ON c.id = csp.courseid
                     WHERE violateddirective = :directive
                       AND blockeddomain = :blockeddomain
-                 GROUP BY courseid, shortname";
+                 GROUP BY courseid, shortname
+                 ORDER BY SUM(failcounter) DESC,
+                          shortname ASC";
 
         $params = [
             'directive' => $record->violateddirective,
@@ -258,7 +265,7 @@ class csp_report extends \table_sql {
 
             $return .= \html_writer::link($courseurl, $course->shortname);
             $return .= ' ';
-            $return .= "($course->failcounter)";
+            $return .= "<sup>($course->failcounter)</sup>";
             $return .= '<br />';
         }
 

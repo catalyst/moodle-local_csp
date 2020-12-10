@@ -96,6 +96,7 @@ $action = get_string('action', 'local_csp');
 $table = new \local_csp\table\csp_report('cspreportstable');
 $table->define_baseurl($PAGE->url);
 $table->sortable(true, 'failcounter', SORT_DESC);
+$table->set_attribute('class', 'generaltable generalbox table-sm');
 $table->define_columns(array(
     'failcounter',
     'violateddirective',

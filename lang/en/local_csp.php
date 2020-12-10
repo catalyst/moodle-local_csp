@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die;
 $string['action'] = 'Action';
 $string['areyousuretodeleteallrecords'] = 'Are you sure to delete all CSP report records?';
 $string['areyousuretodeleteonerecord'] = 'Are you sure to delete this CSP report record?';
-$string['blockeddomain'] = 'Blocked domain';
+$string['blockeddomain'] = 'Domain';
 $string['blockeduri'] = 'Blocked URI';
 $string['blockedurlpaths'] = 'Blocked paths';
 $string['configurecspheader'] = 'Configure CSP header';
