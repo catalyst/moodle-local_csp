@@ -112,9 +112,10 @@ class csp_report extends \table_sql {
      *
      * @param string $uri Unsafe uri data
      * @param string $label The label for the URL
+     * @param int $size How many chars to show
      * @return string HTML e.g. <a href="documenturi">documenturi</a>
      */
-    private function format_uri($uri, $label = '') {
+    private function format_uri($uri, $label = '', $size = 40) {
         global $CFG;
         if (!$uri) {
             return '-';
@@ -124,10 +125,11 @@ class csp_report extends \table_sql {
         }
 
         if (empty($label)) {
-            $label = str_replace($CFG->wwwroot, '', $uri);
-            $label = shorten_text($label, 60, true);
-            $label = s($label);
+            $label = $uri;
         }
+        $label = str_replace($CFG->wwwroot, '', $uri);
+        $label = shorten_text($label, $size, true);
+        $label = s($label);
 
         return \html_writer::link($uri, $label);
     }
@@ -172,7 +174,10 @@ class csp_report extends \table_sql {
                      FROM {local_csp} csp
                     WHERE violateddirective = :directive
                       AND blockeddomain = :blockeddomain
-                 GROUP BY blockeduri, blockedurlpath";
+                 GROUP BY blockeduri,
+                          blockedurlpath
+                 ORDER BY SUM(failcounter) DESC,
+                          blockeduri";
 
         $params = [
             'directive' => $record->violateddirective,
@@ -183,7 +188,7 @@ class csp_report extends \table_sql {
         $return = '';
         foreach ($blockedpaths as $blockedpath) {
             // Strip the top level domain out of the display.
-            $return .= $this->format_uri($blockedpath->blockeduri, $blockedpath->blockedurlpath);
+            $return .= $this->format_uri($blockedpath->blockeduri, $blockedpath->blockeduri);
             $return .= ' ';
             $return .= "($blockedpath->failcounter)";
             $return .= '<br />';
