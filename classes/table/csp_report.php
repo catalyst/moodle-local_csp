@@ -129,7 +129,7 @@ class csp_report extends \table_sql {
         if (empty($label)) {
             $label = $uri;
         }
-        $label = str_replace($CFG->wwwroot, '', $uri);
+        $label = str_replace($CFG->wwwroot, '', $label);
         $label = ltrim($label,'/');
         $label = shorten_text($label, $size, true);
         $label = s($label);
@@ -158,7 +158,7 @@ class csp_report extends \table_sql {
             return '-';
         }
 
-        return $record->blockeddomain;
+        return $this->format_uri('https://' . $record->blockeddomain, $record->blockeddomain);
     }
 
     /**
@@ -190,8 +190,10 @@ class csp_report extends \table_sql {
         $blockedpaths = $DB->get_records_sql($subsql, $params, 0, 3);
         $return = '';
         foreach ($blockedpaths as $blockedpath) {
-            // Strip the top level domain out of the display.
-            $return .= $this->format_uri($blockedpath->blockeduri, $blockedpath->blockeduri);
+            // Strip the top level domain out of the display only if https.
+            $label = $blockedpath->blockeduri;
+            $label = str_replace('https://' . $record->blockeddomain, '', $label);
+            $return .= $this->format_uri($blockedpath->blockeduri, $label);
             $return .= ' ';
             $return .= "<sup>($blockedpath->failcounter)</sup>";
             $return .= '<br />';
