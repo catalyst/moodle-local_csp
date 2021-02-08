@@ -261,7 +261,7 @@ class csp_report extends \table_sql {
         $courses = $DB->get_records_sql($subsql, $params, 0, 3);
         $return = '';
         foreach ($courses as $course) {
-            $courseurl = new \moodle_url('course/view.php', ['id' => $course->courseid]);
+            $courseurl = new \moodle_url('/course/view.php', ['id' => $course->courseid]);
 
             $return .= \html_writer::link($courseurl, $course->shortname);
             $return .= ' ';
