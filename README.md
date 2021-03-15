@@ -5,6 +5,7 @@
 * [What is this?](#what-is-this)
 * [How does it work?](#how-does-it-work)
 * [Branches](#branches)
+* [Performance impact](#performance-impact)
 * [Installation](#installation)
 * [References](#references)
 
@@ -44,6 +45,15 @@ Branches
 | Moodle verion     | Branch      | PHP       |
 | ----------------- | ----------- | --------  |
 | Moodle 2.7 to 3.7 | master      | 5.5 - 7.2 |
+
+Performance impact
+------------------
+
+While this plugin is relatively lightweight, if you have a reporting policy in place which has a large
+number of violations then each of those violations will be reported to the collector endpoint which adds load to your server.
+
+It is recommended to try and fix policy issues as they are identified in the summary reports, or white list the content so it is no longer reported on.
+
 
 Installation
 ------------
