@@ -34,7 +34,7 @@ $string['blockedurlpaths'] = 'Blocked paths';
 $string['configurecspheader'] = 'Configure CSP header';
 $string['cspdirectives'] = 'CSP directives';
 $string['cspdirectivesinfo'] = '<p>Example of CSP directives (please refer to the above link for exact syntax):<br /><span style="color:#00acdf">script-src https:; style-src cdn.example.com; default-src \'self\';</span></p>';
-$string['cspheaderdefault'] = "default-src https:;\nscript-src 'self' *.catalyst-analytics.nz 'unsafe-inline' 'unsafe-eval';\nfont-src https: data:;\nstyle-src https: 'unsafe-inline';\nimg-src https: data:;";
+$string['cspheaderdefault'] = "default-src https:;\nscript-src 'self' 'unsafe-inline' 'unsafe-eval';\nfont-src https: data:;\nstyle-src https: 'unsafe-inline';\nimg-src https: data:;";
 $string['cspheaderenable'] = 'CSP header enable';
 $string['cspheaderenabledescription'] = 'Tick this checkbox to enable CSP headers';
 $string['cspheaderenforce'] = 'Content-Security-Policy';
