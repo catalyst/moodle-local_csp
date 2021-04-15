@@ -38,13 +38,10 @@ if ($cspreport) {
     $blockeduri = remove_sesskey($cspreport['blocked-uri']);
 
     // We will be judging if CSP report is already recorded by searching over
-    // the fields document-uri, blocked-uri, violated-directive.
-    $params = [
-        'documenturi' => $documenturi,
-        'blockeduri' => $blockeduri,
-        'violateddirective' => $cspreport['violated-directive']
-    ];
-    $existingrecord = $DB->get_record('local_csp', $params);
+    // the fields document-uri, blocked-uri, violated-directive, by hashing them.
+    // This means that the truncated URI can be stored, while being properly deduped using the full data.
+    $hash = sha1($documenturi . $blockeduri . $cspreport['violated-directive']);
+    $existingrecord = $DB->get_record('local_csp', ['hash' => $hash]);
 
     $dataobject = new stdClass();
 
@@ -71,7 +68,7 @@ if ($cspreport) {
             $dataobject->blockedurlpath = $blockedurlpath;
             $dataobject->violateddirective = strtok($cspreport['violated-directive'], ' ');
             $dataobject->timecreated = time();
-            $dataobject->sha1hash = sha1($documenturi . $blockeduri . $cspreport['violated-directive']);
+            $dataobject->sha1hash = $hash;
             $dataobject->failcounter = 1;
             $DB->insert_record('local_csp', $dataobject);
             echo "OK\n";
