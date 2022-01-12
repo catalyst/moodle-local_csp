@@ -34,6 +34,8 @@ $removedirective = optional_param('removedirective', false, PARAM_TEXT);
 $removedomain = optional_param('removedomain', false, PARAM_TEXT);
 $removerecordwithid = optional_param('removerecordwithid', false, PARAM_TEXT);
 
+admin_externalpage_setup('local_csp_report', '', null, '', array('pagelayout' => 'report'));
+
 // Delete violation class if param set.
 if ($removedirective && $removedomain && confirm_sesskey()) {
     $DB->delete_records('local_csp', [
@@ -61,8 +63,6 @@ if ($resetallcspstatistics == 1 && confirm_sesskey()) {
     $DB->delete_records('local_csp');
     redirect(new moodle_url('/local/csp/csp_report.php'));
 }
-
-admin_externalpage_setup('local_csp_report', '', null, '', array('pagelayout' => 'report'));
 
 $title = get_string('cspreports', 'local_csp');
 $PAGE->set_title($title);
