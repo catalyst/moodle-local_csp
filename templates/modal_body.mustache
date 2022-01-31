@@ -1,0 +1,19 @@
+<p>{{#str}} modalbodystart, local_csp {{/str}}</p>
+
+{{#enforcedEvents.length}}
+    <p>{{#str}} modalbodyblocked, local_csp {{/str}}</p>
+    <ul>
+        {{#enforcedEvents}}
+            <li>{{blockedURI}}</li>
+        {{/enforcedEvents}}
+    </ul>
+{{/enforcedEvents.length}}
+
+{{#reportedEvents.length}}
+    <p>{{#str}} modalbodynotblocked, local_csp {{/str}}</p>
+    <ul>
+        {{#reportedEvents}}
+            <li>{{blockedURI}}</li>
+        {{/reportedEvents}}
+    </ul>
+{{/reportedEvents.length}}

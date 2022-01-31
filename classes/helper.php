@@ -79,4 +79,31 @@ class helper {
             @header('Feature-Policy: ' . $featureheader);
         }
     }
+
+    public static function get_violations_listener() : string {
+        $settings = get_config('local_csp');
+        if (empty($settings->popup_enable)) {
+            return '';
+        }
+        return '
+        <script>
+        let localCspViolationEvents = [];
+        let localCspViolationEventTimeout = setTimeout(() => { Object.freeze(localCspViolationEvents); }, 1000);
+        document.addEventListener("securitypolicyviolation", (e) => {
+            clearTimeout(localCspViolationEventTimeout);
+            localCspViolationEvents.push(e);
+            localCspViolationEventTimeout = setTimeout(() => { Object.freeze(localCspViolationEvents); }, 500);
+        });
+        </script>' . PHP_EOL;
+    }
+
+    public static function enable_popup() {
+        global $PAGE;
+        global $USER;
+        $settings = get_config('local_csp');
+        if (empty($settings->popup_enable) || !has_capability('local/csp:seeviolationspopup', $PAGE->context, $USER->id)) {
+            return;
+        }
+        $PAGE->requires->js_call_amd('local_csp/modal','init', [boolval($settings->popup_enforced_only)]);
+    }
 }

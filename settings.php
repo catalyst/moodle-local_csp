@@ -56,6 +56,14 @@ if ($hassiteconfig) {
     $settings->add(new admin_setting_configtextarea('local_csp/csp_header_enforcing',
         get_string('cspheaderenforcing', 'local_csp'), get_string('cspheaderenforcinghelp', 'local_csp'), ''));
 
+    $settings->add(new admin_setting_configcheckbox('local_csp/popup_enable', get_string('popupenable', 'local_csp'),
+        get_string('popupenabledescription', 'local_csp'), 0));
+
+    $settings->add(new admin_setting_configcheckbox('local_csp/popup_enforced_only', get_string('popupenforcedonly', 'local_csp'),
+        get_string('popupenforcedonlydescription', 'local_csp'), 1));
+
+    $settings->hide_if('local_csp/popup_enforced_only', 'local_csp/popup_enable', 'neq', '1');
+
     $settings->add(new admin_setting_configcheckbox('local_csp/feature_policy_enable', get_string('enablefeaturepolicy', 'local_csp'),
         get_string('enablefeaturepolicydescription', 'local_csp'), 0));
 

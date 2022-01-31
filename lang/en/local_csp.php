@@ -69,3 +69,14 @@ $string['scspheadernone'] = 'Not used';
 $string['timeupdated'] = 'Last';
 $string['violateddirective'] = 'Policy';
 $string['privacy:metadata'] = 'The CSP plugin contains no user specific data.';
+
+# Notification modal
+$string['modalheader'] = 'External content detected';
+$string['modalbodystart'] = 'This page contains embedded external content.';
+$string['modalbodyblocked'] = 'Content from the following sources has automatically been blocked:';
+$string['modalbodynotblocked'] = 'Content from the following sources was found (but has not been blocked):';
+$string['popupenable'] = 'Notify user with a popup';
+$string['popupenabledescription'] = 'Display a popup to notify the user, when a CSP violation is detected on the page visited. It will list all the blocked URIs on that page.';
+$string['popupenforcedonly'] = 'Popup only when blocked';
+$string['popupenforcedonlydescription'] = 'If set, the popup will not appear, when only CSP reports are sent (and nothing was actually blocked). Otherwise all violating URIs will be listed (belonging to enforced as well as merely reported violations).';
+$string['csp:seeviolationspopup'] = 'See CSP violations popup';

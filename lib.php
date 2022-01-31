@@ -25,6 +25,17 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+
+/**
+ * A listener is registered for the `securitypolicyviolation` event and the JS for the modal (popup) ist loaded.
+ * The script for the event listener is injected into the page header.
+ * This is done at this early stage to ensure that the event listener is in place before the events start coming.
+ */
+function local_csp_before_standard_html_head() : string {
+    \local_csp\helper::enable_popup();
+    return \local_csp\helper::get_violations_listener();
+}
+
 /**
  * Moodle native lib/navigationlib.php calls this hook allowing us to override UI.
  * Here we instruct Moodle website to issue custom HTTP response header Content-Security-Policy-Report-Only on every page.
