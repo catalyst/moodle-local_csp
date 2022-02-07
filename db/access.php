@@ -24,14 +24,14 @@
 defined('MOODLE_INTERNAL') || die();
 
 
-$capabilities = array(
-    'local/csp:seeviolationspopup' => array(
+$capabilities = [
+    'local/csp:seeviolationspopup' => [
         'captype'      => 'read',
         'contextlevel' => CONTEXT_COURSE,
-        'archetypes'   => array(
+        'archetypes'   => [
             'teacher'        => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'manager'        => CAP_ALLOW
-        )
-    )
-);
+        ]
+    ]
+];

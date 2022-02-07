@@ -71,8 +71,8 @@ $string['violateddirective'] = 'Policy';
 $string['privacy:metadata'] = 'The CSP plugin contains no user specific data.';
 
 # Notification modal
-$string['modalheader'] = 'External content detected';
-$string['modalbodystart'] = 'This page contains embedded external content.';
+$string['modalheader'] = 'Potentially insecure content detected';
+$string['modalbodystart'] = 'This page contains embedded content that the administrators consider potentially insecure.';
 $string['modalbodyblocked'] = 'Content from the following sources has automatically been blocked:';
 $string['modalbodynotblocked'] = 'Content from the following sources was found (but has not been blocked):';
 $string['popupenable'] = 'Notify user with a popup';

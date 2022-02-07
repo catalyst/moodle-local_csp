@@ -32,8 +32,7 @@ defined('MOODLE_INTERNAL') || die();
  * This is done at this early stage to ensure that the event listener is in place before the events start coming.
  */
 function local_csp_before_standard_html_head() : string {
-    \local_csp\helper::enable_popup();
-    return \local_csp\helper::get_violations_listener();
+    return \local_csp\helper::enable_notification_popup();
 }
 
 /**
