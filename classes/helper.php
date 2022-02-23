@@ -80,6 +80,18 @@ class helper {
         }
     }
 
+    /**
+     * If the notification popup was enabled in the website settings **and** the user has the capability to see it,
+     * this method does two things:
+     * It calls upon the AMD module containing the code for displaying the modal (popup) to be loaded.
+     * In addition, a short script for registering the necessary event listener is returned to be injected directly
+     * into the page. This should be done at an early stage to ensure that the event listener is in place before the
+     * events start coming.
+     * Putting the event listener in a regular AMD module can (and in some tests, does) cause it to be run way too
+     * late and thus miss the `securitypolicyviolation` events being fired. Further tests showed that it made no
+     * difference, which of the Moodle hooks were used. It appears that the requirejs module loader itself runs too
+     * late, i.e. after the events of interest to us here.
+     */
     public static function enable_notification_popup() : string {
         global $PAGE, $USER;
         $settings = get_config('local_csp');
