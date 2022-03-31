@@ -79,4 +79,35 @@ class helper {
             @header('Feature-Policy: ' . $featureheader);
         }
     }
+
+    /**
+     * If the notifications were enabled in the website settings **and** the user has the capability to see them,
+     * this method does two things:
+     * It calls upon the AMD module containing the code for generating the notifications to be loaded.
+     * In addition, a short script for registering the necessary event listener is returned to be injected directly
+     * into the page. This is done here to ensure that the event listener is in place before the events start coming.
+     * Putting the event listener in a regular AMD module can (and in some tests, does) cause it to be run way too
+     * late and thus miss the `securitypolicyviolation` events being fired. Additional tests showed that it made no
+     * difference, which of the Moodle hooks were used. It appears that the requirejs module loader itself runs too
+     * late, i.e. after the events of interest to us here.
+     */
+    public static function enable_notifications() : string {
+        global $PAGE, $USER;
+        $settings = get_config('local_csp');
+        $can_see_notifications = has_capability('local/csp:seenotifications', $PAGE->context, $USER->id);
+        if (empty($settings->notifications_enable) || !$can_see_notifications) {
+            return '';
+        }
+        $PAGE->requires->js_call_amd(
+            'local_csp/notifications',
+            'init',
+            [boolval($settings->notifications_enforced_only)]
+        );
+        return "
+        <script>
+        /* Start collecting violation events */
+        let localCspViolations = [];
+        document.addEventListener('securitypolicyviolation', (e) => { localCspViolations.push(e) });
+        </script>" . PHP_EOL;
+    }
 }
