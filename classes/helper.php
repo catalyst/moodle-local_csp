@@ -93,21 +93,30 @@ class helper {
      */
     public static function enable_notifications() : string {
         global $PAGE, $USER;
-        $settings = get_config('local_csp');
-        $can_see_notifications = has_capability('local/csp:seenotifications', $PAGE->context, $USER->id);
-        if (empty($settings->notifications_enable) || !$can_see_notifications) {
+        $conf = get_config('local_csp');
+        $can_see = has_capability('local/csp:seenotifications', $PAGE->context, $USER->id);
+        if (!$can_see | ($conf->notifications_enable_enforced + $conf->notifications_enable_reported == 0)) {
             return '';
         }
+        $collect_enforced = $conf->notifications_enable_enforced == 1 ? 'true' : 'false';
+        $collect_reported = $conf->notifications_enable_reported == 1 ? 'true' : 'false';
         $PAGE->requires->js_call_amd(
             'local_csp/notifications',
             'init',
-            [boolval($settings->notifications_enforced_only)]
+            [1000]  // TODO: Consider making the event trigger timeout value a setting in the admin panel.
         );
         return "
         <script>
-        /* Start collecting violation events */
-        let localCspViolations = [];
-        document.addEventListener('securitypolicyviolation', (e) => { localCspViolations.push(e) });
+        /* Start listening to violation events */
+        let localCspViolationsEnforced = [];
+        let localCspViolationsReported = [];
+        document.addEventListener('securitypolicyviolation', (event) => { 
+            if ($collect_enforced && event.disposition === 'enforce') {
+                localCspViolationsEnforced.push(event);
+            } else if ($collect_reported && event.disposition === 'report') {
+                localCspViolationsReported.push(event);
+            }
+        });
         </script>" . PHP_EOL;
     }
 }

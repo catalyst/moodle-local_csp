@@ -70,13 +70,19 @@ $string['timeupdated'] = 'Last';
 $string['violateddirective'] = 'Policy';
 $string['privacy:metadata'] = 'The CSP plugin contains no user specific data.';
 
-# Notifications
-$string['notificationheader'] = 'Potentially insecure content detected!';
-$string['notificationstart'] = 'This page contains embedded content that the administrators consider potentially insecure.';
-$string['notificationblocked'] = 'Content from the following sources has been automatically blocked:';
-$string['notificationnotblocked'] = 'Content from the following sources was found (but has not been blocked):';
-$string['notificationsenable'] = 'Display violation notifications';
-$string['notificationsenabledescription'] = 'Display notifications to the user, when CSP violations are detected on the page he visits. They will list all the blocked URIs on that page.';
-$string['notificationsenforcedonly'] = 'Notifications only when blocked';
-$string['notificationsenforcedonlydescription'] = 'If set, the notifications will not appear, when only CSP reports are sent (and nothing was actually blocked). Otherwise all violating URIs will be listed (belonging to enforced as well as merely reported violations).';
-$string['csp:seenotifications'] = 'See CSP violation notifications';
+# Notification templates:
+$string['notificationenforcedheader'] = 'Insecure content blocked!';
+$string['notificationenforcedstart'] = 'This page contained embedded content that violated the security policy.';
+$string['notificationenforcedsources'] = 'Content from the following sources has been automatically blocked:';
+$string['notificationreportedheader'] = 'Potentially insecure content reported!';
+$string['notificationreportedstart'] = 'This page contains embedded content that the administrators consider potentially insecure.';
+$string['notificationreportedsources'] = 'Content from the following sources was reported to the administrators:';
+
+# Notification settings:
+$string['notificationsenableenforced'] = 'Notify when enforcing';
+$string['notificationsenableenforceddescription'] = 'Display a notification to the user, when the CSP is enforced on the visited page, listing all the blocked URIs on that page.';
+$string['notificationsenablereported'] = 'Notify when reporting';
+$string['notificationsenablereporteddescription'] = 'Display a notification to the user, when the Report-Only-CSP is triggered on the visited page, listing the URIs in question.';
+
+# Notification viewing capability:
+$string['csp:seenotifications'] = 'See CSP-related notifications';

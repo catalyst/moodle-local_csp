@@ -15,25 +15,11 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 
-{{#firstDisplay}}
-    <h4>{{#str}} notificationheader, local_csp {{/str}}</h4>
-    <p>{{#str}} notificationstart, local_csp {{/str}}</p>
-{{/firstDisplay}}
-
-{{#enforcedEvents.length}}
-    <p>{{#str}} notificationblocked, local_csp {{/str}}</p>
-    <ul>
-        {{#enforcedEvents}}
-            <li>{{blockedURI}}</li>
-        {{/enforcedEvents}}
-    </ul>
-{{/enforcedEvents.length}}
-
-{{#reportedEvents.length}}
-    <p>{{#str}} notificationnotblocked, local_csp {{/str}}</p>
-    <ul>
-        {{#reportedEvents}}
-            <li>{{blockedURI}}</li>
-        {{/reportedEvents}}
-    </ul>
-{{/reportedEvents.length}}
+<h4>{{header}}</h4>
+<p>{{start}}</p>
+<p>{{sourcesText}}</p>
+<ul>
+    {{#events}}
+        <li>{{blockedURI}}</li>
+    {{/events}}
+</ul>
