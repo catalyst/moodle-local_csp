@@ -80,7 +80,7 @@ if ($hassiteconfig) {
         'local_csp/notifications_enable_enforced',
         get_string('notificationsenableenforced', 'local_csp'),
         get_string('notificationsenableenforceddescription', 'local_csp'),
-        1
+        0
     ));
 
     $settings->add(new admin_setting_configcheckbox(
