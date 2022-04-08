@@ -69,3 +69,20 @@ $string['scspheadernone'] = 'Not used';
 $string['timeupdated'] = 'Last';
 $string['violateddirective'] = 'Policy';
 $string['privacy:metadata'] = 'The CSP plugin contains no user specific data.';
+
+# Notification templates:
+$string['notificationenforcedheader'] = 'Insecure content blocked!';
+$string['notificationenforcedstart'] = 'This page contained embedded content that violated the security policy.';
+$string['notificationenforcedsources'] = 'Content from the following sources has been automatically blocked:';
+$string['notificationreportedheader'] = 'Potentially insecure content reported!';
+$string['notificationreportedstart'] = 'This page contains embedded content that the administrators consider potentially insecure.';
+$string['notificationreportedsources'] = 'Content from the following sources was reported to the administrators:';
+
+# Notification settings:
+$string['notificationsenableenforced'] = 'Notify when enforcing';
+$string['notificationsenableenforceddescription'] = 'Display a notification to the user, when the CSP is enforced on the visited page, listing all the blocked URIs on that page.';
+$string['notificationsenablereported'] = 'Notify when reporting';
+$string['notificationsenablereporteddescription'] = 'Display a notification to the user, when the Report-Only-CSP is triggered on the visited page, listing the URIs in question.';
+
+# Notification viewing capability:
+$string['csp:seenotifications'] = 'See CSP-related notifications';

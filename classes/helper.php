@@ -79,4 +79,44 @@ class helper {
             @header('Feature-Policy: ' . $featureheader);
         }
     }
+
+    /**
+     * If the notifications were enabled in the website settings **and** the user has the capability to see them,
+     * this method does two things:
+     * It calls upon the AMD module containing the code for generating the notifications to be loaded.
+     * In addition, a short script for registering the necessary event listener is returned to be injected directly
+     * into the page. This is done here to ensure that the event listener is in place before the events start coming.
+     * Putting the event listener in a regular AMD module can (and in some tests, does) cause it to be run way too
+     * late and thus miss the `securitypolicyviolation` events being fired. Additional tests showed that it made no
+     * difference, which of the Moodle hooks were used. It appears that the requirejs module loader itself runs too
+     * late, i.e. after the events of interest to us here.
+     */
+    public static function enable_notifications() : string {
+        global $PAGE, $USER;
+        $conf = get_config('local_csp');
+        $can_see = has_capability('local/csp:seenotifications', $PAGE->context, $USER->id);
+        if (!$can_see | ($conf->notifications_enable_enforced + $conf->notifications_enable_reported == 0)) {
+            return '';
+        }
+        $collect_enforced = $conf->notifications_enable_enforced == 1 ? 'true' : 'false';
+        $collect_reported = $conf->notifications_enable_reported == 1 ? 'true' : 'false';
+        $PAGE->requires->js_call_amd(
+            'local_csp/notifications',
+            'init',
+            [1000]  // TODO: Consider making the event trigger timeout value a setting in the admin panel.
+        );
+        return "
+        <script>
+        /* Start listening to violation events */
+        let localCspViolationsEnforced = [];
+        let localCspViolationsReported = [];
+        document.addEventListener('securitypolicyviolation', (event) => { 
+            if ($collect_enforced && event.disposition === 'enforce') {
+                localCspViolationsEnforced.push(event);
+            } else if ($collect_reported && event.disposition === 'report') {
+                localCspViolationsReported.push(event);
+            }
+        });
+        </script>" . PHP_EOL;
+    }
 }
