@@ -98,11 +98,20 @@ class helper {
         if (get_capability_info('local/csp:seenotifications')) {
             $cansee = has_capability('local/csp:seenotifications', $PAGE->context, $USER->id);
         }
-        if (!$cansee | ($conf->notifications_enable_enforced + $conf->notifications_enable_reported == 0)) {
+
+        if (!$cansee) {
             return '';
         }
-        $collect_enforced = $conf->notifications_enable_enforced == 1 ? 'true' : 'false';
-        $collect_reported = $conf->notifications_enable_reported == 1 ? 'true' : 'false';
+
+        $notificationsenableenforced = !empty($conf->notifications_enable_enforced);
+        $notificationsenablereported = !empty($conf->notifications_enable_reported);
+        if (!$notificationsenableenforced && !$notificationsenablereported) {
+            return '';
+        }
+
+        $collectenforced = $notificationsenableenforced == 1 ? 'true' : 'false';
+        $collectreported = $notificationsenablereported == 1 ? 'true' : 'false';
+
         $PAGE->requires->js_call_amd(
             'local_csp/notifications',
             'init',
@@ -114,9 +123,9 @@ class helper {
         let localCspViolationsEnforced = [];
         let localCspViolationsReported = [];
         document.addEventListener('securitypolicyviolation', (event) => { 
-            if ($collect_enforced && event.disposition === 'enforce') {
+            if ($collectenforced && event.disposition === 'enforce') {
                 localCspViolationsEnforced.push(event);
-            } else if ($collect_reported && event.disposition === 'report') {
+            } else if ($collectreported && event.disposition === 'report') {
                 localCspViolationsReported.push(event);
             }
         });
