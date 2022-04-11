@@ -94,8 +94,11 @@ class helper {
     public static function enable_notifications() : string {
         global $PAGE, $USER;
         $conf = get_config('local_csp');
-        $can_see = has_capability('local/csp:seenotifications', $PAGE->context, $USER->id);
-        if (!$can_see | ($conf->notifications_enable_enforced + $conf->notifications_enable_reported == 0)) {
+        $cansee = false;
+        if (get_capability_info('local/csp:seenotifications')) {
+            $cansee = has_capability('local/csp:seenotifications', $PAGE->context, $USER->id);
+        }
+        if (!$cansee | ($conf->notifications_enable_enforced + $conf->notifications_enable_reported == 0)) {
             return '';
         }
         $collect_enforced = $conf->notifications_enable_enforced == 1 ? 'true' : 'false';
