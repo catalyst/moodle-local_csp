@@ -129,4 +129,42 @@ class helper {
         });
         </script>" . PHP_EOL;
     }
+
+    /**
+     * Merge duplicate local_csp records that have matching sha1hash fields.
+     *
+     * @param array $records Array of local_csp records with matching sha1hash. Must contain at least two records.
+     * @return \stdClass The final object representing a local_csp record once all records are merged into one.
+     */
+    public static function merge_duplicate_records(array $records): \stdClass {
+        global $DB;
+        // If no records provided, there is no object to return so throw exception.
+        if (empty($records)) {
+            throw new \moodle_exception('norecordsfound', 'local_csp');
+        }
+
+        // If only 1 record provided, just return it.
+        if (count($records) === 1) {
+            return reset($records);
+        }
+
+        // Check that sha1hash is identical for all records, then combine fields.
+        $baserecord = array_shift($records);
+        foreach ($records as $record) {
+            if ($baserecord->sha1hash != $record->sha1hash) {
+                throw new \moodle_exception('nonduplicaterecords', 'local_csp');
+            }
+            $baserecord->failcounter += $record->failcounter;
+        }
+        $baserecord->timeupdated = time();
+
+        // Remove all duplicates, and insert new base record.
+        $transaction = $DB->start_delegated_transaction();
+        unset($baserecord->id);
+        $DB->delete_records('local_csp', ['sha1hash' => $baserecord->sha1hash]);
+        $baserecord->id = $DB->insert_record('local_csp', $baserecord);
+        $transaction->allow_commit();
+
+        return $baserecord;
+    }
 }

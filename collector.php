@@ -41,7 +41,7 @@ if ($cspreport) {
     // the fields document-uri, blocked-uri, violated-directive, by hashing them.
     // This means that the truncated URI can be stored, while being properly deduped using the full data.
     $hash = sha1($documenturi . $blockeduri . $cspreport['violated-directive']);
-    $existingrecord = $DB->get_record('local_csp', ['sha1hash' => $hash]);
+    $existingrecord = $DB->get_record('local_csp', ['sha1hash' => $hash], '*', IGNORE_MULTIPLE);
 
     $dataobject = new stdClass();
 
