@@ -52,6 +52,7 @@ $string['cspsettingsinfo'] = '<p>CSP works through adding a special HTTP respons
 $string['documenturi'] = 'Violation at';
 $string['failcounter'] = '#';
 $string['highestviolaters'] = 'Top Violation Sources';
+$string['invalidblockeduri'] = 'Invalid Blocked URI: {$a}';
 $string['loaddata'] = 'Load data';
 $string['loadexternaljavascript'] = 'Load external javascript from {$a}';
 $string['loadingmixedcontentdescription'] = 'When accessing moodle website via HTTPS browser prohibits displaying of the below resources because they origin from HTTP.<br />You should be able to see it in your browser\'s Javascript console.';

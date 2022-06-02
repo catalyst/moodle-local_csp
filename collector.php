@@ -55,9 +55,15 @@ if ($cspreport) {
             echo "OK\n";
         } else {
             // Set the 'blockeddomain' and 'blockedurlpath' values.
-            $parsedurl = parse_url($blockeduri);
-            $blockeddomain = $parsedurl['host'];
-            $blockedurlpath = $parsedurl['path'];
+            // If the blockeduri is invalid, set a debugging message and exit early.
+            try {
+                $parsedurl = new moodle_url($blockeduri);
+            } catch (moodle_exception $e) {
+                debugging(get_string('invalidblockeduri', 'local_csp', '', $blockeduri));
+                return;
+            }
+            $blockeddomain = $parsedurl->get_host();
+            $blockedurlpath = $parsedurl->get_path();
 
             // Insert a new record.
             // Truncate URIs of extreme length.
