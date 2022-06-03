@@ -24,8 +24,6 @@
  */
 namespace local_csp\privacy;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Class provider
  * @package local_csp\privacy

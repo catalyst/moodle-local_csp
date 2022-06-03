@@ -44,7 +44,7 @@ class csp_report extends \table_sql {
     /**
      * Embeds a link to a drilldown table showing only 1 violation class
      *
-     * @param stdObject $record fieldset object of db table with field timecreated
+     * @param \stdClass $record fieldset object of db table with field timecreated
      * @return string Link to drilldown table
      */
     protected function col_failcounter($record) {
@@ -61,7 +61,7 @@ class csp_report extends \table_sql {
     /**
      * Stop violateddirective from wrapping when long urls are present
      *
-     * @param stdObject $record fieldset object of db table with field timecreated
+     * @param \stdClass $record fieldset object of db table with field timecreated
      * @return string Non breaking text line
      */
     protected function col_violateddirective($record) {
@@ -72,7 +72,7 @@ class csp_report extends \table_sql {
     /**
      * Formatting unix timestamps in column named timecreated to human readable time.
      *
-     * @param stdObject $record fieldset object of db table with field timecreated
+     * @param \stdClass $record fieldset object of db table with field timecreated
      * @return string human readable time
      */
     protected function col_timecreated($record) {
@@ -88,7 +88,7 @@ class csp_report extends \table_sql {
     /**
      * Formatting unix timestamps in column named timeupdated to human readable time.
      *
-     * @param stdObject $record fieldset object of db table with field timeupdated
+     * @param \stdClass $record fieldset object of db table with field timeupdated
      * @return string human readable time
      */
     protected function col_timeupdated($record) {
@@ -102,7 +102,7 @@ class csp_report extends \table_sql {
     /**
      * Formatting column documenturi that has URLs as links.
      *
-     * @param stdObject $record fieldset object of db table with field documenturi
+     * @param \stdClass $record fieldset object of db table with field documenturi
      * @return string HTML e.g. <a href="documenturi">documenturi</a>
      */
     protected function col_documenturi($record) {
@@ -130,7 +130,7 @@ class csp_report extends \table_sql {
             $label = $uri;
         }
         $label = str_replace($CFG->wwwroot, '', $label);
-        $label = ltrim($label,'/');
+        $label = ltrim($label, '/');
         $label = shorten_text($label, $size, true);
         $label = s($label);
 
@@ -140,7 +140,7 @@ class csp_report extends \table_sql {
     /**
      * Formatting column blockeduri that has URLs as links.
      *
-     * @param stdObject $record fieldset object of db table with field blockeduri
+     * @param \stdClass $record fieldset object of db table with field blockeduri
      * @return string HTML e.g. <a href="blockeduri">blockeduri</a>
      */
     protected function col_blockeduri($record) {
@@ -150,7 +150,7 @@ class csp_report extends \table_sql {
     /**
      * Displays the column 'blockeddomain'.
      *
-     * @param stdObject $record fieldset object of db table with field blockeddomain
+     * @param \stdClass $record fieldset object of db table with field blockeddomain
      * @return string The blocked domain
      */
     protected function col_blockeddomain($record) {
@@ -164,7 +164,7 @@ class csp_report extends \table_sql {
     /**
      * Displays the column 'blockedurlpath'.
      *
-     * @param stdObject $record fieldset object of db table with field blockedurlpath
+     * @param \stdClass $record fieldset object of db table with field blockedurlpath
      * @return string The blocked domain
      */
     protected function col_blockedurlpaths($record) {
@@ -204,7 +204,7 @@ class csp_report extends \table_sql {
     /**
      * Gets the 3 highest violater documentURIs for each blockedURI
      *
-     * @param stdObject $record fieldset object of db table with field timecreated
+     * @param \stdClass $record fieldset object of db table with field timecreated
      * @return string details of the highest violating documents
      */
     protected function col_highestviolaters($record) {
@@ -277,11 +277,10 @@ class csp_report extends \table_sql {
     /**
      * Draw a link to the original table report URI with a param instructing to remove the record. e.g.
      *
-     * @param stdObject $record
+     * @param \stdClass $record
      * @return string HTML link.
      */
-    protected function col_action($record)
-    {
+    protected function col_action($record) {
         global $OUTPUT;
 
         // Find whether we are drilling down.

@@ -25,8 +25,6 @@
 
 namespace local_csp;
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Class helper
  *
@@ -122,7 +120,7 @@ class helper {
         /* Start listening to violation events */
         let localCspViolationsEnforced = [];
         let localCspViolationsReported = [];
-        document.addEventListener('securitypolicyviolation', (event) => { 
+        document.addEventListener('securitypolicyviolation', (event) => {
             if ($collectenforced && event.disposition === 'enforce') {
                 localCspViolationsEnforced.push(event);
             } else if ($collectreported && event.disposition === 'report') {
