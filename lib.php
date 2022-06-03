@@ -23,8 +23,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * A listener is registered for the `securitypolicyviolation` event and the JS for the notifications is loaded.
  * The script for the event listener is injected into the page header.
