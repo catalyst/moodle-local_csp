@@ -52,6 +52,7 @@ $string['cspsettingsinfo'] = '<p>CSP works through adding a special HTTP respons
 $string['documenturi'] = 'Violation at';
 $string['failcounter'] = '#';
 $string['highestviolaters'] = 'Top Violation Sources';
+$string['invalidblockeduri'] = 'Invalid Blocked URI: {$a}';
 $string['loaddata'] = 'Load data';
 $string['loadexternaljavascript'] = 'Load external javascript from {$a}';
 $string['loadingmixedcontentdescription'] = 'When accessing moodle website via HTTPS browser prohibits displaying of the below resources because they origin from HTTP.<br />You should be able to see it in your browser\'s Javascript console.';
@@ -61,7 +62,10 @@ $string['loadinsecureimage'] = 'Load insecure image from {$a}';
 $string['loadinsecurejavascript'] = 'Load insecure javascript from {$a}';
 $string['localcspheadingdirectives'] = 'Configure CSP directives';
 $string['localcspheadinghttpresponseheader'] = 'Choose CSP HTTP response header';
+$string['merge_duplicate_records_task'] = 'Merge duplicate local_csp records task';
 $string['mixedcontentexamples'] = 'Mixed content examples';
+$string['norecordsfound'] = "No records found";
+$string['nonduplicaterecords'] = "Non dupilcate records cannot be merged";
 $string['pluginname'] = 'Content security policy';
 $string['reset'] = 'Reset';
 $string['resetallcspstatistics'] = 'Reset all statistics';
@@ -70,7 +74,7 @@ $string['timeupdated'] = 'Last';
 $string['violateddirective'] = 'Policy';
 $string['privacy:metadata'] = 'The CSP plugin contains no user specific data.';
 
-// Notification templates:
+// Notification templates.
 $string['notificationenforcedheader'] = 'Insecure content blocked!';
 $string['notificationenforcedstart'] = 'This page contained embedded content that violated the security policy.';
 $string['notificationenforcedsources'] = 'Content from the following sources has been automatically blocked:';
@@ -78,11 +82,11 @@ $string['notificationreportedheader'] = 'Potentially insecure content reported!'
 $string['notificationreportedstart'] = 'This page contains embedded content that the administrators consider potentially insecure.';
 $string['notificationreportedsources'] = 'Content from the following sources was reported to the administrators:';
 
-// Notification settings:
+// Notification settings.
 $string['notificationsenableenforced'] = 'Notify when enforcing';
 $string['notificationsenableenforceddescription'] = 'Display a notification to the user, when the CSP is enforced on the visited page, listing all the blocked URIs on that page.';
 $string['notificationsenablereported'] = 'Notify when reporting';
 $string['notificationsenablereporteddescription'] = 'Display a notification to the user, when the Report-Only-CSP is triggered on the visited page, listing the URIs in question.';
 
-// Notification viewing capability:
+// Notification viewing capability.
 $string['csp:seenotifications'] = 'See CSP-related notifications';

@@ -41,7 +41,7 @@ if ($cspreport) {
     // the fields document-uri, blocked-uri, violated-directive, by hashing them.
     // This means that the truncated URI can be stored, while being properly deduped using the full data.
     $hash = sha1($documenturi . $blockeduri . $cspreport['violated-directive']);
-    $existingrecord = $DB->get_record('local_csp', ['sha1hash' => $hash]);
+    $existingrecord = $DB->get_record('local_csp', ['sha1hash' => $hash], '*', IGNORE_MULTIPLE);
 
     $dataobject = new stdClass();
 
@@ -55,9 +55,15 @@ if ($cspreport) {
             echo "OK\n";
         } else {
             // Set the 'blockeddomain' and 'blockedurlpath' values.
-            $parsedurl = parse_url($blockeduri);
-            $blockeddomain = $parsedurl['host'];
-            $blockedurlpath = $parsedurl['path'];
+            // If the blockeduri is invalid, set a debugging message and exit early.
+            try {
+                $parsedurl = new moodle_url($blockeduri);
+            } catch (moodle_exception $e) {
+                debugging(get_string('invalidblockeduri', 'local_csp', '', $blockeduri));
+                return;
+            }
+            $blockeddomain = $parsedurl->get_host();
+            $blockedurlpath = $parsedurl->get_path();
 
             // Insert a new record.
             // Truncate URIs of extreme length.

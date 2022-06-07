@@ -100,6 +100,13 @@ function xmldb_local_csp_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2020070302, 'local', 'csp');
     }
 
+    if ($oldversion < 2022060300) {
+        \core\task\manager::queue_adhoc_task(new \local_csp\task\merge_duplicate_records_task());
+
+        // CSP savepoint reached.
+        upgrade_plugin_savepoint(true, 2022060300, 'local', 'csp');
+    }
+
     return true;
 }
 
