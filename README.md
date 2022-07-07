@@ -42,9 +42,10 @@ https://caniuse.com/#search=CSP
 Branches
 --------
 
-| Moodle verion     | Branch      | PHP       |
-| ----------------- | ----------- | --------  |
-| Moodle 2.7 to 3.7 | master      | 5.5 - 7.2 |
+| Moodle verion     | Branch                | PHP       |
+| ----------------- | --------------------- | --------  |
+| Moodle 3.3 to 3.7 | master                | 7.2       |
+| Moodle 2.7        | MOODLE_27_STABLE      | 5.5       |
 
 Performance impact
 ------------------
