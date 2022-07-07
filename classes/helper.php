@@ -89,7 +89,7 @@ class helper {
      * difference, which of the Moodle hooks were used. It appears that the requirejs module loader itself runs too
      * late, i.e. after the events of interest to us here.
      */
-    public static function enable_notifications() : string {
+    public static function enable_notifications() {
         global $PAGE, $USER;
         $conf = get_config('local_csp');
         $cansee = false;
@@ -136,7 +136,7 @@ class helper {
      * @param array $records Array of local_csp records with matching sha1hash. Must contain at least two records.
      * @return \stdClass The final object representing a local_csp record once all records are merged into one.
      */
-    public static function merge_duplicate_records(array $records): \stdClass {
+    public static function merge_duplicate_records(array $records) {
         global $DB;
         // If no records provided, there is no object to return so throw exception.
         if (empty($records)) {

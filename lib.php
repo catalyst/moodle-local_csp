@@ -28,7 +28,7 @@
  * The script for the event listener is injected into the page header.
  * This is done at this early stage to ensure that the event listener is in place before the events start coming.
  */
-function local_csp_before_standard_html_head() : string {
+function local_csp_before_standard_html_head() {
     return \local_csp\helper::enable_notifications();
 }
 
