@@ -84,7 +84,7 @@ if ($cspreport) {
         throw $exception;
     }
 } else {
-    print_error("There was a problem with decoding JSON report.");
+    throw new \moodle_exception("There was a problem with decoding JSON report.");
 }
 
 /**
