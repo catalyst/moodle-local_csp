@@ -39,6 +39,23 @@ CSP support in browsers is quite good:
 
 https://caniuse.com/#search=CSP
 
+To get started visit this admin settings page and enter a basic policy into csp_header_reporting and enable it with csp_header_enable.
+
+/admin/settings.php?section=local_csp_settings
+
+Then you will need to wait for a couple days or a week to collect statistics on what pages are violating that policy.
+You can see all the violations here:
+
+/local/csp/csp_report.php
+
+As you discover violations you need to make the business decision of which domains should be allowed and either amend the CSP policy, or change the learning content so they do not violate the policy.
+
+Each time you change the policy you can reset the statistics, either partially for each directives or fully.
+When you gain confidence in your policy you can convert it from a 'reporting only' policy to a real policy that is enforced.
+
+Be aware that if you prematurely set a policy which is too strict you can break your learning content and even completely break Moodle itself.
+
+
 Branches
 --------
 
