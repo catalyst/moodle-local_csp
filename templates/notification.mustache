@@ -14,7 +14,19 @@
     You should have received a copy of the GNU General Public License
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
+{{!
+    @template local_csp/notification
 
+    Inputs for optional notification.
+
+    Example context (json):
+    {
+        "header": "Header",
+        "start": "Start",
+        "sourcesText": "Sources",
+        "events": []
+    }
+}}
 <h4>{{header}}</h4>
 <p>{{start}}</p>
 <p>{{sourcesText}}</p>

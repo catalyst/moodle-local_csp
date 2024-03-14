@@ -26,7 +26,7 @@ namespace local_csp\privacy;
 
 /**
  * Class provider
- * @package local_csp\privacy
+ * @package local_csp
  */
 class provider implements
     \core_privacy\local\metadata\null_provider {
