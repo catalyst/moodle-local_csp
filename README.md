@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/catalyst/moodle-local_csp.svg?branch=master)](https://travis-ci.org/catalyst/moodle-local_csp)
+![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/catalyst/moodle-local_csp/ci.yml?branch=MOODLE_401_STABLE&label=ci)
 # moodle-local_csp
 
 * [Why would you want this?](#why-would-you-want-this)
