@@ -35,7 +35,7 @@ require_once($CFG->libdir . '/tablelib.php');
  * - Convert unix timestamp columns to human time.
  * - Adds a button to delete a record.
  *
- * @package local_csp\table
+ * @package local_csp
  * @copyright Catalyst IT
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -238,6 +238,12 @@ class csp_report extends \table_sql {
         return $return;
     }
 
+    /**
+     * Gets the 3 highest violater courses for each blockedURI
+     *
+     * @param \stdClass $record fieldset object of db table
+     * @return string details of the highest violating courses
+     */
     protected function col_courses($record) {
         global $DB;
 
