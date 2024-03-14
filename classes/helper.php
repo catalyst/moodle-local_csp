@@ -46,7 +46,7 @@ class helper {
         global $USER, $COURSE;
 
         $settings = get_config('local_csp');
-        if (self::$bootstrapped or empty($settings->csp_header_enable)) {
+        if (self::$bootstrapped || empty($settings->csp_header_enable)) {
             return;
         }
         self::$bootstrapped = true;
@@ -66,6 +66,10 @@ class helper {
         }
     }
 
+    /**
+     * Enables feature policy
+     * @return void
+     */
     public static function enable_feature_policy() {
         $settings = get_config('local_csp');
         if (empty($settings->feature_policy_enable)) {

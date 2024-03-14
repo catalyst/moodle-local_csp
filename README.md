@@ -61,7 +61,8 @@ Branches
 
 | Moodle verion     | Branch                | PHP       |
 | ----------------- | --------------------- | --------  |
-| Moodle 3.3 to 3.7 | master                | 7.2       |
+| Moodle 4.1+       | MOODLE_401_STABLE     | 7.4       |
+| Moodle 3.3 to 4.0 | master                | 7.2       |
 | Moodle 2.7        | MOODLE_27_STABLE      | 5.5       |
 
 Performance impact
