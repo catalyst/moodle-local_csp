@@ -15,19 +15,22 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * moodle-local_csp settings.
+ * Hook callbacks for local_csp
  *
- * @package   local_csp
- * @author    Suan Kan <suankan@catalyst-au.net>
- * @copyright Catalyst IT
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_csp
+ * @copyright  2024 Catalyst IT
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
+defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2024031401;
-$plugin->release = 2024031401;
-$plugin->requires = 2015051100;
-$plugin->maturity = MATURITY_STABLE;
-$plugin->component = 'local_csp';
-$plugin->supported = [401, 404];
+$callbacks = [
+    [
+        'hook' => \core\hook\output\before_standard_head_html_generation::class,
+        'callback' => [\local_csp\hook_callbacks::class, 'before_standard_head_html_generation'],
+    ],
+    [
+        'hook' => \core\hook\output\before_http_headers::class,
+        'callback' => [\local_csp\hook_callbacks::class, 'before_http_headers'],
+    ],
+];
