@@ -27,10 +27,10 @@ defined('MOODLE_INTERNAL') || die();
 $callbacks = [
     [
         'hook' => \core\hook\output\before_standard_head_html_generation::class,
-        'callback' => [\local_csp\hook_callbacks::class, 'before_standard_head_html_generation'],
+        'callback' => '\local_csp\hook_callbacks::before_standard_head_html_generation',
     ],
     [
         'hook' => \core\hook\output\before_http_headers::class,
-        'callback' => [\local_csp\hook_callbacks::class, 'before_http_headers'],
+        'callback' => '\local_csp\hook_callbacks::before_http_headers',
     ],
 ];
