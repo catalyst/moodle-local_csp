@@ -33,6 +33,7 @@ if ($viewblockeddomain) {
 $removedirective = optional_param('removedirective', false, PARAM_TEXT);
 $removedomain = optional_param('removedomain', false, PARAM_TEXT);
 $removerecordwithid = optional_param('removerecordwithid', false, PARAM_TEXT);
+$download = optional_param('download', '', PARAM_ALPHA);
 
 admin_externalpage_setup('local_csp_report', '', null, '', array('pagelayout' => 'report'));
 
@@ -58,6 +59,14 @@ if ($removerecordwithid && confirm_sesskey()) {
     redirect($PAGE->url);
 }
 
+$PAGE->set_url('/local/csp/csp_report.php', [
+    'blockeddomain' => $viewblockeddomain,
+    'blockeddirective' => $viewdirective ?? '',
+    'removedirective' => $removedirective,
+    'removedomain' => $removedomain,
+    'removerecordwithid' => $removerecordwithid,
+]);
+
 $resetallcspstatistics = optional_param('resetallcspstatistics', 0, PARAM_INT);
 if ($resetallcspstatistics == 1 && confirm_sesskey()) {
     $DB->delete_records('local_csp');
@@ -69,18 +78,8 @@ $PAGE->set_title($title);
 $PAGE->set_heading($title);
 $PAGE->set_pagelayout('admin');
 
-global $OUTPUT, $DB;
-
-echo $OUTPUT->header();
-echo $OUTPUT->heading($title);
-
-$action = new \confirm_action(get_string('areyousuretodeleteallrecords', 'local_csp'));
-$urlresetallcspstatistics = new moodle_url($PAGE->url, array(
-    'resetallcspstatistics' => 1,
-    'sesskey' => sesskey(),
-));
-echo $OUTPUT->single_button($urlresetallcspstatistics,
-    get_string('resetallcspstatistics', 'local_csp'), 'post', array('actions' => array($action)));
+$table = new \local_csp\table\csp_report('cspreportstable');
+$table->is_downloading($download, 'csp_report', 'csp_report');
 
 $blockeduri = get_string('blockeduri', 'local_csp');
 $blockeddomain = get_string('blockeddomain', 'local_csp');
@@ -93,7 +92,6 @@ $failcounter = get_string('failcounter', 'local_csp');
 $timeupdated = get_string('timeupdated', 'local_csp');
 $action = get_string('action', 'local_csp');
 
-$table = new \local_csp\table\csp_report('cspreportstable');
 $table->define_baseurl($PAGE->url);
 $table->sortable(true, 'failcounter', SORT_DESC);
 $table->set_attribute('class', 'generaltable generalbox table-sm');
@@ -159,8 +157,21 @@ if ($viewblockeddomain && $viewdirective) {
     $where = '1 = 1';
     $params = array();
 }
-$table->set_sql($fields, $from, $where, $params);
 
+if (!$table->is_downloading()) {
+    echo $OUTPUT->header();
+    echo $OUTPUT->heading($title);
+
+    $action = new \confirm_action(get_string('areyousuretodeleteallrecords', 'local_csp'));
+    $urlresetallcspstatistics = new moodle_url($PAGE->url, array(
+        'resetallcspstatistics' => 1,
+        'sesskey' => sesskey(),
+    ));
+    echo $OUTPUT->single_button($urlresetallcspstatistics,
+        get_string('resetallcspstatistics', 'local_csp'), 'post', array('actions' => array($action)));
+}
+
+$table->set_sql($fields, $from, $where, $params);
 $table->out(30, true);
 
 echo $OUTPUT->footer();
