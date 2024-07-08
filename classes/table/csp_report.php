@@ -131,7 +131,11 @@ class csp_report extends \table_sql {
         }
         $label = str_replace($CFG->wwwroot, '', $label);
         $label = ltrim($label, '/');
-        $label = shorten_text($label, $size, true);
+
+        // Only shorten text when not exporting.
+        if (!$this->is_downloading()) {
+            $label = shorten_text($label, $size, true);
+        }
         $label = s($label);
 
         return \html_writer::link($uri, $label);
@@ -287,6 +291,11 @@ class csp_report extends \table_sql {
      * @return string HTML link.
      */
     protected function col_action($record) {
+        // Output no action if exporting.
+        if ($this->is_downloading()) {
+            return '';
+        }
+
         global $OUTPUT;
 
         // Find whether we are drilling down.
