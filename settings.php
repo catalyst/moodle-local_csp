@@ -96,4 +96,12 @@ if ($hassiteconfig) {
         '',
         PARAM_TEXT
     ));
+
+    $settings->add(new admin_setting_configduration(
+        'local_csp/cleanup_duration',
+        get_string('cleanupduration', 'local_csp'),
+        get_string('cleanupdurationdescription', 'local_csp'),
+        26 * WEEKSECS,
+        WEEKSECS
+    ));
 }

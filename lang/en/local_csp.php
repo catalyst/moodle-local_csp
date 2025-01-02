@@ -31,6 +31,9 @@ $string['areyousuretodeleteonerecord'] = 'Are you sure to delete this CSP report
 $string['blockeddomain'] = 'Domain';
 $string['blockeduri'] = 'Blocked URI';
 $string['blockedurlpaths'] = 'Blocked paths';
+$string['cleanupduration'] = 'CSP cleanup duration';
+$string['cleanupdurationdescription'] = 'Removes CSP records that have not had any violations during the selected time period. The counts of records that have had violations will not be reset. Setting the expiry to 0 will remove all records.';
+$string['cleanup_csp_task'] = 'Cleanup old CSP data task';
 $string['configurecspheader'] = 'Configure CSP header';
 $string['cspdirectives'] = 'CSP directives';
 $string['cspdirectivesinfo'] = '<p>Example of CSP directives (please refer to the above link for exact syntax):<br /><span style="color:#00acdf">script-src https:; style-src cdn.example.com; default-src \'self\';</span></p>';

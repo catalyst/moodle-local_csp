@@ -64,6 +64,7 @@ if ($cspreport) {
             }
             $blockeddomain = $parsedurl->get_host();
             $blockedurlpath = $parsedurl->get_path();
+            $timestamp = time();
 
             // Insert a new record.
             // Truncate URIs of extreme length.
@@ -73,7 +74,8 @@ if ($cspreport) {
             $dataobject->blockeddomain = $blockeddomain;
             $dataobject->blockedurlpath = $blockedurlpath;
             $dataobject->violateddirective = strtok($cspreport['violated-directive'], ' ');
-            $dataobject->timecreated = time();
+            $dataobject->timecreated = $timestamp;
+            $dataobject->timeupdated = $timestamp;
             $dataobject->sha1hash = $hash;
             $dataobject->failcounter = 1;
             $DB->insert_record('local_csp', $dataobject);

@@ -15,19 +15,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * moodle-local_csp settings.
+ * Schedule tasks definition.
  *
- * @package   local_csp
- * @author    Suan Kan <suankan@catalyst-au.net>
- * @copyright Catalyst IT
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package    local_csp
+ * @author     Benjamin Walker <benjaminwalker@catalyst-au.net>
+ * @copyright  2024 Catalyst IT
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
+defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2025010200;
-$plugin->release = 2025010200;
-$plugin->requires = 2015051100;
-$plugin->maturity = MATURITY_STABLE;
-$plugin->component = 'local_csp';
-$plugin->supported = [401, 405];
+$tasks = [
+    [
+        'classname' => 'local_csp\task\cleanup_csp_task',
+        'blocking'  => 0,
+        'minute' => '0',
+        'hour' => '0',
+        'day' => '*',
+        'month' => '*',
+        'dayofweek' => '*',
+    ],
+];
