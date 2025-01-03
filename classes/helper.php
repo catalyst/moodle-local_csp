@@ -171,4 +171,30 @@ class helper {
 
         return $baserecord;
     }
+
+    /**
+     * Estimate row count for local_csp table
+     *
+     * @return int
+     */
+    public static function get_row_estimate(): int {
+        global $CFG, $DB;
+
+        if ($DB->get_dbfamily() === 'mysql') {
+            // Use explain to keep accurate count after truncate.
+            $explainsql = 'EXPLAIN SELECT COUNT(1) FROM {local_csp}';
+            $record = $DB->get_record_sql($explainsql);
+            return $record->rows ?? 0;
+        } else if ($DB->get_dbfamily() === 'postgres') {
+            $sql = "SELECT relname AS table_name, reltuples::BIGINT AS row_count
+                      FROM pg_class
+                     WHERE relname = :tablename";
+            $params = ['tablename' => $CFG->prefix . 'local_csp'];
+            $record = $DB->get_record_sql($sql, $params);
+            return $record->row_count ?? 0;
+        } else {
+            // Estimates not currently supported for other databases, use a full count.
+            return $DB->count_records('local_csp');
+        }
+    }
 }
