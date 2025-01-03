@@ -26,6 +26,7 @@
 defined('MOODLE_INTERNAL') || die;
 
 $string['action'] = 'Action';
+$string['add_violationhash_task'] = 'Add violation hash to CSP records task';
 $string['areyousuretodeleteallrecords'] = 'Are you sure to delete all CSP report records?';
 $string['areyousuretodeleteonerecord'] = 'Are you sure to delete this CSP report record?';
 $string['blockeddomain'] = 'Domain';

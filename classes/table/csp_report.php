@@ -51,8 +51,7 @@ class csp_report extends \table_sql {
         // Get blocked URI, and set as param for page if clicked on.
         $url = new \moodle_url('/local/csp/csp_report.php',
             [
-                'blockeddomain' => $record->blockeddomain,
-                'blockeddirective' => $record->violateddirective
+                'violation' => $record->violationhash,
             ]
         );
         return \html_writer::link($url, $record->failcounter);
@@ -179,16 +178,14 @@ class csp_report extends \table_sql {
                           blockedurlpath,
                           SUM(failcounter) AS failcounter
                      FROM {local_csp} csp
-                    WHERE violateddirective = :directive
-                      AND blockeddomain = :blockeddomain
+                    WHERE violationhash = :violationhash
                  GROUP BY blockeduri,
                           blockedurlpath
                  ORDER BY SUM(failcounter) DESC,
                           blockeduri";
 
         $params = [
-            'directive' => $record->violateddirective,
-            'blockeddomain' => $record->blockeddomain
+            'violationhash' => $record->violationhash,
         ];
 
         $blockedpaths = $DB->get_records_sql($subsql, $params, 0, 3);
@@ -218,15 +215,13 @@ class csp_report extends \table_sql {
         $subsql = "SELECT documenturi,
                           SUM(failcounter) AS failcounter
                      FROM {local_csp} csp
-                    WHERE violateddirective = :directive
-                      AND blockeddomain = :blockeddomain
+                    WHERE violationhash = :violationhash
                  GROUP BY documenturi
                  ORDER BY SUM(failcounter) DESC,
                           documenturi ASC";
 
         $params = [
-            'directive' => $record->violateddirective,
-            'blockeddomain' => $record->blockeddomain
+            'violationhash' => $record->violationhash,
         ];
 
         $violators = $DB->get_records_sql($subsql, $params, 0, 3);
@@ -259,15 +254,13 @@ class csp_report extends \table_sql {
                      FROM {local_csp} csp
                      JOIN {course} c
                        ON c.id = csp.courseid
-                    WHERE violateddirective = :directive
-                      AND blockeddomain = :blockeddomain
+                    WHERE violationhash = :violationhash
                  GROUP BY courseid, shortname
                  ORDER BY SUM(failcounter) DESC,
                           shortname ASC";
 
         $params = [
-            'directive' => $record->violateddirective,
-            'blockeddomain' => $record->blockeddomain
+            'violationhash' => $record->violationhash,
         ];
 
         $courses = $DB->get_records_sql($subsql, $params, 0, 3);
@@ -299,9 +292,8 @@ class csp_report extends \table_sql {
         global $OUTPUT;
 
         // Find whether we are drilling down.
-        $viewblockeddomain = optional_param('blockeddomain', false, PARAM_TEXT);
-        $viewdirective = optional_param('blockeddirective', false, PARAM_TEXT);
-        if ($viewblockeddomain && $viewdirective) {
+        $viewviolation = optional_param('violation', false, PARAM_TEXT);
+        if ($viewviolation) {
             $action = new \confirm_action(get_string('areyousuretodeleteonerecord', 'local_csp'));
             $url = new \moodle_url($this->baseurl);
             $url->params(array(
@@ -318,8 +310,7 @@ class csp_report extends \table_sql {
             $url = new \moodle_url($this->baseurl);
             $url->params(
                 [
-                    'removedirective' => $record->violateddirective,
-                    'removedomain' => $record->blockeddomain,
+                    'removeviolation' => $record->violationhash,
                     'sesskey' => sesskey(),
                     'redirecttopage' => $this->currpage,
                 ]
