@@ -1,4 +1,5 @@
-![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/catalyst/moodle-local_csp/ci.yml?branch=MOODLE_401_STABLE&label=ci)
+[![ci](https://github.com/catalyst/moodle-local_csp/actions/workflows/ci.yml/badge.svg?branch=MOODLE_401_STABLE)](https://github.com/catalyst/moodle-local_csp/actions/workflows/ci.yml?branch=MOODLE_401_STABLE)
+
 # moodle-local_csp
 
 * [Why would you want this?](#why-would-you-want-this)
