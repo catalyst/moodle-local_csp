@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/catalyst/moodle-local_csp.svg?branch=master)](https://travis-ci.org/catalyst/moodle-local_csp)
+[![ci](https://github.com/catalyst/moodle-local_csp/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/catalyst/moodle-local_csp/actions/workflows/ci.yml?branch=master)
+
 # moodle-local_csp
 
 * [Why would you want this?](#why-would-you-want-this)
