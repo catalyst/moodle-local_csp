@@ -26,22 +26,18 @@
 require_once(__DIR__ . '/../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
 
-$viewblockeddomain = optional_param('blockeddomain', false, PARAM_TEXT);
-if ($viewblockeddomain) {
-    $viewdirective = required_param('blockeddirective', PARAM_TEXT);
-}
-$removedirective = optional_param('removedirective', false, PARAM_TEXT);
-$removedomain = optional_param('removedomain', false, PARAM_TEXT);
+$viewviolation = optional_param('violation', false, PARAM_TEXT);
+$removeviolation = optional_param('removeviolation', false, PARAM_TEXT);
 $removerecordwithid = optional_param('removerecordwithid', false, PARAM_TEXT);
+$limitedreport = optional_param('limited', null, PARAM_INT);
 $download = optional_param('download', '', PARAM_ALPHA);
 
 admin_externalpage_setup('local_csp_report', '', null, '', array('pagelayout' => 'report'));
 
 // Delete violation class if param set.
-if ($removedirective && $removedomain && confirm_sesskey()) {
+if ($removeviolation && confirm_sesskey()) {
     $DB->delete_records('local_csp', [
-            'violateddirective' => $removedirective,
-            'blockeddomain' => $removedomain
+            'violationhash' => $removeviolation,
         ]
     );
     $PAGE->set_url('/local/csp/csp_report.php', array(
@@ -53,19 +49,18 @@ if ($removedirective && $removedomain && confirm_sesskey()) {
 // Delete individual violation records if set.
 if ($removerecordwithid && confirm_sesskey()) {
     $DB->delete_records('local_csp', array('id' => $removerecordwithid));
-    $PAGE->set_url('/local/csp/csp_report.php', array(
+    $PAGE->set_url('/local/csp/csp_report.php', array_filter([
+        'violation' => $viewviolation,
         'page' => optional_param('redirecttopage', 0, PARAM_INT),
-    ));
+    ]));
     redirect($PAGE->url);
 }
 
-$PAGE->set_url('/local/csp/csp_report.php', [
-    'blockeddomain' => $viewblockeddomain,
-    'blockeddirective' => $viewdirective ?? '',
-    'removedirective' => $removedirective,
-    'removedomain' => $removedomain,
+$PAGE->set_url('/local/csp/csp_report.php', array_filter([
+    'violation' => $viewviolation,
+    'removeviolation' => $removeviolation,
     'removerecordwithid' => $removerecordwithid,
-]);
+]));
 
 $resetallcspstatistics = optional_param('resetallcspstatistics', 0, PARAM_INT);
 if ($resetallcspstatistics == 1 && confirm_sesskey()) {
@@ -119,12 +114,18 @@ $table->define_headers(array(
     $action,
 ));
 
+// The local_csp table can grow very large if a policy is not set up correctly.
+// This report can be slow even with indexes, so this can be used to load a limited version.
+if (!isset($limitedreport)) {
+    $limitedreport = \local_csp\helper::get_row_estimate() > 5000000;
+}
+
 // If user has clicked on a violation to view all violation entries.
-if ($viewblockeddomain && $viewdirective) {
-    $fields = 'id, sha1hash, blockeduri, blockeddomain, violateddirective, failcounter, timeupdated, documenturi';
+if ($viewviolation) {
+    $fields = 'id, sha1hash, blockeduri, blockeddomain, violateddirective, failcounter, timeupdated, documenturi, violationhash';
     $from = "{local_csp}";
-    $where = "blockeddomain = ? AND violateddirective = ?";
-    $params = [$viewblockeddomain, $viewdirective];
+    $where = "violationhash = ?";
+    $params = [$viewviolation];
 
     // Redefine columns to display Violation source.
     $table->define_columns(array(
@@ -144,23 +145,67 @@ if ($viewblockeddomain && $viewdirective) {
         $action,
     ));
 
+    // Disable sorting on large tables as sorting by failcounter requires the full table.
+    if ($limitedreport) {
+        $table->sortable(false);
+    }
+
+} else if ($limitedreport) {
+    // If a table is too large only load the fields that can be loaded using hashes and no aggregation.
+    $table->define_columns([
+        'failcounter',
+        'violateddirective',
+        'blockeddomain',
+        'timecreated',
+        'action',
+    ]);
+    $table->define_headers([
+        $failcounter,
+        $violateddirective,
+        $blockeddomain,
+        $timeupdated,
+        $action,
+    ]);
+
+    // Summing failcounter may be too slow on huge tables, so use violationcount as a rough indicator instead.
+    $fields = 'id, blockeddomain, violateddirective, violationhash, violationcount as failcounter, timecreated';
+    $from = "(SELECT MAX(id) AS maxid, count(1) AS violationcount
+                FROM {local_csp}
+               WHERE violationhash IS NOT NULL
+            GROUP BY violationhash) AS A
+                JOIN {local_csp} ON id = maxid";
+    $where = '1 = 1';
+    $params = [];
+
 } else {
-    $fields = 'id, blockeddomain, violateddirective, failcounter, timecreated';
+    $fields = 'id, blockeddomain, violateddirective, violationhash, A.failcounter, A.timecreated';
     // Select the first blockedURI of a type, and collapse the rest while summing failcounter.
-    $from = "(SELECT MAX(id) AS id,
-                     blockeddomain,
-                     violateddirective,
+    $from = "(SELECT MAX(id) AS maxid,
                      SUM(failcounter) AS failcounter,
                      MAX(timecreated) AS timecreated
                 FROM {local_csp}
-            GROUP BY violateddirective, blockeddomain) AS A";
+               WHERE violationhash IS NOT NULL
+            GROUP BY violationhash) AS A
+                JOIN {local_csp} on id = maxid";
     $where = '1 = 1';
-    $params = array();
+    $params = [];
+}
+
+if (!$viewviolation) {
+    // Simplify count SQL to also speed up processing.
+    $table->set_count_sql("SELECT COUNT(DISTINCT violationhash)
+                             FROM {local_csp}
+                            WHERE violationhash IS NOT NULL");
 }
 
 if (!$table->is_downloading()) {
     echo $OUTPUT->header();
     echo $OUTPUT->heading($title);
+
+    if ($limitedreport) {
+        $fullreport = new moodle_url($PAGE->url, ['limited' => 0]);
+        echo $OUTPUT->notification(get_string('limitedreport', 'local_csp', $fullreport->out()), 'warning');
+    }
 
     $action = new \confirm_action(get_string('areyousuretodeleteallrecords', 'local_csp'));
     $urlresetallcspstatistics = new moodle_url($PAGE->url, array(
