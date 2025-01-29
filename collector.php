@@ -77,6 +77,7 @@ if ($cspreport) {
             $dataobject->timecreated = $timestamp;
             $dataobject->timeupdated = $timestamp;
             $dataobject->sha1hash = $hash;
+            $dataobject->violationhash = sha1($dataobject->violateddirective . $dataobject->blockeddomain);
             $dataobject->failcounter = 1;
             $DB->insert_record('local_csp', $dataobject);
             echo "OK\n";

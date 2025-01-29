@@ -113,6 +113,30 @@ function xmldb_local_csp_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2022060300, 'local', 'csp');
     }
 
+    if ($oldversion < 2025012901) {
+
+        // Define field violationhash to be added to local_csp.
+        $table = new xmldb_table('local_csp');
+        $field = new xmldb_field('violationhash', XMLDB_TYPE_CHAR, '40', null, null, null, null, 'sha1hash');
+
+        // Conditionally launch add field violationhash.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $index = new xmldb_index('violationhash', XMLDB_INDEX_NOTUNIQUE, ['violationhash']);
+
+        // Conditionally launch add index violationhash.
+        if (!$dbman->index_exists($table, $index)) {
+            $dbman->add_index($table, $index);
+        }
+
+        \core\task\manager::queue_adhoc_task(new \local_csp\task\add_violationhash_task());
+
+        // CSP savepoint reached.
+        upgrade_plugin_savepoint(true, 2025012901, 'local', 'csp');
+    }
+
     return true;
 }
 

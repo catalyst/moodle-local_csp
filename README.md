@@ -1,4 +1,4 @@
-[![ci](https://github.com/catalyst/moodle-local_csp/actions/workflows/ci.yml/badge.svg?branch=MOODLE_401_STABLE)](https://github.com/catalyst/moodle-local_csp/actions/workflows/ci.yml?branch=MOODLE_401_STABLE)
+[![ci](https://github.com/catalyst/moodle-local_csp/actions/workflows/ci.yml/badge.svg?branch=MOODLE_500_STABLE)](https://github.com/catalyst/moodle-local_csp/actions/workflows/ci.yml?branch=MOODLE_500_STABLE)
 
 # moodle-local_csp
 
@@ -62,7 +62,8 @@ Branches
 
 | Moodle verion     | Branch                | PHP       |
 | ----------------- | --------------------- | --------  |
-| Moodle 4.1+       | MOODLE_401_STABLE     | 7.4       |
+| Moodle 5.0+       | MOODLE_500_STABLE     | 8.3       |
+| Moodle 4.1 to 4.5 | MOODLE_401_STABLE     | 7.4       |
 | Moodle 3.3 to 4.0 | master                | 7.2       |
 | Moodle 2.7        | MOODLE_27_STABLE      | 5.5       |
 
