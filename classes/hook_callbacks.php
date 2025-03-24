@@ -32,6 +32,12 @@ class hook_callbacks {
      * @param \core\hook\output\before_standard_head_html_generation $hook
      */
     public static function before_standard_head_html_generation(before_standard_head_html_generation $hook): void {
+        global $CFG;
+
+        if (during_initial_install() || isset($CFG->upgraderunning)) {
+            return;
+        }
+
         $hook->add_html(\local_csp\helper::enable_notifications());
     }
 
@@ -40,6 +46,12 @@ class hook_callbacks {
      * @param \core\hook\output\before_http_headers $hook
      */
     public static function before_http_headers(before_http_headers $hook): void {
+        global $CFG;
+
+        if (during_initial_install() || isset($CFG->upgraderunning)) {
+            return;
+        }
+
         \local_csp\helper::enable_csp_header();
         \local_csp\helper::enable_feature_policy();
     }
