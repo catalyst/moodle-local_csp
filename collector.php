@@ -33,6 +33,8 @@ $cspreport = json_decode($inputjson, true)['csp-report'];
 
 global $DB, $SITE;
 
+// some change which does not matter
+
 if ($cspreport) {
     $documenturi = remove_sesskey($cspreport['document-uri']);
     $blockeduri = remove_sesskey($cspreport['blocked-uri']);
