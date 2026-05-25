@@ -25,7 +25,6 @@ namespace local_csp;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class plugin_testcase extends \advanced_testcase {
-
     /**
      * Run before every test.
      */
@@ -57,8 +56,10 @@ abstract class plugin_testcase extends \advanced_testcase {
                 $defaults[$key] = $value;
             }
         }
-        $defaults['sha1hash'] = hash('sha1',
-            $defaults['documenturi'] . $defaults['blockeduri'] . $defaults['violateddirective']);
+        $defaults['sha1hash'] = hash(
+            'sha1',
+            $defaults['documenturi'] . $defaults['blockeduri'] . $defaults['violateddirective']
+        );
         $id = $DB->insert_record('local_csp', $defaults);
         return $DB->get_record('local_csp', ['id' => $id]);
     }

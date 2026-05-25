@@ -24,30 +24,29 @@
  */
 
 require_once(__DIR__ . '/../../config.php');
-require_once($CFG->libdir.'/adminlib.php');
+require_once($CFG->libdir . '/adminlib.php');
 
 $viewviolation = optional_param('violation', false, PARAM_TEXT);
 $removeviolation = optional_param('removeviolation', false, PARAM_TEXT);
 $removerecordwithid = optional_param('removerecordwithid', false, PARAM_TEXT);
 $download = optional_param('download', '', PARAM_ALPHA);
 
-admin_externalpage_setup('local_csp_report', '', null, '', array('pagelayout' => 'report'));
+admin_externalpage_setup('local_csp_report', '', null, '', ['pagelayout' => 'report']);
 
 // Delete violation class if param set.
 if ($removeviolation && confirm_sesskey()) {
     $DB->delete_records('local_csp', [
             'violationhash' => $removeviolation,
-        ]
-    );
-    $PAGE->set_url('/local/csp/csp_report.php', array(
+        ]);
+    $PAGE->set_url('/local/csp/csp_report.php', [
         'page' => optional_param('redirecttopage', 0, PARAM_INT),
-    ));
+    ]);
     redirect($PAGE->url);
 }
 
 // Delete individual violation records if set.
 if ($removerecordwithid && confirm_sesskey()) {
-    $DB->delete_records('local_csp', array('id' => $removerecordwithid));
+    $DB->delete_records('local_csp', ['id' => $removerecordwithid]);
     $PAGE->set_url('/local/csp/csp_report.php', array_filter([
         'violation' => $viewviolation,
         'page' => optional_param('redirecttopage', 0, PARAM_INT),
@@ -89,7 +88,7 @@ $action = get_string('action', 'local_csp');
 $table->define_baseurl($PAGE->url);
 $table->sortable(true, 'failcounter', SORT_DESC);
 $table->set_attribute('class', 'generaltable generalbox table-sm');
-$table->define_columns(array(
+$table->define_columns([
     'failcounter',
     'violateddirective',
     'blockeddomain',
@@ -98,11 +97,11 @@ $table->define_columns(array(
     'courses',
     'timecreated',
     'action',
-));
+]);
 $table->no_sorting('blockedurlpaths');
 $table->no_sorting('highestviolaters');
 $table->no_sorting('courses');
-$table->define_headers(array(
+$table->define_headers([
     $failcounter,
     $violateddirective,
     $blockeddomain,
@@ -111,7 +110,7 @@ $table->define_headers(array(
     $courses,
     $timeupdated,
     $action,
-));
+]);
 
 // If user has clicked on a violation to view all violation entries.
 if ($viewviolation) {
@@ -121,23 +120,22 @@ if ($viewviolation) {
     $params = [$viewviolation];
 
     // Redefine columns to display Violation source.
-    $table->define_columns(array(
+    $table->define_columns([
         'failcounter',
         'violateddirective',
         'blockeduri',
         'documenturi',
         'timeupdated',
         'action',
-    ));
-    $table->define_headers(array(
+    ]);
+    $table->define_headers([
         $failcounter,
         $violateddirective,
         $blockeduri,
         $documenturi,
         $timeupdated,
         $action,
-    ));
-
+    ]);
 } else {
     $fields = 'id, blockeddomain, violateddirective, violationhash, A.failcounter, A.timecreated';
     // Select the first blockedURI of a type, and collapse the rest while summing failcounter.
@@ -157,12 +155,16 @@ if (!$table->is_downloading()) {
     echo $OUTPUT->heading($title);
 
     $action = new \confirm_action(get_string('areyousuretodeleteallrecords', 'local_csp'));
-    $urlresetallcspstatistics = new moodle_url($PAGE->url, array(
+    $urlresetallcspstatistics = new moodle_url($PAGE->url, [
         'resetallcspstatistics' => 1,
         'sesskey' => sesskey(),
-    ));
-    echo $OUTPUT->single_button($urlresetallcspstatistics,
-        get_string('resetallcspstatistics', 'local_csp'), 'post', array('actions' => array($action)));
+    ]);
+    echo $OUTPUT->single_button(
+        $urlresetallcspstatistics,
+        get_string('resetallcspstatistics', 'local_csp'),
+        'post',
+        ['actions' => [$action]]
+    );
 }
 
 $table->set_sql($fields, $from, $where, $params);

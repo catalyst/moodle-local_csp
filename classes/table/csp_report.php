@@ -40,7 +40,6 @@ require_once($CFG->libdir . '/tablelib.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class csp_report extends \table_sql {
-
     /**
      * Embeds a link to a drilldown table showing only 1 violation class
      *
@@ -49,7 +48,8 @@ class csp_report extends \table_sql {
      */
     protected function col_failcounter($record) {
         // Get blocked URI, and set as param for page if clicked on.
-        $url = new \moodle_url('/local/csp/csp_report.php',
+        $url = new \moodle_url(
+            '/local/csp/csp_report.php',
             [
                 'violation' => $record->violationhash,
             ]
@@ -65,7 +65,7 @@ class csp_report extends \table_sql {
      */
     protected function col_violateddirective($record) {
         // Stop line from wrapping.
-        return \html_writer::tag('span', strtok($record->violateddirective, ' '), array('style' => 'white-space: nowrap'));
+        return \html_writer::tag('span', strtok($record->violateddirective, ' '), ['style' => 'white-space: nowrap']);
     }
 
     /**
@@ -296,11 +296,11 @@ class csp_report extends \table_sql {
         if ($viewviolation) {
             $action = new \confirm_action(get_string('areyousuretodeleteonerecord', 'local_csp'));
             $url = new \moodle_url($this->baseurl);
-            $url->params(array(
+            $url->params([
                 'removerecordwithid' => $record->id,
                 'sesskey' => sesskey(),
                 'redirecttopage' => $this->currpage,
-            ));
+            ]);
             $actionlink = $OUTPUT->action_link($url, get_string('reset', 'local_csp'), $action);
 
             return $actionlink;

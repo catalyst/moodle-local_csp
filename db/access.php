@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  * Plugin capabilities
  *
@@ -26,14 +25,14 @@
 defined('MOODLE_INTERNAL') || die();
 
 
-$capabilities = array(
-    'local/csp:seenotifications' => array(
+$capabilities = [
+    'local/csp:seenotifications' => [
         'captype'      => 'read',
         'contextlevel' => CONTEXT_COURSE,
-        'archetypes'   => array(
+        'archetypes'   => [
             'teacher'        => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
-            'manager'        => CAP_ALLOW
-        )
-    )
-);
+            'manager'        => CAP_ALLOW,
+        ],
+    ],
+];
