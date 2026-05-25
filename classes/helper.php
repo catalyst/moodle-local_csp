@@ -33,7 +33,6 @@ namespace local_csp;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class helper {
-
     /**
      * @var bool Have we sent CSP headers already?
      */
@@ -51,7 +50,7 @@ class helper {
         }
         self::$bootstrapped = true;
 
-        $cspheaderreporting = trim(str_replace(array("\r\n", "\r", "\n"), " ", $settings->csp_header_reporting));
+        $cspheaderreporting = trim(str_replace(["\r\n", "\r", "\n"], " ", $settings->csp_header_reporting));
         if (!empty($cspheaderreporting)) {
             $collectorurl = new \moodle_url('/local/csp/collector.php');
             $collectorurl->param('uid', $USER->id);
@@ -60,7 +59,7 @@ class helper {
             }
             @header('Content-Security-Policy-Report-Only: ' . $cspheaderreporting . ' report-uri ' . $collectorurl->out(false));
         }
-        $cspheaderenforcing = trim(str_replace(array("\r\n", "\r", "\n"), " ", $settings->csp_header_enforcing));
+        $cspheaderenforcing = trim(str_replace(["\r\n", "\r", "\n"], " ", $settings->csp_header_enforcing));
         if (!empty($cspheaderenforcing)) {
             @header('Content-Security-Policy: ' . $cspheaderenforcing);
         }
@@ -76,7 +75,7 @@ class helper {
             return;
         }
 
-        $featureheader = trim(str_replace(array("\r\n", "\r", "\n"), " ", $settings->feature_policy));
+        $featureheader = trim(str_replace(["\r\n", "\r", "\n"], " ", $settings->feature_policy));
         if (!empty($featureheader)) {
             @header('Feature-Policy: ' . $featureheader);
         }
@@ -93,7 +92,7 @@ class helper {
      * difference, which of the Moodle hooks were used. It appears that the requirejs module loader itself runs too
      * late, i.e. after the events of interest to us here.
      */
-    public static function enable_notifications() : string {
+    public static function enable_notifications(): string {
         global $PAGE, $USER;
         $conf = get_config('local_csp');
         $cansee = false;

@@ -31,8 +31,7 @@ require_once("$CFG->dirroot/local/csp/tests/plugin_testcase.php");
  * @copyright  2022 Catalyst IT
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class merge_duplicate_records_task_test extends plugin_testcase {
-
+final class merge_duplicate_records_task_test extends plugin_testcase {
     /**
      * Test that SQL gets all duplicate rows as expected.
      */
@@ -45,7 +44,7 @@ class merge_duplicate_records_task_test extends plugin_testcase {
         $records = $DB->get_records_sql($task->get_duplicate_list_sql());
         // There are two sets of two duplicate records.
         $this->assertCount(0, $records);
-        $ids = array_map(function($record) {
+        $ids = array_map(function ($record) {
             return $record->id;
         }, $records);
         $this->assertFalse(in_array($record1->id, $ids));
@@ -67,7 +66,7 @@ class merge_duplicate_records_task_test extends plugin_testcase {
         $records = $DB->get_records_sql($task->get_duplicate_list_sql());
         // There are two sets of two duplicate records.
         $this->assertCount(4, $records);
-        $ids = array_map(function($record) {
+        $ids = array_map(function ($record) {
             return $record->id;
         }, $records);
         $this->assertTrue(in_array($record1->id, $ids));
@@ -80,7 +79,7 @@ class merge_duplicate_records_task_test extends plugin_testcase {
     /**
      * Test that task does nothing if no duplicates exist.
      */
-    public function test_execute_with_no_duplicate_records() {
+    public function test_execute_with_no_duplicate_records(): void {
         global $DB;
         $this->create_test_record(['blockeduri' => 'test-extension-1']);
         $this->create_test_record(['blockeduri' => 'test-extension-2']);
@@ -110,15 +109,15 @@ class merge_duplicate_records_task_test extends plugin_testcase {
         $this->assertCount(3, $records);
 
         // Check remaining records are merged as expected.
-        $actualrecord1 = array_filter($records, function($record) use ($record1) {
+        $actualrecord1 = array_filter($records, function ($record) use ($record1) {
             return ($record->sha1hash === $record1->sha1hash);
         });
         $actualrecord1 = array_pop($actualrecord1);
-        $actualrecord2 = array_filter($records, function($record) use ($record3) {
+        $actualrecord2 = array_filter($records, function ($record) use ($record3) {
             return ($record->sha1hash === $record3->sha1hash);
         });
         $actualrecord2 = array_pop($actualrecord2);
-        $actualrecord3 = array_filter($records, function($record) use ($record5) {
+        $actualrecord3 = array_filter($records, function ($record) use ($record5) {
             return ($record->sha1hash === $record5->sha1hash);
         });
         $actualrecord3 = array_pop($actualrecord3);

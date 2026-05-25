@@ -31,7 +31,7 @@
  * This is a legacy callback that is used for compatibility with older Moodle versions.
  * Moodle 4.4+ will use local_csp\hook_callbacks::before_standard_head_html_generation instead.
  */
-function local_csp_before_standard_html_head() : string {
+function local_csp_before_standard_html_head(): string {
     return \local_csp\helper::enable_notifications();
 }
 
