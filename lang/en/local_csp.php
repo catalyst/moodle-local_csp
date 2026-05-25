@@ -31,9 +31,9 @@ $string['areyousuretodeleteonerecord'] = 'Are you sure to delete this CSP report
 $string['blockeddomain'] = 'Domain';
 $string['blockeduri'] = 'Blocked URI';
 $string['blockedurlpaths'] = 'Blocked paths';
+$string['cleanup_csp_task'] = 'Cleanup old CSP data task';
 $string['cleanupduration'] = 'CSP cleanup duration';
 $string['cleanupdurationdescription'] = 'Removes CSP records that have not had any violations during the selected time period. The counts of records that have had violations will not be reset. Setting the expiry to 0 will remove all records.';
-$string['cleanup_csp_task'] = 'Cleanup old CSP data task';
 $string['configurecspheader'] = 'Configure CSP header';
 $string['cspdirectives'] = 'CSP directives';
 $string['cspdirectivesinfo'] = '<p>Example of CSP directives (please refer to the above link for exact syntax):<br /><span style="color:#00acdf">script-src https:; style-src cdn.example.com; default-src \'self\';</span></p>';
@@ -46,14 +46,14 @@ $string['cspheaderenforcinghelp'] = 'Enforce browsers to follow CSP directives, 
 $string['cspheaderreporting'] = 'Content-Security-Policy-Report-Only';
 $string['cspheaderreportinghelp'] = 'Monitor and report CSP violations';
 $string['csphttpresponseheader'] = 'CSP HTTP response header';
-$string['enablefeaturepolicy'] = 'Enable Feature-Policy header';
-$string['enablefeaturepolicydescription'] = 'Send a feature policy header as part of the Plugin headers sent. This header controls what browser features are allowed to be accessed by DOM elements.';
-$string['featurepolicydescription'] = 'Enter the feature policy to be sent. Add one entry per line, ending with a semicolon. E.g. <pre> microphone \'none\'; </pre>';
 $string['cspreports'] = 'CSP violation reports';
 $string['cspsettings'] = 'Content security policy settings';
 $string['cspsettingsinfo'] = '<p>CSP works through adding a special HTTP response header to every Moodle page. Modern browsers, when they see this header, are able to perform certain actions e.g. block insecure content on such pages. Please read more about CSP <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP">here</a>.</p><p>If you leave any of these settings blank CSP headers will not be used.</p>';
 $string['documenturi'] = 'Violation at';
+$string['enablefeaturepolicy'] = 'Enable Feature-Policy header';
+$string['enablefeaturepolicydescription'] = 'Send a feature policy header as part of the Plugin headers sent. This header controls what browser features are allowed to be accessed by DOM elements.';
 $string['failcounter'] = '#';
+$string['featurepolicydescription'] = 'Enter the feature policy to be sent. Add one entry per line, ending with a semicolon. E.g. <pre> microphone \'none\'; </pre>';
 $string['highestviolaters'] = 'Top Violation Sources';
 $string['invalidblockeduri'] = 'Invalid Blocked URI: {$a}';
 $string['loaddata'] = 'Load data';
@@ -67,15 +67,15 @@ $string['localcspheadingdirectives'] = 'Configure CSP directives';
 $string['localcspheadinghttpresponseheader'] = 'Choose CSP HTTP response header';
 $string['merge_duplicate_records_task'] = 'Merge duplicate local_csp records task';
 $string['mixedcontentexamples'] = 'Mixed content examples';
-$string['norecordsfound'] = "No records found";
 $string['nonduplicaterecords'] = "Non dupilcate records cannot be merged";
+$string['norecordsfound'] = "No records found";
 $string['pluginname'] = 'Content security policy';
+$string['privacy:metadata'] = 'The CSP plugin contains no user specific data.';
 $string['reset'] = 'Reset';
 $string['resetallcspstatistics'] = 'Reset all statistics';
 $string['scspheadernone'] = 'Not used';
 $string['timeupdated'] = 'Last';
 $string['violateddirective'] = 'Policy';
-$string['privacy:metadata'] = 'The CSP plugin contains no user specific data.';
 
 // Notification templates.
 $string['notificationenforcedheader'] = 'Insecure content blocked!';

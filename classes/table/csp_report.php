@@ -40,7 +40,6 @@ require_once($CFG->libdir . '/tablelib.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class csp_report extends \table_sql {
-
     /**
      * Embeds a link to a drilldown table showing only 1 violation class
      *
@@ -49,10 +48,11 @@ class csp_report extends \table_sql {
      */
     protected function col_failcounter($record) {
         // Get blocked URI, and set as param for page if clicked on.
-        $url = new \moodle_url('/local/csp/csp_report.php',
+        $url = new \moodle_url(
+            '/local/csp/csp_report.php',
             [
                 'blockeddomain' => $record->blockeddomain,
-                'blockeddirective' => $record->violateddirective
+                'blockeddirective' => $record->violateddirective,
             ]
         );
         return \html_writer::link($url, $record->failcounter);
@@ -66,7 +66,7 @@ class csp_report extends \table_sql {
      */
     protected function col_violateddirective($record) {
         // Stop line from wrapping.
-        return \html_writer::tag('span', strtok($record->violateddirective, ' '), array('style' => 'white-space: nowrap'));
+        return \html_writer::tag('span', strtok($record->violateddirective, ' '), ['style' => 'white-space: nowrap']);
     }
 
     /**
@@ -106,7 +106,7 @@ class csp_report extends \table_sql {
      * @return string HTML e.g. <a href="documenturi">documenturi</a>
      */
     protected function col_documenturi($record) {
-        return $this->format_uri($record->documenturi);
+        return $this->format_uri($record->documenturi, 80);
     }
 
     /**
@@ -188,7 +188,7 @@ class csp_report extends \table_sql {
 
         $params = [
             'directive' => $record->violateddirective,
-            'blockeddomain' => $record->blockeddomain
+            'blockeddomain' => $record->blockeddomain,
         ];
 
         $blockedpaths = $DB->get_records_sql($subsql, $params, 0, 3);
@@ -226,7 +226,7 @@ class csp_report extends \table_sql {
 
         $params = [
             'directive' => $record->violateddirective,
-            'blockeddomain' => $record->blockeddomain
+            'blockeddomain' => $record->blockeddomain,
         ];
 
         $violators = $DB->get_records_sql($subsql, $params, 0, 3);
@@ -267,7 +267,7 @@ class csp_report extends \table_sql {
 
         $params = [
             'directive' => $record->violateddirective,
-            'blockeddomain' => $record->blockeddomain
+            'blockeddomain' => $record->blockeddomain,
         ];
 
         $courses = $DB->get_records_sql($subsql, $params, 0, 3);
@@ -304,11 +304,11 @@ class csp_report extends \table_sql {
         if ($viewblockeddomain && $viewdirective) {
             $action = new \confirm_action(get_string('areyousuretodeleteonerecord', 'local_csp'));
             $url = new \moodle_url($this->baseurl);
-            $url->params(array(
+            $url->params([
                 'removerecordwithid' => $record->id,
                 'sesskey' => sesskey(),
                 'redirecttopage' => $this->currpage,
-            ));
+            ]);
             $actionlink = $OUTPUT->action_link($url, get_string('reset', 'local_csp'), $action);
 
             return $actionlink;

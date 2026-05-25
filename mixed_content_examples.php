@@ -24,7 +24,7 @@
  */
 
 require_once(__DIR__ . '/../../config.php');
-require_once($CFG->libdir.'/adminlib.php');
+require_once($CFG->libdir . '/adminlib.php');
 
 admin_externalpage_setup('local_csp_examples');
 
@@ -44,45 +44,45 @@ echo html_writer::tag('h5', get_string('loadingmixedcontentdescription', 'local_
 
 $insecurescript = $nonsslwwwroot . '/local/csp/samples/sample.js';
 echo html_writer::tag('p', get_string('loadinsecurejavascript', 'local_csp', $insecurescript));
-echo html_writer::start_tag('script', array(
+echo html_writer::start_tag('script', [
     'type' => 'text/javascript',
     'src' => $insecurescript,
-));
+]);
 echo html_writer::end_tag('script');
 
 $externalscript = 'https://code.jquery.com/jquery-3.5.1.min.js';
 echo html_writer::tag('p', get_string('loadexternaljavascript', 'local_csp', $externalscript));
-echo html_writer::start_tag('script', array(
+echo html_writer::start_tag('script', [
     'type' => 'text/javascript',
     'src' => $externalscript,
-));
+]);
 echo html_writer::end_tag('script');
 
 $insecurecss = $nonsslwwwroot . '/local/csp/samples/sample.css';
 echo html_writer::tag('p', get_string('loadinsecurecss', 'local_csp', $insecurecss));
-echo html_writer::start_tag('link', array(
+echo html_writer::start_tag('link', [
     'src' => $insecurecss,
     'rel' => "stylesheet",
-));
+]);
 echo html_writer::end_tag('link');
 
 $insecureimage = $nonsslwwwroot . '/local/csp/samples/sample.jpg';
 echo html_writer::tag('p', get_string('loadinsecureimage', 'local_csp', $insecureimage));
-echo html_writer::tag('img', '', array(
+echo html_writer::tag('img', '', [
     'src' => $insecureimage,
-));
+]);
 
 $insecureiframe = $nonsslwwwroot . '/local/csp/samples/sample.html';
 echo html_writer::tag('p', get_string('loadinsecureiframe', 'local_csp', $insecureiframe));
-echo html_writer::tag('iframe', '', array(
+echo html_writer::tag('iframe', '', [
     'src' => $insecureiframe,
-));
+]);
 
 echo html_writer::tag('p', get_string('loaddata', 'local_csp'));
-echo html_writer::tag('img', '', array(
+echo html_writer::tag('img', '', [
     'src' => "data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAA" .
         "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKq" .
-        "NKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7"
-));
+        "NKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7",
+]);
 
 echo $OUTPUT->footer();
