@@ -30,12 +30,11 @@ require_once("$CFG->dirroot/local/csp/tests/plugin_testcase.php");
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @covers \local_csp\helper
  */
-class helper_test extends plugin_testcase {
-
+final class helper_test extends plugin_testcase {
     /**
      * Test merge fails if no records provided.
      */
-    public function test_merge_duplicate_records_with_no_records() {
+    public function test_merge_duplicate_records_with_no_records(): void {
         $this->expectException(\moodle_exception::class);
         $this->expectExceptionMessage('No records found');
         helper::merge_duplicate_records([]);
@@ -44,7 +43,7 @@ class helper_test extends plugin_testcase {
     /**
      * Test merging with only one record provided.
      */
-    public function test_merge_duplicate_records_with_one_records() {
+    public function test_merge_duplicate_records_with_one_records(): void {
         $expectedrecord = $this->create_test_record();
         $record = helper::merge_duplicate_records([$expectedrecord]);
         $this->assertEquals($expectedrecord->id, $record->id);
@@ -55,7 +54,7 @@ class helper_test extends plugin_testcase {
     /**
      * Test merge fails if provided records are not duplicates.
      */
-    public function test_merge_duplicate_records_with_two_non_matching_records() {
+    public function test_merge_duplicate_records_with_two_non_matching_records(): void {
         $this->expectException(\moodle_exception::class);
         $this->expectExceptionMessage('Non dupilcate records cannot be merged');
         helper::merge_duplicate_records([
@@ -67,7 +66,7 @@ class helper_test extends plugin_testcase {
     /**
      * Test merging multiple records succussfully.
      */
-    public function test_merge_duplicate_records_with_two_matching_records() {
+    public function test_merge_duplicate_records_with_two_matching_records(): void {
         global $DB;
         $record1 = $this->create_test_record(['failcounter' => 3]);
         $record2 = $this->create_test_record(['failcounter' => 2]);

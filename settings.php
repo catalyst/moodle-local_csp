@@ -30,17 +30,23 @@ if ($hassiteconfig) {
 
     $settings = new admin_settingpage('local_csp_settings', get_string('cspsettings', 'local_csp'));
     $ADMIN->add('local_csp', $settings);
-    $ADMIN->add('local_csp',
-        new admin_externalpage('local_csp_examples',
+    $ADMIN->add(
+        'local_csp',
+        new admin_externalpage(
+            'local_csp_examples',
             get_string('mixedcontentexamples', 'local_csp'),
             new moodle_url('/local/csp/mixed_content_examples.php')
-        ));
+        )
+    );
 
-    $ADMIN->add('reports',
-        new admin_externalpage('local_csp_report',
+    $ADMIN->add(
+        'reports',
+        new admin_externalpage(
+            'local_csp_report',
             get_string('cspreports', 'local_csp'),
             new moodle_url('/local/csp/csp_report.php')
-        ));
+        )
+    );
 
     $settings->add(new admin_setting_heading(
         'local_csp_heading_http_response_header',
@@ -91,7 +97,8 @@ if ($hassiteconfig) {
     ));
 
     $settings->add(new admin_setting_configtextarea(
-        'local_csp/feature_policy', 'Feature-Policy',
+        'local_csp/feature_policy',
+        'Feature-Policy',
         get_string('featurepolicydescription', 'local_csp'),
         '',
         PARAM_TEXT

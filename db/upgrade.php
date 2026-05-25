@@ -34,7 +34,6 @@ function xmldb_local_csp_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2019100100) {
-
         // Changing precision of field documenturi on table local_csp to (1333).
         $table = new xmldb_table('local_csp');
         $field = new xmldb_field('documenturi', XMLDB_TYPE_CHAR, '1333', null, null, null, null, 'id');
@@ -54,7 +53,6 @@ function xmldb_local_csp_upgrade($oldversion) {
     }
 
     if ($oldversion < 2020032400) {
-
         // Changing precision of field violateddirective on table local_csp to (1333).
         $table = new xmldb_table('local_csp');
         $field = new xmldb_field('violateddirective', XMLDB_TYPE_CHAR, '1333', null, null, null, null, 'blockeduri');
@@ -115,4 +113,3 @@ function xmldb_local_csp_upgrade($oldversion) {
 
     return true;
 }
-

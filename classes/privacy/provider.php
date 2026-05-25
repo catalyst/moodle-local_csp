@@ -30,8 +30,8 @@ namespace local_csp\privacy;
  */
 class provider implements
     \core_privacy\local\metadata\null_provider {
-
     use \core_privacy\local\legacy_polyfill;
+
     /**
      * Display reason no user data is stored.
      *
