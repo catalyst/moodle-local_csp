@@ -106,7 +106,7 @@ class csp_report extends \table_sql {
      * @return string HTML e.g. <a href="documenturi">documenturi</a>
      */
     protected function col_documenturi($record) {
-        return $this->format_uri($record->documenturi);
+        return $this->format_uri($record->documenturi, 80);
     }
 
     /**
