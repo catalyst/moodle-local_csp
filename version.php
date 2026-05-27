@@ -30,4 +30,4 @@ $plugin->release = 2025012902;
 $plugin->requires = 2015051100;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->component = 'local_csp';
-$plugin->supported = [500, 500, 401, 405];
+$plugin->supported = [500, 503];
