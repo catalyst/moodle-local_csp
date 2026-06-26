@@ -28,7 +28,20 @@ define('NO_MOODLE_COOKIES', true);
 require_once(__DIR__ . '/../../config.php');
 // @codingStandardsIgnoreEnd
 
+// Enforce POST only.
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    header('Allow: POST');
+    die();
+}
+
+// Cap body size to stop bad actors flooding with tonnes of data.
+$maxbytes = 8192;
 $inputjson = file_get_contents('php://input');
+if (strlen($inputjson) >= $maxbytes) {
+    http_response_code(413);
+    die();
+}
 $cspreport = json_decode($inputjson, true)['csp-report'];
 
 global $DB, $SITE;
