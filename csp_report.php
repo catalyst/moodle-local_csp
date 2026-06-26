@@ -28,7 +28,7 @@ require_once($CFG->libdir . '/adminlib.php');
 
 $viewviolation = optional_param('violation', false, PARAM_TEXT);
 $removeviolation = optional_param('removeviolation', false, PARAM_TEXT);
-$removerecordwithid = optional_param('removerecordwithid', false, PARAM_TEXT);
+$removerecordwithid = optional_param('removerecordwithid', false, PARAM_INT);
 $download = optional_param('download', '', PARAM_ALPHA);
 
 admin_externalpage_setup('local_csp_report', '', null, '', ['pagelayout' => 'report']);
@@ -61,7 +61,7 @@ $PAGE->set_url('/local/csp/csp_report.php', array_filter([
 ]));
 
 $resetallcspstatistics = optional_param('resetallcspstatistics', 0, PARAM_INT);
-if ($resetallcspstatistics == 1 && confirm_sesskey()) {
+if ($resetallcspstatistics == 1 && confirm_sesskey() && data_submitted()) {
     $DB->delete_records('local_csp');
     redirect(new moodle_url('/local/csp/csp_report.php'));
 }

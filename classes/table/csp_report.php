@@ -65,7 +65,7 @@ class csp_report extends \table_sql {
      */
     protected function col_violateddirective($record) {
         // Stop line from wrapping.
-        return \html_writer::tag('span', strtok($record->violateddirective, ' '), ['style' => 'white-space: nowrap']);
+        return \html_writer::tag('span', s(strtok($record->violateddirective, ' ')), ['style' => 'white-space: nowrap']);
     }
 
     /**
@@ -196,7 +196,7 @@ class csp_report extends \table_sql {
             $label = str_replace('https://' . $record->blockeddomain, '', $label);
             $return .= $this->format_uri($blockedpath->blockeduri, $label);
             $return .= ' ';
-            $return .= "<sup>($blockedpath->failcounter)</sup>";
+            $return .= "<sup>(" . (int)$blockedpath->failcounter . ")</sup>";
             $return .= '<br />';
         }
         return $return;
@@ -230,7 +230,7 @@ class csp_report extends \table_sql {
             // Strip the top level domain out of the display.
             $return .= $this->format_uri($violator->documenturi);
             $return .= ' ';
-            $return .= "<sup>($violator->failcounter)</sup>";
+            $return .= "<sup>(" . (int)$violator->failcounter . ")</sup>";
             $return .= '<br />';
         }
 
@@ -270,7 +270,7 @@ class csp_report extends \table_sql {
 
             $return .= \html_writer::link($courseurl, $course->shortname);
             $return .= ' ';
-            $return .= "<sup>($course->failcounter)</sup>";
+            $return .= "<sup>(" . (int)$course->failcounter . ")</sup>";
             $return .= '<br />';
         }
 
