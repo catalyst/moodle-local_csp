@@ -23,75 +23,89 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use core\setting\heading;
+use core\setting\part\category;
+use core\setting\page\externalpage;
+use core\setting\part\page;
+use core\setting\type\checkbox;
+use core\setting\type\textarea;
+
 defined('MOODLE_INTERNAL') || die;
 
 if ($hassiteconfig) {
-    $ADMIN->add('localplugins', new admin_category('local_csp', get_string('pluginname', 'local_csp')));
+    $ADMIN->add('localplugins', new category('local_csp', get_string('pluginname', 'local_csp')));
 
-    $settings = new admin_settingpage('local_csp_settings', get_string('cspsettings', 'local_csp'));
+    $settings = new page('local_csp_settings', get_string('cspsettings', 'local_csp'));
     $ADMIN->add('local_csp', $settings);
-    $ADMIN->add('local_csp',
-        new admin_externalpage('local_csp_examples',
+    $ADMIN->add(
+        'local_csp',
+        new externalpage(
+            'local_csp_examples',
             get_string('mixedcontentexamples', 'local_csp'),
             new moodle_url('/local/csp/mixed_content_examples.php')
-        ));
+        )
+    );
 
-    $ADMIN->add('reports',
-        new admin_externalpage('local_csp_report',
+    $ADMIN->add(
+        'reports',
+        new externalpage(
+            'local_csp_report',
             get_string('cspreports', 'local_csp'),
             new moodle_url('/local/csp/csp_report.php')
-        ));
+        )
+    );
 
-    $settings->add(new admin_setting_heading(
+    $settings->add(new heading(
         'local_csp_heading_http_response_header',
         get_string('configurecspheader', 'local_csp'),
         get_string('cspsettingsinfo', 'local_csp')
     ));
 
-    $settings->add(new admin_setting_configcheckbox(
+    $settings->add(new checkbox(
         'local_csp/csp_header_enable',
         get_string('cspheaderenable', 'local_csp'),
         get_string('cspheaderenabledescription', 'local_csp'),
         0
     ));
 
-    $settings->add(new admin_setting_configtextarea(
+    $settings->add(new textarea(
         'local_csp/csp_header_reporting',
         get_string('cspheaderreporting', 'local_csp'),
         get_string('cspheaderreportinghelp', 'local_csp'),
         get_string('cspheaderdefault', 'local_csp')
     ));
 
-    $settings->add(new admin_setting_configcheckbox(
+    $settings->add(new checkbox(
         'local_csp/notifications_enable_reported',
         get_string('notificationsenablereported', 'local_csp'),
         get_string('notificationsenablereporteddescription', 'local_csp'),
         0
     ));
 
-    $settings->add(new admin_setting_configtextarea(
+    $settings->add(new textarea(
         'local_csp/csp_header_enforcing',
         get_string('cspheaderenforcing', 'local_csp'),
         get_string('cspheaderenforcinghelp', 'local_csp'),
         ''
     ));
 
-    $settings->add(new admin_setting_configcheckbox(
+    $settings->add(new checkbox(
         'local_csp/notifications_enable_enforced',
         get_string('notificationsenableenforced', 'local_csp'),
         get_string('notificationsenableenforceddescription', 'local_csp'),
         0
     ));
 
-    $settings->add(new admin_setting_configcheckbox(
+    $settings->add(new checkbox(
         'local_csp/feature_policy_enable',
         get_string('enablefeaturepolicy', 'local_csp'),
         get_string('enablefeaturepolicydescription', 'local_csp'),
         0
     ));
 
-    $settings->add(new admin_setting_configtextarea(
-        'local_csp/feature_policy', 'Feature-Policy',
+    $settings->add(new textarea(
+        'local_csp/feature_policy',
+        'Feature-Policy',
         get_string('featurepolicydescription', 'local_csp'),
         '',
         PARAM_TEXT
