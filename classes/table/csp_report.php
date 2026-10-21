@@ -121,7 +121,8 @@ class csp_report extends \table_sql {
         if (!$uri) {
             return '-';
         }
-        if (filter_var($uri, FILTER_VALIDATE_URL) === false) {
+        $scheme = strtolower((string) parse_url($uri, PHP_URL_SCHEME));
+        if (filter_var($uri, FILTER_VALIDATE_URL) === false || !in_array($scheme, ['http', 'https'], true)) {
             return s($uri);
         }
 
